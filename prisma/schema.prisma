@@ -1,0 +1,18 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Casillero {
+  id        Int      @id @default(autoincrement())
+  numero    Int      @unique
+  tamanio   String
+  ocupado   Boolean  @default(false)
+  usuario   String?
+  createdAt DateTime @default(now())
+}

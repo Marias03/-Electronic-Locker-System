@@ -1,0 +1,23 @@
+{
+  "title": "Electronic Locker System",
+  "subtitle": "Select a locker size and reserve your space",
+  "total": "Total",
+  "available": "Available",
+  "occupied": "Occupied",
+  "enterName": "Enter your name to reserve a locker",
+  "all": "All",
+  "small": "Small",
+  "medium": "Medium",
+  "large": "Large",
+  "reserve": "Reserve",
+  "release": "Release",
+  "reserved": "Locker #{{numero}} Reserved!",
+  "yourPin": "Your PIN code is:",
+  "savePin": "Save this PIN — you'll need it to release the locker",
+  "gotIt": "Got it!",
+  "releaseLocker": "Release Locker #{{numero}}",
+  "enterPin": "Enter your 4-digit PIN",
+  "incorrectPin": "Incorrect PIN. Try again.",
+  "cancel": "Cancel",
+  "enterNameFirst": "Please enter your name first"
+}

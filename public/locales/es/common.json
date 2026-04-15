@@ -1,0 +1,23 @@
+{
+  "title": "Sistema de Casilleros Electrónicos",
+  "subtitle": "Selecciona un tamaño y reserva tu espacio",
+  "total": "Total",
+  "available": "Disponibles",
+  "occupied": "Ocupados",
+  "enterName": "Ingresá tu nombre para reservar",
+  "all": "Todos",
+  "small": "Pequeño",
+  "medium": "Mediano",
+  "large": "Grande",
+  "reserve": "Reservar",
+  "release": "Liberar",
+  "reserved": "¡Casillero #{{numero}} reservado!",
+  "yourPin": "Tu código PIN es:",
+  "savePin": "Guardá este PIN — lo necesitás para liberar el casillero",
+  "gotIt": "¡Entendido!",
+  "releaseLocker": "Liberar casillero #{{numero}}",
+  "enterPin": "Ingresá tu PIN de 4 dígitos",
+  "incorrectPin": "PIN incorrecto. Intentá de nuevo.",
+  "cancel": "Cancelar",
+  "enterNameFirst": "Por favor ingresá tu nombre primero"
+}

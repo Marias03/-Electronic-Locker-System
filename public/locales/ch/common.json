@@ -1,0 +1,23 @@
+{
+  "title": "电子储物柜系统",
+  "subtitle": "选择储物柜尺寸并预订您的空间",
+  "total": "总计",
+  "available": "可用",
+  "occupied": "已占用",
+  "enterName": "输入您的姓名以预订储物柜",
+  "all": "全部",
+  "small": "小",
+  "medium": "中",
+  "large": "大",
+  "reserve": "预订",
+  "release": "释放",
+  "reserved": "储物柜 #{{numero}} 已预订！",
+  "yourPin": "您的PIN码是：",
+  "savePin": "请保存此PIN — 释放储物柜时需要它",
+  "gotIt": "明白了！",
+  "releaseLocker": "释放储物柜 #{{numero}}",
+  "enterPin": "输入4位PIN码",
+  "incorrectPin": "PIN码错误，请重试。",
+  "cancel": "取消",
+  "enterNameFirst": "请先输入您的姓名"
+}

@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 
 export async function PUT(request, { params }) {
   const ip = request.headers.get("x-forwarded-for") || "anonymous";
-  const { allowed, remaining } = rateLimit(ip);
+  const { allowed } = rateLimit(ip);
 
   if (!allowed) {
     logger.warn("Rate limit exceeded", { ip });
@@ -32,14 +32,19 @@ export async function PUT(request, { params }) {
   const { id } = await params;
   const { ocupado, usuario, email, pin, forzar } = await request.json();
 
-  logger.info("Locker action", { id, ocupado, usuario, email: email || null });
+  logger.info("Locker action", {
+    id,
+    occupied: ocupado,
+    user: usuario,
+    email: email || null,
+  });
 
   if (ocupado && email) {
     const casillerosPorEmail = await prisma.casillero.count({
       where: { email, ocupado: true },
     });
     if (casillerosPorEmail >= 2) {
-      logger.warn("Max lockers reached", { email });
+      logger.warn("Max lockers per email reached", { email });
       return Response.json(
         { error: "This email already has 2 reserved lockers" },
         { status: 400 }
@@ -52,7 +57,7 @@ export async function PUT(request, { params }) {
       where: { id: parseInt(id) },
     });
     if (casillero.pin && casillero.pin !== pin) {
-      logger.warn("Incorrect PIN attempt", { id, usuario });
+      logger.warn("Incorrect PIN attempt", { id, user: usuario });
       return Response.json({ error: "Incorrect PIN" }, { status: 401 });
     }
   }
@@ -71,12 +76,12 @@ export async function PUT(request, { params }) {
 
   if (ocupado) {
     logger.info("Locker reserved", {
-      numero: casillero.numero,
-      usuario,
+      locker: casillero.numero,
+      user: usuario,
       email,
     });
   } else {
-    logger.info("Locker released", { numero: casillero.numero });
+    logger.info("Locker released", { locker: casillero.numero });
   }
 
   if (ocupado && email) {

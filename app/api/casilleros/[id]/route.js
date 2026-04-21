@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import nodemailer from "nodemailer";
+import logger from "../../lib/logger.js";
 
 const prisma = new PrismaClient();
 
@@ -19,11 +20,14 @@ export async function PUT(request, { params }) {
   const { id } = await params;
   const { ocupado, usuario, email, pin, forzar } = await request.json();
 
+  logger.info("Locker action", { id, ocupado, usuario, email: email || null });
+
   if (ocupado && email) {
     const casillerosPorEmail = await prisma.casillero.count({
       where: { email, ocupado: true },
     });
     if (casillerosPorEmail >= 2) {
+      logger.warn("Max lockers reached", { email });
       return Response.json(
         { error: "This email already has 2 reserved lockers" },
         { status: 400 }
@@ -36,6 +40,7 @@ export async function PUT(request, { params }) {
       where: { id: parseInt(id) },
     });
     if (casillero.pin && casillero.pin !== pin) {
+      logger.warn("Incorrect PIN attempt", { id, usuario });
       return Response.json({ error: "Incorrect PIN" }, { status: 401 });
     }
   }
@@ -51,6 +56,16 @@ export async function PUT(request, { params }) {
       pin: nuevoPIN,
     },
   });
+
+  if (ocupado) {
+    logger.info("Locker reserved", {
+      numero: casillero.numero,
+      usuario,
+      email,
+    });
+  } else {
+    logger.info("Locker released", { numero: casillero.numero });
+  }
 
   if (ocupado && email) {
     await transporter.sendMail({

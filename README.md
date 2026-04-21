@@ -114,20 +114,20 @@ Access at `/admin` with password `admin1234`
 
 ## 📁 Project Structure
 
+```
 casilleros/
 ├── app/
-│ ├── admin/ # Admin panel
-│ ├── api/
-│ │ ├── casilleros/ # Locker CRUD API
-│ │ └── metrics/ # Prometheus metrics
-│ ├── components/ # Reusable components
-│ └── lib/ # Logger (Axiom)
-├── prisma/ # Database schema & migrations
-├── public/locales/ # i18n translations (en, es, ru, ch)
-├── docker-compose.yml # Prometheus + Grafana
-└── prometheus.yml # Prometheus config
-
----
+│   ├── admin/          # Admin panel
+│   ├── api/
+│   │   ├── casilleros/ # Locker CRUD API
+│   │   └── metrics/    # Prometheus metrics
+│   ├── components/     # Reusable components
+│   └── lib/            # Logger (Axiom)
+├── prisma/             # Database schema & migrations
+├── public/locales/     # i18n translations (en, es, ru, ch)
+├── docker-compose.yml  # Prometheus + Grafana
+└── prometheus.yml      # Prometheus config
+```
 
 ## 👩‍💻 Author
 

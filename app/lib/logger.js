@@ -1,16 +1,22 @@
-import winston from "winston";
+import { Axiom } from "@axiomhq/js";
 
-const logger = winston.createLogger({
-  level: "info",
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "logs/error.log", level: "error" }),
-    new winston.transports.File({ filename: "logs/combined.log" }),
-  ],
+const axiom = new Axiom({
+  token: process.env.AXIOM_TOKEN,
 });
+
+const logger = {
+  info: (message, fields = {}) => {
+    axiom.ingest("casillero", [{ message, level: "info", ...fields }]);
+    console.log(message, fields);
+  },
+  warn: (message, fields = {}) => {
+    axiom.ingest("casillero", [{ message, level: "warn", ...fields }]);
+    console.warn(message, fields);
+  },
+  error: (message, fields = {}) => {
+    axiom.ingest("casillero", [{ message, level: "error", ...fields }]);
+    console.error(message, fields);
+  },
+};
 
 export default logger;

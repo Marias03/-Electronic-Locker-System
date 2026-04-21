@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import nodemailer from "nodemailer";
 import logger from "@/app/lib/logger.mjs";
+import { rateLimit } from "@/app/lib/ratelimit.js";
 
 const prisma = new PrismaClient();
 
@@ -17,6 +18,17 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function PUT(request, { params }) {
+  const ip = request.headers.get("x-forwarded-for") || "anonymous";
+  const { allowed, remaining } = rateLimit(ip);
+
+  if (!allowed) {
+    logger.warn("Rate limit exceeded", { ip });
+    return Response.json(
+      { error: "Too many requests. Please wait a minute." },
+      { status: 429 }
+    );
+  }
+
   const { id } = await params;
   const { ocupado, usuario, email, pin, forzar } = await request.json();
 

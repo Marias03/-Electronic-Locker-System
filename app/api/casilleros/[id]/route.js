@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import nodemailer from "nodemailer";
-import logger from "../../lib/logger";
+import logger from "../../lib/logger.mjs";
 
 const prisma = new PrismaClient();
 

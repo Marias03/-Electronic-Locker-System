@@ -1,36 +1,134 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧳 Electronic Locker System
 
-## Getting Started
+A modern electronic locker reservation system built with Next.js, PostgreSQL, and deployed on Vercel.
 
-First, run the development server:
+🔗 **Live Demo:** [electronic-locker-system-k1l8.vercel.app](https://electronic-locker-system-k1l8.vercel.app)
+
+---
+
+## ✨ Features
+
+- 🔒 20 lockers in 3 sizes (Small, Medium, Large)
+- 📧 PIN sent automatically to user's email on reservation
+- 🌍 4 languages: English, Spanish, Russian, Chinese
+- 📊 Real-time stats (total, available, occupied, occupancy %)
+- 🔑 PIN-based release system
+- 🛠️ Admin panel with force release capability
+- 📈 Observability with Prometheus, Grafana and Axiom logs
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer      | Technology                        |
+| ---------- | --------------------------------- |
+| Frontend   | Next.js 16, Tailwind CSS, i18next |
+| Backend    | Next.js API Routes                |
+| Database   | PostgreSQL (Supabase)             |
+| Email      | Nodemailer + Gmail                |
+| Logs       | Axiom                             |
+| Metrics    | Prometheus + Grafana              |
+| Deploy     | Vercel                            |
+| Containers | Docker Compose                    |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 22+
+- Docker Desktop
+- npm
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/Marias03/-Electronic-Locker-System.git
+cd -Electronic-Locker-System
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Fill in your values in .env
+
+# Run database migrations
+npx prisma db push
+
+# Seed the database
+npm run seed
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL=your_postgresql_url
+DIRECT_URL=your_postgresql_direct_url
+GMAIL_USER=your_gmail@gmail.com
+GMAIL_PASS=your_gmail_app_password
+AXIOM_TOKEN=your_axiom_token
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📊 Observability
 
-To learn more about Next.js, take a look at the following resources:
+### Start Prometheus + Grafana
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+docker-compose up -d
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Service    | URL                   |
+| ---------- | --------------------- |
+| App        | http://localhost:3000 |
+| Prometheus | http://localhost:9090 |
+| Grafana    | http://localhost:3001 |
 
-## Deploy on Vercel
+### Available Metrics
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `locker_total` — Total number of lockers
+- `locker_occupied` — Occupied lockers
+- `locker_available` — Available lockers
+- `locker_small` — Small lockers
+- `locker_medium` — Medium lockers
+- `locker_large` — Large lockers
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🔐 Admin Panel
+
+Access at `/admin` with password `admin1234`
+
+- View all occupied lockers with user, email and PIN
+- Force release any locker without PIN
+- View all available lockers
+
+---
+
+## 📁 Project Structure
+
+casilleros/
+├── app/
+│ ├── admin/ # Admin panel
+│ ├── api/
+│ │ ├── casilleros/ # Locker CRUD API
+│ │ └── metrics/ # Prometheus metrics
+│ ├── components/ # Reusable components
+│ └── lib/ # Logger (Axiom)
+├── prisma/ # Database schema & migrations
+├── public/locales/ # i18n translations (en, es, ru, ch)
+├── docker-compose.yml # Prometheus + Grafana
+└── prometheus.yml # Prometheus config
+
+---
+
+## 👩‍💻 Author
+
+Maria Juliana Arias — [@Marias03](https://github.com/Marias03)

@@ -12,12 +12,12 @@
   "reserve": "预订",
   "release": "释放",
   "reserved": "储物柜 #{{numero}} 已预订！",
-  "yourPin": "您的PIN码是：",
+  "yourPin": "您的PIN码是:",
   "savePin": "请保存此PIN — 释放储物柜时需要它",
   "gotIt": "明白了！",
   "releaseLocker": "释放储物柜 #{{numero}}",
   "enterPin": "输入4位PIN码",
-  "incorrectPin": "PIN码错误，请重试。",
+  "incorrectPin": "PIN码错误,请重试。",
   "cancel": "取消",
   "enterNameFirst": "请先输入您的姓名"
 }

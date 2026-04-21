@@ -73,15 +73,16 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-slate-900 p-2 sm:p-8">
-      <div className="max-w-4xl mx-auto">
+    <main className="min-h-screen bg-slate-900 p-4 sm:p-8">
+      <div className="max-w-5xl mx-auto">
         <LanguageSwitcher />
 
+        {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-1">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 animated-title">
             🧳 {t("title")}
           </h1>
-          <p className="text-slate-400">{t("subtitle")}</p>
+          <p className="text-slate-400 text-sm sm:text-base">{t("subtitle")}</p>
         </div>
 
         <Stats
@@ -89,17 +90,20 @@ export default function Home() {
           disponibles={casilleros.filter((c: any) => !c.ocupado).length}
           ocupados={casilleros.filter((c: any) => c.ocupado).length}
         />
+
+        {/* Name input */}
         <div className="mb-6 flex justify-center">
           <input
             type="text"
             placeholder={t("enterName")}
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
-            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-80 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500"
+            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
           />
         </div>
 
-        <div className="flex gap-2 justify-center mb-8">
+        {/* Filters */}
+        <div className="flex gap-2 justify-center mb-8 flex-wrap">
           {[
             { key: "all", label: t("all") },
             { key: "pequeño", label: t("small") },
@@ -109,9 +113,9 @@ export default function Home() {
             <button
               key={f.key}
               onClick={() => setFiltro(f.key)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                 filtro === f.key
-                  ? "bg-blue-600 text-white"
+                  ? "bg-blue-600 text-white scale-105"
                   : "bg-slate-800 text-slate-400 hover:bg-slate-700"
               }`}
             >
@@ -120,7 +124,8 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="grid grid-cols-5 gap-2">
+        {/* Locker grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {casillerosFiltrados.map((c: any) => (
             <LockerCard
               key={c.id}

@@ -69,7 +69,7 @@ export default function Admin() {
 
   return (
     <main className="min-h-screen bg-slate-900 p-8">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-white">🛠️ Admin Panel</h1>
@@ -105,7 +105,7 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Tabla de casilleros ocupados */}
+        {/* Occupied lockers table */}
         <div className="bg-slate-800 rounded-2xl p-6 mb-6">
           <h2 className="text-white font-bold text-lg mb-4">
             🔒 Occupied Lockers
@@ -115,68 +115,74 @@ export default function Admin() {
               No occupied lockers
             </p>
           ) : (
-            <table className="w-full">
-              <thead>
-                <tr className="text-slate-400 text-sm border-b border-slate-700">
-                  <th className="text-left py-2 px-3">#</th>
-                  <th className="text-left py-2 px-3">Size</th>
-                  <th className="text-left py-2 px-3">User</th>
-                  <th className="text-left py-2 px-3">PIN</th>
-                  <th className="text-left py-2 px-3">Reserved at</th>
-                  <th className="text-left py-2 px-3">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ocupados.map((c: any) => (
-                  <tr
-                    key={c.id}
-                    className="border-b border-slate-700/50 hover:bg-slate-700/30"
-                  >
-                    <td className="py-3 px-3 text-white font-bold">
-                      #{c.numero}
-                    </td>
-                    <td className="py-3 px-3">
-                      <span
-                        className={`text-xs font-semibold uppercase px-2 py-1 rounded-full ${
-                          c.tamanio === "pequeño"
-                            ? "bg-blue-900 text-blue-400"
-                            : c.tamanio === "mediano"
-                            ? "bg-yellow-900 text-yellow-400"
-                            : "bg-purple-900 text-purple-400"
-                        }`}
-                      >
-                        {c.tamanio === "pequeño"
-                          ? "Small"
-                          : c.tamanio === "mediano"
-                          ? "Medium"
-                          : "Large"}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 text-white">👤 {c.usuario}</td>
-                    <td className="py-3 px-3">
-                      <span className="bg-slate-700 text-green-400 font-mono font-bold px-3 py-1 rounded-lg tracking-widest">
-                        {c.pin}
-                      </span>
-                    </td>
-                    <td className="py-3 px-3 text-slate-400 text-sm">
-                      {new Date(c.createdAt).toLocaleString()}
-                    </td>
-                    <td className="py-3 px-3">
-                      <button
-                        onClick={() => liberarCasillero(c.id)}
-                        className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded-lg"
-                      >
-                        Force Release
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-slate-400 text-sm border-b border-slate-700">
+                    <th className="text-left py-2 px-3">#</th>
+                    <th className="text-left py-2 px-3">Size</th>
+                    <th className="text-left py-2 px-3">User</th>
+                    <th className="text-left py-2 px-3">Email</th>
+                    <th className="text-left py-2 px-3">PIN</th>
+                    <th className="text-left py-2 px-3">Reserved at</th>
+                    <th className="text-left py-2 px-3">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {ocupados.map((c: any) => (
+                    <tr
+                      key={c.id}
+                      className="border-b border-slate-700/50 hover:bg-slate-700/30"
+                    >
+                      <td className="py-3 px-3 text-white font-bold">
+                        #{c.numero}
+                      </td>
+                      <td className="py-3 px-3">
+                        <span
+                          className={`text-xs font-semibold uppercase px-2 py-1 rounded-full ${
+                            c.tamanio === "pequeño"
+                              ? "bg-blue-900 text-blue-400"
+                              : c.tamanio === "mediano"
+                              ? "bg-yellow-900 text-yellow-400"
+                              : "bg-purple-900 text-purple-400"
+                          }`}
+                        >
+                          {c.tamanio === "pequeño"
+                            ? "Small"
+                            : c.tamanio === "mediano"
+                            ? "Medium"
+                            : "Large"}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3 text-white">👤 {c.usuario}</td>
+                      <td className="py-3 px-3 text-slate-400 text-sm">
+                        📧 {c.email || "-"}
+                      </td>
+                      <td className="py-3 px-3">
+                        <span className="bg-slate-700 text-green-400 font-mono font-bold px-3 py-1 rounded-lg tracking-widest">
+                          {c.pin}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3 text-slate-400 text-sm">
+                        {new Date(c.createdAt).toLocaleString()}
+                      </td>
+                      <td className="py-3 px-3">
+                        <button
+                          onClick={() => liberarCasillero(c.id)}
+                          className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded-lg"
+                        >
+                          Force Release
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
 
-        {/* Tabla de casilleros disponibles */}
+        {/* Available lockers */}
         <div className="bg-slate-800 rounded-2xl p-6">
           <h2 className="text-white font-bold text-lg mb-4">
             🔓 Available Lockers

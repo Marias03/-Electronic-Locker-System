@@ -4,7 +4,9 @@
   "total": "Total",
   "available": "Available",
   "occupied": "Occupied",
+  "occupancy": "Occupancy",
   "enterName": "Enter your name to reserve a locker",
+  "enterEmail": "Enter your email to receive the PIN",
   "all": "All",
   "small": "Small",
   "medium": "Medium",
@@ -19,5 +21,9 @@
   "enterPin": "Enter your 4-digit PIN",
   "incorrectPin": "Incorrect PIN. Try again.",
   "cancel": "Cancel",
-  "enterNameFirst": "Please enter your name first"
+  "enterNameFirst": "Please enter your name first",
+  "enterEmailFirst": "Please enter your email first",
+  "sendingPin": "Sending PIN to your email...",
+  "pleaseWait": "Please wait a moment",
+  "maxLockersReached": "Maximum 2 lockers per email — both are already reserved"
 }

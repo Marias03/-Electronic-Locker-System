@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 export default function Stats({ total, disponibles, ocupados }: any) {
   const { t } = useTranslation("common");
-
   const percentage = total > 0 ? Math.round((ocupados / total) * 100) : 0;
 
   return (
@@ -30,10 +29,9 @@ export default function Stats({ total, disponibles, ocupados }: any) {
         </div>
       </div>
 
-      {/* Progress bar */}
       <div className="bg-slate-800/60 rounded-2xl p-4 border border-slate-700/50">
         <div className="flex justify-between text-xs text-slate-400 mb-2">
-          <span>Occupancy</span>
+          <span>{t("occupancy")}</span>
           <span>{percentage}%</span>
         </div>
         <div className="w-full bg-slate-700 rounded-full h-2">

@@ -4,6 +4,7 @@
   "total": "Всего",
   "available": "Доступно",
   "occupied": "Занято",
+  "occupancy": "Загруженность",
   "enterName": "Введите имя для бронирования",
   "all": "Все",
   "small": "Маленький",
@@ -19,5 +20,10 @@
   "enterPin": "Введите 4-значный PIN",
   "incorrectPin": "Неверный PIN. Попробуйте снова.",
   "cancel": "Отмена",
-  "enterNameFirst": "Пожалуйста, введите ваше имя"
+  "enterNameFirst": "Пожалуйста, введите ваше имя",
+  "enterEmail": "Введите email для получения PIN",
+  "enterEmailFirst": "Пожалуйста, введите ваш email",
+  "sendingPin": "Отправка PIN на вашу почту...",
+  "pleaseWait": "Пожалуйста, подождите",
+  "maxLockersReached": "Максимум 2 шкафчика на email — оба уже забронированы"
 }

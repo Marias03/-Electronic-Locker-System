@@ -2,24 +2,41 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  const casilleros = [
-    { numero: 1, tamanio: "pequeño" },
-    { numero: 2, tamanio: "pequeño" },
-    { numero: 3, tamanio: "pequeño" },
-    { numero: 4, tamanio: "pequeño" },
-    { numero: 5, tamanio: "mediano" },
-    { numero: 6, tamanio: "mediano" },
-    { numero: 7, tamanio: "mediano" },
-    { numero: 8, tamanio: "grande" },
-    { numero: 9, tamanio: "grande" },
-    { numero: 10, tamanio: "grande" },
+  await prisma.casillero.deleteMany();
+
+  const tamanios = [
+    "pequeño",
+    "pequeño",
+    "pequeño",
+    "pequeño",
+    "pequeño",
+    "pequeño",
+    "pequeño",
+    "mediano",
+    "mediano",
+    "mediano",
+    "mediano",
+    "mediano",
+    "mediano",
+    "grande",
+    "grande",
+    "grande",
+    "grande",
+    "grande",
+    "grande",
+    "grande",
   ];
 
-  for (const c of casilleros) {
-    await prisma.casillero.create({ data: c });
+  for (let i = 0; i < tamanios.length; i++) {
+    await prisma.casillero.create({
+      data: {
+        numero: i + 1,
+        tamanio: tamanios[i],
+        ocupado: false,
+      },
+    });
   }
-
-  console.log("✅ 10 casilleros creados!");
+  console.log("✅ 20 casilleros creados!");
 }
 
 main()

@@ -14,6 +14,7 @@ model Casillero {
   tamanio   String
   ocupado   Boolean  @default(false)
   usuario   String?
+  email     String?
   pin       String?
   createdAt DateTime @default(now())
 }

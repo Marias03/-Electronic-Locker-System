@@ -4,7 +4,9 @@
   "total": "Total",
   "available": "Disponibles",
   "occupied": "Ocupados",
+  "occupancy": "Ocupación",
   "enterName": "Ingresá tu nombre para reservar",
+  "enterEmail": "Ingresá tu email para recibir el PIN",
   "all": "Todos",
   "small": "Pequeño",
   "medium": "Mediano",
@@ -19,5 +21,9 @@
   "enterPin": "Ingresá tu PIN de 4 dígitos",
   "incorrectPin": "PIN incorrecto. Intentá de nuevo.",
   "cancel": "Cancelar",
-  "enterNameFirst": "Por favor ingresá tu nombre primero"
+  "enterNameFirst": "Por favor ingresá tu nombre primero",
+  "enterEmailFirst": "Por favor ingresá tu email primero",
+  "sendingPin": "Enviando PIN a tu correo...",
+  "pleaseWait": "Por favor espera un momento",
+  "maxLockersReached": "Máximo 2 casilleros por email — ya están reservados"
 }

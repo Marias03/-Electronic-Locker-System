@@ -51,12 +51,6 @@ export default function LockerCard({ casillero, onReservar, onLiberar }: any) {
         {sizeLabel}
       </div>
 
-      {casillero.ocupado && (
-        <div className="text-xs text-red-400 mb-3 truncate">
-          👤 {casillero.usuario}
-        </div>
-      )}
-
       <button
         onClick={() =>
           casillero.ocupado

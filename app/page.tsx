@@ -8,12 +8,17 @@ import LockerCard from "./components/LockerCard";
 import Stats from "./components/Stats";
 import PinReceived from "./components/PinReceived";
 import PinRelease from "./components/PinRelease";
+import Toast from "./components/Toast";
+import LoadingOverlay from "./components/LoadingOverlay";
 
 export default function Home() {
   const { t } = useTranslation("common");
   const [casilleros, setCasilleros] = useState([]);
   const [usuario, setUsuario] = useState("");
+  const [email, setEmail] = useState("");
   const [filtro, setFiltro] = useState("all");
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
   const [pinModal, setPinModal] = useState<{
     id: number;
     numero: number;
@@ -29,24 +34,31 @@ export default function Home() {
     cargarCasilleros();
   }, []);
 
+  function mostrarToast(mensaje: string) {
+    setToast(mensaje);
+    setTimeout(() => setToast(null), 4000);
+  }
+
   async function cargarCasilleros() {
     const res = await fetch("/api/casilleros");
-    const data = await res.json();
-    setCasilleros(data);
+    setCasilleros(await res.json());
   }
 
   async function reservar(id: number, numero: number) {
-    if (!usuario.trim()) {
-      alert(t("enterNameFirst"));
-      return;
-    }
+    if (!usuario.trim()) return mostrarToast(t("enterNameFirst"));
+    if (!email.trim()) return mostrarToast(t("enterEmailFirst"));
+    setLoading(true);
     const res = await fetch(`/api/casilleros/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ocupado: true, usuario }),
+      body: JSON.stringify({ ocupado: true, usuario, email }),
     });
     const data = await res.json();
+    setLoading(false);
+    if (data.error) return mostrarToast(t("maxLockersReached"));
     setPinMostrado({ numero, pin: data.pin });
+    setUsuario("");
+    setEmail("");
     cargarCasilleros();
   }
 
@@ -77,7 +89,6 @@ export default function Home() {
       <div className="max-w-5xl mx-auto">
         <LanguageSwitcher />
 
-        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold mb-2 animated-title">
             🧳 {t("title")}
@@ -91,18 +102,23 @@ export default function Home() {
           ocupados={casilleros.filter((c: any) => c.ocupado).length}
         />
 
-        {/* Name input */}
-        <div className="mb-6 flex justify-center">
+        <div className="mb-6 flex flex-col sm:flex-row gap-3 justify-center">
           <input
             type="text"
             placeholder={t("enterName")}
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
-            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
+            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
+          />
+          <input
+            type="email"
+            placeholder={t("enterEmail")}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
           />
         </div>
 
-        {/* Filters */}
         <div className="flex gap-2 justify-center mb-8 flex-wrap">
           {[
             { key: "all", label: t("all") },
@@ -124,7 +140,6 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Locker grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {casillerosFiltrados.map((c: any) => (
             <LockerCard
@@ -138,6 +153,9 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <Toast message={toast} />
+      {loading && <LoadingOverlay />}
 
       {pinMostrado && (
         <PinReceived

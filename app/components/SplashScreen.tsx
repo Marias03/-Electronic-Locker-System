@@ -32,9 +32,9 @@ export default function SplashScreen({
 
   return (
     <div
-      className={`fixed inset-0 bg-black z-50 flex flex-col items-center justify-center gap-6 transition-opacity duration-700 ${hiding ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+      className={`fixed inset-0 bg-black z-50 flex flex-col items-center justify-center gap-6 px-6 transition-opacity duration-700 ${hiding ? "opacity-0 pointer-events-none" : "opacity-100"}`}
     >
-      <div className="relative w-16 h-16 border border-cyan-400 flex items-center justify-center text-cyan-400 text-3xl">
+      <div className="relative w-16 h-16 border border-cyan-400 flex items-center justify-center text-cyan-400 text-3xl flex-shrink-0">
         <span
           className="absolute inset-[-6px] border border-cyan-400/20 animate-spin"
           style={{ animationDuration: "6s" }}
@@ -45,10 +45,10 @@ export default function SplashScreen({
         />
         🔒
       </div>
-      <h1 className="text-2xl font-semibold tracking-[5px] uppercase text-slate-100">
+      <h1 className="text-xl sm:text-2xl font-semibold tracking-[4px] uppercase text-slate-100 text-center">
         Electronic Locker System
       </h1>
-      <p className="text-[11px] tracking-[3px] text-cyan-400">
+      <p className="text-[11px] tracking-[3px] text-cyan-400 text-center">
         INITIALIZING SYSTEM — PLEASE WAIT
       </p>
       <div className="w-60 h-[2px] bg-cyan-400/10">

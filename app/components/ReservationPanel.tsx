@@ -40,6 +40,8 @@ export default function ReservationPanel({
     fontSize: "14px",
     padding: "10px 13px",
     outline: "none",
+    boxSizing: "border-box",
+    WebkitAppearance: "none",
   };
 
   const labelStyle: React.CSSProperties = {
@@ -48,125 +50,144 @@ export default function ReservationPanel({
     letterSpacing: "2px",
     color: "#4a9aba",
     marginBottom: "7px",
+    display: "block",
   };
 
   return (
-    <div
-      style={{
-        border: "1px solid rgba(0,229,255,0.15)",
-        background: "rgba(2,12,24,0.7)",
-        padding: "22px 24px",
-        position: "relative",
-        marginBottom: "20px",
-      }}
-    >
-      <span
-        style={{
-          position: "absolute",
-          top: 0,
-          left: "16px",
-          transform: "translateY(-50%)",
-          background: "#050b14",
-          padding: "0 8px",
-          fontFamily: "'Share Tech Mono', monospace",
-          fontSize: "10px",
-          letterSpacing: "2px",
-          color: "#00e5ff",
-        }}
-      >
-        RESERVATION TERMINAL
-      </span>
+    <>
+      <style>{`
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0px 1000px #050b14 inset !important;
+          -webkit-text-fill-color: #c8dff5 !important;
+          border: 1px solid rgba(0,229,255,0.2) !important;
+        }
+      `}</style>
 
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "12px",
-          marginBottom: "14px",
+          border: "1px solid rgba(0,229,255,0.15)",
+          background: "rgba(2,12,24,0.7)",
+          padding: "22px 16px",
+          position: "relative",
+          marginBottom: "20px",
         }}
       >
-        <div>
-          <div style={labelStyle}>PASSENGER ID</div>
-          <input
-            type="text"
-            placeholder={t("enterName")}
-            value={usuario}
-            onChange={(e) => onUsuario(e.target.value)}
-            style={inputStyle}
-          />
-        </div>
-        <div>
-          <div style={labelStyle}>CONTACT CHANNEL</div>
-          <input
-            type="email"
-            placeholder={t("enterEmail")}
-            value={email}
-            onChange={(e) => onEmail(e.target.value)}
-            style={inputStyle}
-          />
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "9px",
-          marginBottom: "16px",
-        }}
-      >
-        <input
-          type="checkbox"
-          id="privacy"
-          checked={privacyAccepted}
-          onChange={(e) => onPrivacy(e.target.checked)}
+        <span
           style={{
-            width: "13px",
-            height: "13px",
-            cursor: "pointer",
-            accentColor: "#00e5ff",
-          }}
-        />
-        <label
-          htmlFor="privacy"
-          style={{
+            position: "absolute",
+            top: 0,
+            left: "16px",
+            transform: "translateY(-50%)",
+            background: "#050b14",
+            padding: "0 8px",
             fontFamily: "'Share Tech Mono', monospace",
             fontSize: "10px",
-            letterSpacing: "1px",
-            color: "#4a9aba",
-            cursor: "pointer",
+            letterSpacing: "2px",
+            color: "#00e5ff",
           }}
         >
-          {t("emailPrivacy").toUpperCase()}
-        </label>
-      </div>
+          RESERVATION TERMINAL
+        </span>
 
-      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-        {FILTERS.map((f) => (
-          <button
-            key={f.key}
-            onClick={() => onFiltro(f.key)}
+        {/* Inputs en columna en móvil */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            marginBottom: "14px",
+          }}
+        >
+          <div>
+            <label style={labelStyle}>PASSENGER ID</label>
+            <input
+              type="text"
+              placeholder={t("enterName")}
+              value={usuario}
+              onChange={(e) => onUsuario(e.target.value)}
+              autoComplete="off"
+              style={inputStyle}
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>CONTACT CHANNEL</label>
+            <input
+              type="email"
+              placeholder={t("enterEmail")}
+              value={email}
+              onChange={(e) => onEmail(e.target.value)}
+              autoComplete="off"
+              style={inputStyle}
+            />
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "9px",
+            marginBottom: "16px",
+          }}
+        >
+          <input
+            type="checkbox"
+            id="privacy"
+            checked={privacyAccepted}
+            onChange={(e) => onPrivacy(e.target.checked)}
+            style={{
+              width: "13px",
+              height: "13px",
+              cursor: "pointer",
+              accentColor: "#00e5ff",
+              flexShrink: 0,
+              marginTop: "2px",
+            }}
+          />
+          <label
+            htmlFor="privacy"
             style={{
               fontFamily: "'Share Tech Mono', monospace",
               fontSize: "10px",
-              letterSpacing: "1.5px",
-              padding: "7px 16px",
-              border:
-                filtro === f.key
-                  ? "1px solid #00e5ff"
-                  : "1px solid rgba(0,229,255,0.2)",
-              background:
-                filtro === f.key ? "rgba(0,229,255,0.07)" : "transparent",
-              color: filtro === f.key ? "#00e5ff" : "#4a9aba",
+              letterSpacing: "1px",
+              color: "#4a9aba",
               cursor: "pointer",
-              textTransform: "uppercase",
-              transition: "all 0.15s",
+              lineHeight: 1.4,
             }}
           >
-            {f.label}
-          </button>
-        ))}
+            {t("emailPrivacy").toUpperCase()}
+          </label>
+        </div>
+
+        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+          {FILTERS.map((f) => (
+            <button
+              key={f.key}
+              onClick={() => onFiltro(f.key)}
+              style={{
+                fontFamily: "'Share Tech Mono', monospace",
+                fontSize: "10px",
+                letterSpacing: "1.5px",
+                padding: "7px 14px",
+                border:
+                  filtro === f.key
+                    ? "1px solid #00e5ff"
+                    : "1px solid rgba(0,229,255,0.2)",
+                background:
+                  filtro === f.key ? "rgba(0,229,255,0.07)" : "transparent",
+                color: filtro === f.key ? "#00e5ff" : "#4a9aba",
+                cursor: "pointer",
+                textTransform: "uppercase",
+                transition: "all 0.15s",
+              }}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

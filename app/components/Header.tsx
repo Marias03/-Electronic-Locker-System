@@ -9,34 +9,46 @@ export default function Header() {
     <div
       style={{
         borderBottom: "1px solid rgba(0,229,255,0.12)",
-        padding: "18px 40px",
+        padding: "14px 16px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        gap: "12px",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "10px",
+          minWidth: 0,
+        }}
+      >
         <div
           style={{
-            width: "38px",
-            height: "38px",
+            width: "34px",
+            height: "34px",
+            flexShrink: 0,
             border: "1px solid #00e5ff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "18px",
+            fontSize: "16px",
           }}
         >
           🔒
         </div>
-        <div>
+        <div style={{ minWidth: 0 }}>
           <div
             style={{
-              fontSize: "16px",
+              fontSize: "13px",
               fontWeight: 600,
-              letterSpacing: "4px",
+              letterSpacing: "2px",
               textTransform: "uppercase",
               color: "#e8f4ff",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             Electronic Locker System
@@ -45,10 +57,13 @@ export default function Header() {
             <div
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "10px",
-                letterSpacing: "2px",
+                fontSize: "9px",
+                letterSpacing: "1px",
                 color: "#3a5a70",
-                marginTop: "3px",
+                marginTop: "2px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {t("brandSubtitle")}
@@ -56,7 +71,9 @@ export default function Header() {
           )}
         </div>
       </div>
-      <LanguageSwitcher />
+      <div style={{ flexShrink: 0 }}>
+        <LanguageSwitcher />
+      </div>
     </div>
   );
 }

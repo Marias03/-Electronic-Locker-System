@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 const LANGS = [
   { code: "en", label: "EN", flag: "🇬🇧" },
   { code: "es", label: "ES", flag: "🇪🇸" },
-  { code: "ru", label: "РУ", flag: "🇷🇺" },
+  { code: "ru", label: "RU", flag: "🇷🇺" },
   { code: "ch", label: "中文", flag: "🇨🇳" },
 ];
 
@@ -21,19 +21,19 @@ export default function LanguageSwitcher() {
             onClick={() => i18n.changeLanguage(l.code)}
             style={{
               fontFamily: "'Share Tech Mono', monospace",
-              fontSize: "11px",
-              padding: "5px 10px",
+              fontSize: "10px",
+              padding: "4px 6px",
               border: active
                 ? "1px solid #00e5ff"
                 : "1px solid rgba(0,229,255,0.25)",
               background: active ? "rgba(0,229,255,0.07)" : "transparent",
               color: active ? "#00e5ff" : "#5a7a90",
               cursor: "pointer",
-              letterSpacing: "1px",
               transition: "all 0.15s",
+              whiteSpace: "nowrap",
             }}
           >
-            {l.flag} {l.label}
+            {l.flag}
           </button>
         );
       })}

@@ -80,17 +80,39 @@ export default function LocationMap({ onContinue }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-[#050b14]"
       style={{
+        position: "fixed",
+        inset: 0,
+        background: "#050b14",
         backgroundImage:
           "linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px)",
         backgroundSize: "48px 48px",
+        overflowY: "auto",
+        zIndex: 90,
         fontFamily: "'Rajdhani', sans-serif",
       }}
     >
-      <div className="min-h-full flex flex-col items-center justify-center px-4 py-8">
-        {/* Lang buttons */}
-        <div className="flex gap-2 mb-5 flex-wrap justify-center">
+      <div
+        style={{
+          minHeight: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "24px 16px",
+          boxSizing: "border-box",
+        }}
+      >
+        {/* Lang indicators */}
+        <div
+          style={{
+            display: "flex",
+            gap: "6px",
+            marginBottom: "20px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
           {TRANSLATIONS.map((l, i) => (
             <button
               key={l.lang}
@@ -101,9 +123,11 @@ export default function LocationMap({ onContinue }: Props) {
                   setFade(true);
                 }, 300);
               }}
-              className="text-[10px] px-3 py-1 tracking-widest transition-all"
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
+                fontSize: "10px",
+                letterSpacing: "1px",
+                padding: "4px 10px",
                 border:
                   i === current
                     ? "1px solid #00e5ff"
@@ -112,6 +136,7 @@ export default function LocationMap({ onContinue }: Props) {
                   i === current ? "rgba(0,229,255,0.07)" : "transparent",
                 color: i === current ? "#00e5ff" : "#3a6a80",
                 cursor: "pointer",
+                transition: "all 0.2s",
               }}
             >
               {l.lang}
@@ -121,28 +146,43 @@ export default function LocationMap({ onContinue }: Props) {
 
         {/* Text */}
         <div
-          className="text-center mb-5 px-2 w-full max-w-xl"
-          style={{ opacity: fade ? 1 : 0, transition: "opacity 0.3s ease" }}
+          style={{
+            textAlign: "center",
+            marginBottom: "20px",
+            opacity: fade ? 1 : 0,
+            transition: "opacity 0.3s ease",
+            padding: "0 8px",
+          }}
         >
           <div
-            className="text-[9px] tracking-[3px] mb-2"
             style={{
               fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "9px",
+              letterSpacing: "3px",
               color: "#00e5ff",
+              marginBottom: "8px",
             }}
           >
             {t.terminalLocation}
           </div>
           <div
-            className="text-lg sm:text-2xl font-semibold uppercase leading-tight mb-1"
-            style={{ letterSpacing: "2px", color: "#e8f4ff" }}
+            style={{
+              fontSize: "18px",
+              fontWeight: 600,
+              letterSpacing: "2px",
+              textTransform: "uppercase",
+              color: "#e8f4ff",
+              marginBottom: "4px",
+              lineHeight: 1.2,
+            }}
           >
             {t.title}
           </div>
           <div
-            className="text-[9px] sm:text-[10px] tracking-[1px] sm:tracking-[2px]"
             style={{
               fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "9px",
+              letterSpacing: "1px",
               color: "#3a6a80",
             }}
           >
@@ -152,59 +192,104 @@ export default function LocationMap({ onContinue }: Props) {
 
         {/* Map */}
         <div
-          className="w-full max-w-2xl relative mb-5"
-          style={{ border: "1px solid rgba(0,229,255,0.2)" }}
+          style={{
+            width: "100%",
+            maxWidth: "700px",
+            border: "1px solid rgba(0,229,255,0.2)",
+            position: "relative",
+            marginBottom: "20px",
+            height: "220px",
+          }}
         >
           <div
-            className="absolute top-0 left-0 right-0 h-px z-10"
-            style={{ background: "rgba(0,229,255,0.4)" }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "1px",
+              background: "rgba(0,229,255,0.4)",
+              zIndex: 1,
+            }}
           />
           <div
-            className="absolute top-1.5 left-1.5 w-2 h-2 z-20"
             style={{
+              position: "absolute",
+              top: "6px",
+              left: "6px",
+              width: "8px",
+              height: "8px",
               borderTop: "1px solid #00e5ff",
               borderLeft: "1px solid #00e5ff",
+              zIndex: 2,
             }}
           />
           <div
-            className="absolute top-1.5 right-1.5 w-2 h-2 z-20"
             style={{
+              position: "absolute",
+              top: "6px",
+              right: "6px",
+              width: "8px",
+              height: "8px",
               borderTop: "1px solid #00e5ff",
               borderRight: "1px solid #00e5ff",
+              zIndex: 2,
             }}
           />
           <div
-            className="absolute bottom-1.5 left-1.5 w-2 h-2 z-20"
             style={{
+              position: "absolute",
+              bottom: "6px",
+              left: "6px",
+              width: "8px",
+              height: "8px",
               borderBottom: "1px solid #00e5ff",
               borderLeft: "1px solid #00e5ff",
+              zIndex: 2,
             }}
           />
           <div
-            className="absolute bottom-1.5 right-1.5 w-2 h-2 z-20"
             style={{
+              position: "absolute",
+              bottom: "6px",
+              right: "6px",
+              width: "8px",
+              height: "8px",
               borderBottom: "1px solid #00e5ff",
               borderRight: "1px solid #00e5ff",
+              zIndex: 2,
             }}
           />
 
           {!mapLoaded && (
             <div
-              className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10"
-              style={{ background: "rgba(2,12,24,0.9)" }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(2,12,24,0.9)",
+                zIndex: 1,
+                gap: "10px",
+              }}
             >
               <div
-                className="w-7 h-7 rounded-full"
                 style={{
+                  width: "28px",
+                  height: "28px",
                   border: "1px solid rgba(0,229,255,0.2)",
                   borderTop: "1px solid #00e5ff",
+                  borderRadius: "50%",
                   animation: "spin 1s linear infinite",
                 }}
               />
               <div
-                className="text-[9px] tracking-widest"
                 style={{
                   fontFamily: "'Share Tech Mono', monospace",
+                  fontSize: "9px",
+                  letterSpacing: "2px",
                   color: "#3a6a80",
                 }}
               >
@@ -230,25 +315,36 @@ export default function LocationMap({ onContinue }: Props) {
 
         {/* Info */}
         <div
-          className="flex flex-wrap gap-x-6 gap-y-3 justify-center mb-6"
-          style={{ opacity: fade ? 1 : 0, transition: "opacity 0.3s ease" }}
+          style={{
+            display: "flex",
+            gap: "20px",
+            marginBottom: "24px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            opacity: fade ? 1 : 0,
+            transition: "opacity 0.3s ease",
+          }}
         >
           {[
             { label: t.addressLabel, value: t.addressValue },
             { label: t.hoursLabel, value: t.hoursValue },
             { label: t.unitsLabel, value: t.unitsValue },
           ].map((item) => (
-            <div key={item.label} className="text-center">
+            <div key={item.label} style={{ textAlign: "center" }}>
               <div
-                className="text-[9px] tracking-[2px] mb-1"
                 style={{
                   fontFamily: "'Share Tech Mono', monospace",
+                  fontSize: "9px",
+                  letterSpacing: "2px",
                   color: "#4a9aba",
+                  marginBottom: "4px",
                 }}
               >
                 {item.label}
               </div>
-              <div className="text-sm font-medium" style={{ color: "#c8dff5" }}>
+              <div
+                style={{ fontSize: "13px", color: "#c8dff5", fontWeight: 500 }}
+              >
                 {item.value}
               </div>
             </div>
@@ -258,12 +354,16 @@ export default function LocationMap({ onContinue }: Props) {
         {/* Button */}
         <button
           onClick={onContinue}
-          className="px-8 py-3 text-[11px] tracking-[3px] uppercase cursor-pointer transition-all"
           style={{
             fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "11px",
+            letterSpacing: "3px",
+            padding: "12px 32px",
             border: "1px solid #00e5ff",
             background: "rgba(0,229,255,0.08)",
             color: "#00e5ff",
+            cursor: "pointer",
+            textTransform: "uppercase",
             opacity: fade ? 1 : 0,
             transition: "opacity 0.3s ease",
           }}

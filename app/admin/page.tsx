@@ -3,6 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+function maskEmail(email: string) {
+  if (!email) return "-";
+  const [user, domain] = email.split("@");
+  if (user.length <= 2) return `${user}...@${domain}`;
+  return `${user[0]}${user[1]}...${user[user.length - 1]}@${domain}`;
+}
+
 export default function Admin() {
   const [casilleros, setCasilleros] = useState([]);
   const [autenticado, setAutenticado] = useState(false);
@@ -83,7 +90,6 @@ export default function Admin() {
           </button>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-8">
           <div className="bg-slate-800 rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-white">
@@ -105,7 +111,6 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Occupied lockers table */}
         <div className="bg-slate-800 rounded-2xl p-6 mb-6">
           <h2 className="text-white font-bold text-lg mb-4">
             🔒 Occupied Lockers
@@ -143,20 +148,20 @@ export default function Admin() {
                             c.tamanio === "pequeño"
                               ? "bg-blue-900 text-blue-400"
                               : c.tamanio === "mediano"
-                              ? "bg-yellow-900 text-yellow-400"
-                              : "bg-purple-900 text-purple-400"
+                                ? "bg-yellow-900 text-yellow-400"
+                                : "bg-purple-900 text-purple-400"
                           }`}
                         >
                           {c.tamanio === "pequeño"
                             ? "Small"
                             : c.tamanio === "mediano"
-                            ? "Medium"
-                            : "Large"}
+                              ? "Medium"
+                              : "Large"}
                         </span>
                       </td>
                       <td className="py-3 px-3 text-white">👤 {c.usuario}</td>
                       <td className="py-3 px-3 text-slate-400 text-sm">
-                        📧 {c.email || "-"}
+                        📧 {maskEmail(c.email)}
                       </td>
                       <td className="py-3 px-3">
                         <span className="bg-slate-700 text-green-400 font-mono font-bold px-3 py-1 rounded-lg tracking-widest">
@@ -182,7 +187,6 @@ export default function Admin() {
           )}
         </div>
 
-        {/* Available lockers */}
         <div className="bg-slate-800 rounded-2xl p-6">
           <h2 className="text-white font-bold text-lg mb-4">
             🔓 Available Lockers
@@ -199,15 +203,15 @@ export default function Admin() {
                     c.tamanio === "pequeño"
                       ? "text-blue-400"
                       : c.tamanio === "mediano"
-                      ? "text-yellow-400"
-                      : "text-purple-400"
+                        ? "text-yellow-400"
+                        : "text-purple-400"
                   }`}
                 >
                   {c.tamanio === "pequeño"
                     ? "Small"
                     : c.tamanio === "mediano"
-                    ? "Medium"
-                    : "Large"}
+                      ? "Medium"
+                      : "Large"}
                 </div>
               </div>
             ))}

@@ -17,6 +17,8 @@ model Casillero {
   email     String?
   pin       String?
   reservadoEn DateTime?
+  sucursalId  Int?
+  sucursal    Sucursal? @relation(fields: [sucursalId], references: [id])
   createdAt DateTime @default(now())
 }
 model Historial {
@@ -36,4 +38,18 @@ model Pago {
   email     String?
   monto     Int
   createdAt DateTime @default(now())
+}
+
+model Sucursal {
+  id         Int         @id @default(autoincrement())
+  nombre     String
+  tipo       String
+  ciudad     String
+  direccion  String
+  lat        Float
+  lng        Float
+  slug       String      @unique
+  activa     Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  casilleros Casillero[]
 }

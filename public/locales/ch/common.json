@@ -56,5 +56,9 @@
   "tinkoffPayment": "Tinkoff支付",
   "cardNumber": "卡号",
   "expiry": "有效期",
-  "cardholderName": "持卡人姓名"
+  "cardholderName": "持卡人姓名",
+  "airport": "机场",
+  "hotel": "酒店",
+  "mall": "购物中心",
+  "station": "车站"
 }

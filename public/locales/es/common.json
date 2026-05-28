@@ -56,5 +56,9 @@
   "tinkoffPayment": "Pago Tinkoff",
   "cardNumber": "Número de tarjeta",
   "expiry": "Fecha de vencimiento",
-  "cardholderName": "Nombre del titular"
+  "cardholderName": "Nombre del titular",
+  "airport": "Aeropuerto",
+  "hotel": "Hotel",
+  "mall": "Centro Comercial",
+  "station": "Estación"
 }

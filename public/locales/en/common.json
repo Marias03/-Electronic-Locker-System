@@ -87,5 +87,9 @@
   "expiry": "Expiry",
   "cvv": "CVV",
   "cardholderName": "Cardholder Name",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "airport": "Airport",
+  "hotel": "Hotel",
+  "mall": "Mall",
+  "station": "Station"
 }

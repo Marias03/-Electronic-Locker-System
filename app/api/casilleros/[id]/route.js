@@ -38,15 +38,6 @@ export async function PUT(request, { params }) {
     user: usuario,
     email: email || null,
   });
-  await prisma.historial.create({
-    data: {
-      numero: casillero.numero,
-      tamanio: casillero.tamanio,
-      usuario: casillero.usuario,
-      email: casillero.email,
-      accion: "released",
-    },
-  });
 
   if (ocupado && email) {
     const casillerosPorEmail = await prisma.casillero.count({
@@ -77,7 +68,13 @@ export async function PUT(request, { params }) {
   if (ocupado) {
     const resultado = await prisma.casillero.updateMany({
       where: { id: parseInt(id), ocupado: false },
-      data: { ocupado: true, usuario, email, pin: nuevoPIN },
+      data: {
+        ocupado: true,
+        usuario,
+        email,
+        pin: nuevoPIN,
+        reservadoEn: new Date(),
+      },
     });
 
     if (resultado.count === 0) {
@@ -100,6 +97,7 @@ export async function PUT(request, { params }) {
       user: usuario,
       email,
     });
+
     await prisma.historial.create({
       data: {
         numero: casillero.numero,
@@ -136,9 +134,26 @@ export async function PUT(request, { params }) {
   } else {
     casillero = await prisma.casillero.update({
       where: { id: parseInt(id) },
-      data: { ocupado: false, usuario: null, email: null, pin: null },
+      data: {
+        ocupado: false,
+        usuario: null,
+        email: null,
+        pin: null,
+        reservadoEn: null,
+      },
     });
+
     logger.info("Locker released", { locker: casillero.numero });
+
+    await prisma.historial.create({
+      data: {
+        numero: casillero.numero,
+        tamanio: casillero.tamanio,
+        usuario: casillero.usuario,
+        email: casillero.email,
+        accion: "released",
+      },
+    });
   }
 
   return Response.json(casillero);

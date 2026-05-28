@@ -1,11 +1,13 @@
 "use client";
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 
 interface Casillero {
   id: number;
   numero: number;
   tamanio: string;
   ocupado: boolean;
+  reservadoEn?: string | null;
 }
 
 interface Props {
@@ -26,13 +28,38 @@ const SIZE_LABEL: Record<string, string> = {
   grande: "LARGE",
 };
 
+function useTimer(reservadoEn?: string | null) {
+  const [elapsed, setElapsed] = useState("");
+
+  useEffect(() => {
+    if (!reservadoEn) return;
+
+    function update() {
+      const diff = Date.now() - new Date(reservadoEn!).getTime();
+      const h = Math.floor(diff / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      setElapsed(
+        `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
+      );
+    }
+
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [reservadoEn]);
+
+  return elapsed;
+}
+
 export default function LockerCard({
   casillero,
   onReservar,
   onLiberar,
 }: Props) {
   const { t } = useTranslation("common");
-  const { id, numero, tamanio, ocupado } = casillero;
+  const { id, numero, tamanio, ocupado, reservadoEn } = casillero;
+  const elapsed = useTimer(ocupado ? reservadoEn : null);
 
   return (
     <div
@@ -84,6 +111,7 @@ export default function LockerCard({
       <div style={{ fontSize: "20px", marginBottom: "7px" }}>
         {ICONS[tamanio] || "🔒"}
       </div>
+
       <div
         style={{
           fontFamily: "'Share Tech Mono', monospace",
@@ -95,6 +123,7 @@ export default function LockerCard({
       >
         #{String(numero).padStart(2, "0")}
       </div>
+
       <div
         style={{
           fontFamily: "'Share Tech Mono', monospace",
@@ -102,11 +131,25 @@ export default function LockerCard({
           letterSpacing: "2px",
           color: ocupado ? "#6a2a2a" : "#3a6a80",
           textTransform: "uppercase",
-          marginBottom: "10px",
+          marginBottom: ocupado ? "6px" : "10px",
         }}
       >
         {SIZE_LABEL[tamanio] || tamanio}
       </div>
+
+      {ocupado && elapsed && (
+        <div
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "11px",
+            letterSpacing: "2px",
+            color: "#ff4040",
+            marginBottom: "8px",
+          }}
+        >
+          {elapsed}
+        </div>
+      )}
 
       {ocupado ? (
         <button

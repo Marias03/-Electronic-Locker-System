@@ -16,6 +16,7 @@ model Casillero {
   usuario   String?
   email     String?
   pin       String?
+  reservadoEn DateTime?
   createdAt DateTime @default(now())
 }
 model Historial {

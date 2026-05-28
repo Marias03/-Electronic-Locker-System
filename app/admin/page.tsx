@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 import AdminLogin from "./components/AdminLogin";
 import AdminHeader from "./components/AdminHeader";
 import AdminStats from "./components/AdminStats";
@@ -7,20 +8,24 @@ import OccupiedTable from "./components/OccupiedTable";
 import AvailableGrid from "./components/AvailableGrid";
 
 export default function Admin() {
+  const { data: session, status } = useSession();
   const [casilleros, setCasilleros] = useState([]);
-  const [autenticado, setAutenticado] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const ADMIN_PASSWORD = "admin1234";
+  useEffect(() => {
+    if (session) cargarCasilleros();
+  }, [session]);
 
-  function login() {
-    if (password === ADMIN_PASSWORD) {
-      setAutenticado(true);
-      setError("");
-      cargarCasilleros();
-    } else {
+  async function login() {
+    const res = await signIn("credentials", {
+      password,
+      redirect: false,
+    });
+    if (res?.error) {
       setError("Incorrect password");
+    } else {
+      setError("");
     }
   }
 
@@ -38,7 +43,32 @@ export default function Admin() {
     cargarCasilleros();
   }
 
-  if (!autenticado) {
+  if (status === "loading") {
+    return (
+      <main
+        style={{
+          minHeight: "100vh",
+          background: "#050b14",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "12px",
+            letterSpacing: "3px",
+            color: "#00e5ff",
+          }}
+        >
+          AUTHENTICATING...
+        </div>
+      </main>
+    );
+  }
+
+  if (!session) {
     return (
       <AdminLogin
         password={password}
@@ -65,7 +95,6 @@ export default function Admin() {
       }}
     >
       <AdminHeader />
-
       <div
         style={{ maxWidth: "1100px", margin: "0 auto", padding: "28px 40px" }}
       >
@@ -77,7 +106,6 @@ export default function Admin() {
         <OccupiedTable ocupados={ocupados} onForceRelease={liberarCasillero} />
         <AvailableGrid disponibles={disponibles} />
       </div>
-
       <style>{`
         @keyframes blink {
           0%, 100% { opacity: 1; }

@@ -38,6 +38,15 @@ export async function PUT(request, { params }) {
     user: usuario,
     email: email || null,
   });
+  await prisma.historial.create({
+    data: {
+      numero: casillero.numero,
+      tamanio: casillero.tamanio,
+      usuario: casillero.usuario,
+      email: casillero.email,
+      accion: "released",
+    },
+  });
 
   if (ocupado && email) {
     const casillerosPorEmail = await prisma.casillero.count({
@@ -90,6 +99,15 @@ export async function PUT(request, { params }) {
       locker: casillero.numero,
       user: usuario,
       email,
+    });
+    await prisma.historial.create({
+      data: {
+        numero: casillero.numero,
+        tamanio: casillero.tamanio,
+        usuario,
+        email,
+        accion: "reserved",
+      },
     });
 
     if (email) {

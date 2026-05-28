@@ -53,23 +53,41 @@ export default function AdminHeader() {
           </div>
         </div>
       </div>
-      <button
-        onClick={() => router.push("/")}
-        style={{
-          fontFamily: "'Share Tech Mono', monospace",
-          fontSize: "10px",
-          letterSpacing: "2px",
-          padding: "8px 16px",
-          border: "1px solid rgba(0,229,255,0.2)",
-          background: "transparent",
-          color: "#4a9aba",
-          cursor: "pointer",
-          textTransform: "uppercase",
-          transition: "all 0.15s",
-        }}
-      >
-        ← BACK TO APP
-      </button>
+
+      <div style={{ display: "flex", gap: "8px" }}>
+        <button
+          onClick={() => router.push("/admin/historial")}
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "10px",
+            letterSpacing: "2px",
+            padding: "8px 16px",
+            border: "1px solid rgba(0,229,255,0.2)",
+            background: "transparent",
+            color: "#4a9aba",
+            cursor: "pointer",
+            textTransform: "uppercase",
+          }}
+        >
+          HISTORY
+        </button>
+        <button
+          onClick={() => router.push("/")}
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "10px",
+            letterSpacing: "2px",
+            padding: "8px 16px",
+            border: "1px solid rgba(0,229,255,0.2)",
+            background: "transparent",
+            color: "#4a9aba",
+            cursor: "pointer",
+            textTransform: "uppercase",
+          }}
+        >
+          ← BACK TO APP
+        </button>
+      </div>
     </div>
   );
 }

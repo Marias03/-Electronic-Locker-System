@@ -18,3 +18,12 @@ model Casillero {
   pin       String?
   createdAt DateTime @default(now())
 }
+model Historial {
+  id        Int      @id @default(autoincrement())
+  numero    Int
+  tamanio   String
+  usuario   String?
+  email     String?
+  accion    String
+  createdAt DateTime @default(now())
+}

@@ -28,3 +28,12 @@ model Historial {
   accion    String
   createdAt DateTime @default(now())
 }
+model Pago {
+  id        Int      @id @default(autoincrement())
+  numero    Int
+  tamanio   String
+  usuario   String?
+  email     String?
+  monto     Int
+  createdAt DateTime @default(now())
+}

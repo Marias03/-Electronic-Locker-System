@@ -6,15 +6,20 @@ import AdminHeader from "./components/AdminHeader";
 import AdminStats from "./components/AdminStats";
 import OccupiedTable from "./components/OccupiedTable";
 import AvailableGrid from "./components/AvailableGrid";
+import PagosTable from "./components/PagosTable";
 
 export default function Admin() {
   const { data: session, status } = useSession();
   const [casilleros, setCasilleros] = useState([]);
+  const [pagos, setPagos] = useState([]);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (session) cargarCasilleros();
+    if (session) {
+      cargarCasilleros();
+      cargarPagos();
+    }
   }, [session]);
 
   async function login() {
@@ -29,6 +34,11 @@ export default function Admin() {
   async function cargarCasilleros() {
     const res = await fetch("/api/casilleros");
     setCasilleros(await res.json());
+  }
+
+  async function cargarPagos() {
+    const res = await fetch("/api/pagos");
+    setPagos(await res.json());
   }
 
   async function liberarCasillero(id: number) {
@@ -98,6 +108,7 @@ export default function Admin() {
           ocupados={ocupados.length}
           disponibles={disponibles.length}
         />
+        <PagosTable pagos={pagos} />
         <OccupiedTable ocupados={ocupados} onForceRelease={liberarCasillero} />
         <AvailableGrid disponibles={disponibles} />
       </div>

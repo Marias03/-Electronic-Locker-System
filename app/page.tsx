@@ -15,6 +15,12 @@ import SplashScreen from "./components/SplashScreen";
 import LocationMap from "./components/LocationMap";
 import PaymentModal from "./components/PaymentModal";
 
+const PRICES: Record<string, number> = {
+  pequeño: 100,
+  mediano: 150,
+  grande: 200,
+};
+
 export default function Home() {
   const { t } = useTranslation("common");
   const [casilleros, setCasilleros] = useState([]);
@@ -68,6 +74,19 @@ export default function Home() {
     if (!paymentModal) return;
     setPaymentModal(null);
     setLoading(true);
+
+    await fetch("/api/pagos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        numero: paymentModal.numero,
+        tamanio: paymentModal.tamanio,
+        usuario,
+        email,
+        monto: PRICES[paymentModal.tamanio] || 100,
+      }),
+    });
+
     const res = await fetch(`/api/casilleros/${paymentModal.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

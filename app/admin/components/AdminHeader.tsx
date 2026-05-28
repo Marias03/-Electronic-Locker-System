@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export default function AdminHeader() {
   const router = useRouter();
@@ -106,6 +107,23 @@ export default function AdminHeader() {
           }}
         >
           ← APP
+        </button>
+        <button
+          onClick={() => signOut({ callbackUrl: "/admin" })}
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "9px",
+            letterSpacing: "1px",
+            padding: "6px 8px",
+            border: "1px solid rgba(255,60,60,0.3)",
+            background: "transparent",
+            color: "#ff4040",
+            cursor: "pointer",
+            textTransform: "uppercase",
+            whiteSpace: "nowrap",
+          }}
+        >
+          LOGOUT
         </button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
-  const { t, i18n } = useTranslation("common");
+  const { t } = useTranslation("common");
   const subtitle = t("brandSubtitle");
 
   return (
@@ -15,6 +15,7 @@ export default function Header() {
         alignItems: "center",
         justifyContent: "space-between",
         gap: "8px",
+        overflow: "hidden",
       }}
     >
       <div
@@ -24,6 +25,7 @@ export default function Header() {
           gap: "8px",
           minWidth: 0,
           flex: 1,
+          overflow: "hidden",
         }}
       >
         <div
@@ -40,7 +42,7 @@ export default function Header() {
         >
           🔒
         </div>
-        <div style={{ minWidth: 0, flex: 1 }}>
+        <div style={{ minWidth: 0, flex: 1, overflow: "hidden" }}>
           <div
             style={{
               fontSize: "11px",
@@ -48,11 +50,14 @@ export default function Header() {
               letterSpacing: "1px",
               textTransform: "uppercase",
               color: "#e8f4ff",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             Electronic Locker System
           </div>
-          {subtitle && subtitle !== "Electronic Locker System" && (
+          {subtitle && (
             <div
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
@@ -60,6 +65,10 @@ export default function Header() {
                 letterSpacing: "1px",
                 color: "#3a5a70",
                 marginTop: "2px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "100%",
               }}
             >
               {subtitle}

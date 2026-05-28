@@ -26,5 +26,6 @@
   "sendingPin": "正在发送PIN到您的邮箱...",
   "pleaseWait": "请稍候",
   "maxLockersReached": "每个邮箱最多2个储物柜 — 已全部预订",
-  "emailPrivacy": "您的邮箱将专门用于发送PIN码。您同意吗？"
+  "emailPrivacy": "您的邮箱将专门用于发送PIN码。您同意吗？",
+  "acceptPrivacy": "请接受隐私政策以继续"
 }

@@ -26,5 +26,6 @@
   "sendingPin": "Enviando PIN a tu correo...",
   "pleaseWait": "Por favor espera un momento",
   "maxLockersReached": "Máximo 2 casilleros por email — ya están reservados",
-  "emailPrivacy": "Su correo electrónico será utilizado exclusivamente para el envío del PIN. ¿Está de acuerdo?"
+  "emailPrivacy": "Su correo electrónico será utilizado exclusivamente para el envío del PIN. ¿Está de acuerdo?",
+  "acceptPrivacy": "Por favor aceptá la política de privacidad para continuar"
 }

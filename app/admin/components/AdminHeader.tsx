@@ -104,6 +104,23 @@ export default function AdminHeader() {
           {t("history")}
         </button>
         <button
+          onClick={() => router.push("/admin/qr")}
+          style={{
+            fontFamily: "'Share Tech Mono', monospace",
+            fontSize: "9px",
+            letterSpacing: "1px",
+            padding: "6px 8px",
+            border: "1px solid rgba(0,229,255,0.2)",
+            background: "transparent",
+            color: "#4a9aba",
+            cursor: "pointer",
+            textTransform: "uppercase",
+            whiteSpace: "nowrap",
+          }}
+        >
+          QR
+        </button>
+        <button
           onClick={() => router.push("/")}
           style={{
             fontFamily: "'Share Tech Mono', monospace",

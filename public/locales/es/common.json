@@ -25,5 +25,6 @@
   "enterEmailFirst": "Por favor ingresá tu email primero",
   "sendingPin": "Enviando PIN a tu correo...",
   "pleaseWait": "Por favor espera un momento",
-  "maxLockersReached": "Máximo 2 casilleros por email — ya están reservados"
+  "maxLockersReached": "Máximo 2 casilleros por email — ya están reservados",
+  "emailPrivacy": "Tu email se almacena de forma segura y se usa solo para recuperación de PIN por administradores."
 }

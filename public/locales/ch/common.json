@@ -25,5 +25,6 @@
   "enterEmailFirst": "请先输入您的邮箱",
   "sendingPin": "正在发送PIN到您的邮箱...",
   "pleaseWait": "请稍候",
-  "maxLockersReached": "每个邮箱最多2个储物柜 — 已全部预订"
+  "maxLockersReached": "每个邮箱最多2个储物柜 — 已全部预订",
+  "emailPrivacy": "您的邮箱安全存储，仅供管理员PIN码恢复使用。"
 }

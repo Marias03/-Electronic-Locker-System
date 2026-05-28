@@ -81,7 +81,7 @@ export default function Home() {
   }
 
   const casillerosFiltrados = casilleros.filter((c: any) =>
-    filtro === "all" ? true : c.tamanio === filtro
+    filtro === "all" ? true : c.tamanio === filtro,
   );
 
   return (
@@ -102,21 +102,26 @@ export default function Home() {
           ocupados={casilleros.filter((c: any) => c.ocupado).length}
         />
 
-        <div className="mb-6 flex flex-col sm:flex-row gap-3 justify-center">
-          <input
-            type="text"
-            placeholder={t("enterName")}
-            value={usuario}
-            onChange={(e) => setUsuario(e.target.value)}
-            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
-          />
-          <input
-            type="email"
-            placeholder={t("enterEmail")}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
-          />
+        <div className="mb-6 flex flex-col items-center gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
+            <input
+              type="text"
+              placeholder={t("enterName")}
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
+              className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
+            />
+            <input
+              type="email"
+              placeholder={t("enterEmail")}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
+            />
+          </div>
+          <p className="text-slate-500 text-xs text-center">
+            🔒 {t("emailPrivacy")}
+          </p>
         </div>
 
         <div className="flex gap-2 justify-center mb-8 flex-wrap">

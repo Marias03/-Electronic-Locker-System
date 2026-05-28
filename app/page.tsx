@@ -19,6 +19,7 @@ export default function Home() {
   const [filtro, setFiltro] = useState("all");
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [pinModal, setPinModal] = useState<{
     id: number;
     numero: number;
@@ -45,6 +46,7 @@ export default function Home() {
   }
 
   async function reservar(id: number, numero: number) {
+    if (!privacyAccepted) return mostrarToast(t("acceptPrivacy"));
     if (!usuario.trim()) return mostrarToast(t("enterNameFirst"));
     if (!email.trim()) return mostrarToast(t("enterEmailFirst"));
     setLoading(true);
@@ -59,6 +61,7 @@ export default function Home() {
     setPinMostrado({ numero, pin: data.pin });
     setUsuario("");
     setEmail("");
+    setPrivacyAccepted(false);
     cargarCasilleros();
   }
 
@@ -119,9 +122,21 @@ export default function Home() {
               className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
             />
           </div>
-          <p className="text-slate-500 text-xs text-center">
-            🔒 {t("emailPrivacy")}
-          </p>
+          <div className="flex items-start gap-2 max-w-sm">
+            <input
+              type="checkbox"
+              id="privacy"
+              checked={privacyAccepted}
+              onChange={(e) => setPrivacyAccepted(e.target.checked)}
+              className="mt-1 accent-blue-500 w-4 h-4 cursor-pointer"
+            />
+            <label
+              htmlFor="privacy"
+              className="text-slate-300 text-xs cursor-pointer"
+            >
+              🔒 {t("emailPrivacy")}
+            </label>
+          </div>
         </div>
 
         <div className="flex gap-2 justify-center mb-8 flex-wrap">

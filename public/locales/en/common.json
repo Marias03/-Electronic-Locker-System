@@ -26,5 +26,5 @@
   "sendingPin": "Sending PIN to your email...",
   "pleaseWait": "Please wait a moment",
   "maxLockersReached": "Maximum 2 lockers per email — both are already reserved",
-  "emailPrivacy": "Your email is stored securely and used only for PIN recovery by administrators."
+  "emailPrivacy": "Your email will be used exclusively to send your PIN. Do you agree?"
 }

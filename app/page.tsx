@@ -12,6 +12,7 @@ import PinRelease from "./components/PinRelease";
 import Toast from "./components/Toast";
 import LoadingOverlay from "./components/LoadingOverlay";
 import SplashScreen from "./components/SplashScreen";
+import LocationMap from "./components/LocationMap";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -23,6 +24,7 @@ export default function Home() {
   const [toast, setToast] = useState<string | null>(null);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [ready, setReady] = useState(false);
+  const [locationShown, setLocationShown] = useState(false);
   const [pinModal, setPinModal] = useState<{
     id: number;
     numero: number;
@@ -94,6 +96,10 @@ export default function Home() {
     <>
       {!ready && <SplashScreen onComplete={() => setReady(true)} />}
 
+      {ready && !locationShown && (
+        <LocationMap onContinue={() => setLocationShown(true)} />
+      )}
+
       <main
         style={{
           minHeight: "100vh",
@@ -103,7 +109,7 @@ export default function Home() {
           backgroundSize: "48px 48px",
           fontFamily: "'Rajdhani', sans-serif",
           color: "#c8dff5",
-          opacity: ready ? 1 : 0,
+          opacity: ready && locationShown ? 1 : 0,
           transition: "opacity 0.7s ease",
         }}
       >

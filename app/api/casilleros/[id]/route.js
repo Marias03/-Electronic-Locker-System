@@ -63,19 +63,12 @@ export async function PUT(request, { params }) {
   }
 
   const nuevoPIN = ocupado ? generarPIN() : null;
-
   let casillero;
 
   if (ocupado) {
-    // Solo actualiza si AÚN está libre
     const resultado = await prisma.casillero.updateMany({
       where: { id: parseInt(id), ocupado: false },
-      data: {
-        ocupado: true,
-        usuario,
-        email,
-        pin: nuevoPIN,
-      },
+      data: { ocupado: true, usuario, email, pin: nuevoPIN },
     });
 
     if (resultado.count === 0) {
@@ -89,21 +82,45 @@ export async function PUT(request, { params }) {
       );
     }
 
-    // Traer el objeto actualizado para el resto del flujo
     casillero = await prisma.casillero.findUnique({
       where: { id: parseInt(id) },
     });
+
+    logger.info("Locker reserved", {
+      locker: casillero.numero,
+      user: usuario,
+      email,
+    });
+
+    if (email) {
+      try {
+        await transporter.sendMail({
+          from: `"Electronic Locker System" <${process.env.GMAIL_USER}>`,
+          to: email,
+          subject: "🔐 Your Locker PIN",
+          html: `
+            <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto; padding: 24px; background: #1e293b; color: white; border-radius: 12px;">
+              <h1 style="color: white;">🧳 Electronic Locker System</h1>
+              <p style="color: #94a3b8;">Hi <strong style="color: white;">${usuario}</strong>, your locker has been reserved!</p>
+              <div style="background: #0f172a; border-radius: 8px; padding: 24px; text-align: center; margin: 24px 0;">
+                <p style="color: #94a3b8; margin: 0 0 8px 0;">Locker #${casillero.numero} — Your PIN code</p>
+                <div style="font-size: 48px; font-weight: bold; color: #4ade80; letter-spacing: 8px;">${nuevoPIN}</div>
+              </div>
+              <p style="color: #94a3b8; font-size: 14px;">Keep this PIN safe — you'll need it to release your locker.</p>
+            </div>
+          `,
+        });
+        console.log("✅ Email enviado a:", email);
+      } catch (err) {
+        console.error("❌ Error enviando email:", err.message);
+      }
+    }
   } else {
-    // Para liberar no necesita la condición extra
     casillero = await prisma.casillero.update({
       where: { id: parseInt(id) },
-      data: {
-        ocupado: false,
-        usuario: null,
-        email: null,
-        pin: null,
-      },
+      data: { ocupado: false, usuario: null, email: null, pin: null },
     });
+    logger.info("Locker released", { locker: casillero.numero });
   }
 
   return Response.json(casillero);

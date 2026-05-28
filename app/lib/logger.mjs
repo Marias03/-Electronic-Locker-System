@@ -5,16 +5,28 @@ const axiom = new Axiom({
 });
 
 const logger = {
-  info: (message, fields = {}) => {
-    axiom.ingest("casillero", [{ message, level: "info", ...fields }]);
+  info: async (message, fields = {}) => {
+    try {
+      await axiom.ingest("casillero", [{ message, level: "info", ...fields }]);
+    } catch (e) {
+      console.log("Axiom error:", e.message);
+    }
     console.log(message, fields);
   },
-  warn: (message, fields = {}) => {
-    axiom.ingest("casillero", [{ message, level: "warn", ...fields }]);
+  warn: async (message, fields = {}) => {
+    try {
+      await axiom.ingest("casillero", [{ message, level: "warn", ...fields }]);
+    } catch (e) {
+      console.warn("Axiom error:", e.message);
+    }
     console.warn(message, fields);
   },
-  error: (message, fields = {}) => {
-    axiom.ingest("casillero", [{ message, level: "error", ...fields }]);
+  error: async (message, fields = {}) => {
+    try {
+      await axiom.ingest("casillero", [{ message, level: "error", ...fields }]);
+    } catch (e) {
+      console.error("Axiom error:", e.message);
+    }
     console.error(message, fields);
   },
 };

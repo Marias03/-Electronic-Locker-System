@@ -12,7 +12,7 @@ const TRANSLATIONS = [
     title: "Electronic Locker System",
     subtitle: "KAZAN INTERNATIONAL AIRPORT — TATARSTAN, RUSSIA",
     addressLabel: "ADDRESS",
-    addressValue: "Kazan International Airport, Kazan",
+    addressValue: "Kazan International Airport",
     hoursLabel: "HOURS",
     hoursValue: "24/7 — Always Open",
     unitsLabel: "UNITS",
@@ -23,7 +23,7 @@ const TRANSLATIONS = [
     lang: "ES",
     terminalLocation: "UBICACIÓN DEL TERMINAL",
     title: "Sistema Electrónico de Casilleros",
-    subtitle: "AEROPUERTO INTERNACIONAL DE KAZÁN — TARTARISTÁN, RUSIA",
+    subtitle: "AEROPUERTO INTERNACIONAL DE KAZÁN — RUSIA",
     addressLabel: "DIRECCIÓN",
     addressValue: "Aeropuerto Internacional de Kazán",
     hoursLabel: "HORARIO",
@@ -35,11 +35,11 @@ const TRANSLATIONS = [
   {
     lang: "RU",
     terminalLocation: "РАСПОЛОЖЕНИЕ ТЕРМИНАЛА",
-    title: "Электронная камера хранения",
-    subtitle: "МЕЖДУНАРОДНЫЙ АЭРОПОРТ КАЗАНЬ — ТАТАРСТАН, РОССИЯ",
+    title: "Камера хранения",
+    subtitle: "АЭРОПОРТ КАЗАНЬ — ТАТАРСТАН, РОССИЯ",
     addressLabel: "АДРЕС",
-    addressValue: "Международный аэропорт Казань",
-    hoursLabel: "ЧАСЫ РАБОТЫ",
+    addressValue: "Аэропорт Казань",
+    hoursLabel: "ЧАСЫ",
     hoursValue: "24/7 — Всегда Открыто",
     unitsLabel: "ЯЧЕЙКИ",
     unitsValue: "20 Ячеек Доступно",
@@ -49,10 +49,10 @@ const TRANSLATIONS = [
     lang: "中文",
     terminalLocation: "航站楼位置",
     title: "电子储物柜系统",
-    subtitle: "喀山国际机场 — 鞑靼斯坦，俄罗斯",
+    subtitle: "喀山国际机场 — 俄罗斯",
     addressLabel: "地址",
     addressValue: "喀山国际机场",
-    hoursLabel: "营业时间",
+    hoursLabel: "时间",
     hoursValue: "24/7 — 全天开放",
     unitsLabel: "储物柜",
     unitsValue: "20个储物柜可用",
@@ -80,39 +80,17 @@ export default function LocationMap({ onContinue }: Props) {
 
   return (
     <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#050b14]"
       style={{
-        position: "fixed",
-        inset: 0,
-        background: "#050b14",
         backgroundImage:
           "linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px)",
         backgroundSize: "48px 48px",
-        overflowY: "auto",
-        zIndex: 90,
         fontFamily: "'Rajdhani', sans-serif",
       }}
     >
-      <div
-        style={{
-          minHeight: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "24px 16px",
-          boxSizing: "border-box",
-        }}
-      >
-        {/* Lang indicators */}
-        <div
-          style={{
-            display: "flex",
-            gap: "6px",
-            marginBottom: "20px",
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
+      <div className="min-h-full flex flex-col items-center justify-center px-4 py-8">
+        {/* Lang buttons */}
+        <div className="flex gap-2 mb-5 flex-wrap justify-center">
           {TRANSLATIONS.map((l, i) => (
             <button
               key={l.lang}
@@ -144,14 +122,21 @@ export default function LocationMap({ onContinue }: Props) {
           ))}
         </div>
 
-        {/* Text */}
+        {/* Text — altura fija para que no se mueva */}
         <div
           style={{
             textAlign: "center",
             marginBottom: "20px",
             opacity: fade ? 1 : 0,
             transition: "opacity 0.3s ease",
-            padding: "0 8px",
+            padding: "0 16px",
+            width: "100%",
+            maxWidth: "600px",
+            height: "90px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <div
@@ -160,14 +145,14 @@ export default function LocationMap({ onContinue }: Props) {
               fontSize: "9px",
               letterSpacing: "3px",
               color: "#00e5ff",
-              marginBottom: "8px",
+              marginBottom: "6px",
             }}
           >
             {t.terminalLocation}
           </div>
           <div
             style={{
-              fontSize: "18px",
+              fontSize: "16px",
               fontWeight: 600,
               letterSpacing: "2px",
               textTransform: "uppercase",
@@ -192,96 +177,55 @@ export default function LocationMap({ onContinue }: Props) {
 
         {/* Map */}
         <div
-          style={{
-            width: "100%",
-            maxWidth: "700px",
-            border: "1px solid rgba(0,229,255,0.2)",
-            position: "relative",
-            marginBottom: "20px",
-            height: "220px",
-          }}
+          className="w-full max-w-2xl relative mb-5"
+          style={{ border: "1px solid rgba(0,229,255,0.2)" }}
         >
           <div
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: "1px",
-              background: "rgba(0,229,255,0.4)",
-              zIndex: 1,
-            }}
+            className="absolute top-0 left-0 right-0 h-px z-10"
+            style={{ background: "rgba(0,229,255,0.4)" }}
           />
           <div
+            className="absolute top-1.5 left-1.5 w-2 h-2 z-20"
             style={{
-              position: "absolute",
-              top: "6px",
-              left: "6px",
-              width: "8px",
-              height: "8px",
               borderTop: "1px solid #00e5ff",
               borderLeft: "1px solid #00e5ff",
-              zIndex: 2,
             }}
           />
           <div
+            className="absolute top-1.5 right-1.5 w-2 h-2 z-20"
             style={{
-              position: "absolute",
-              top: "6px",
-              right: "6px",
-              width: "8px",
-              height: "8px",
               borderTop: "1px solid #00e5ff",
               borderRight: "1px solid #00e5ff",
-              zIndex: 2,
             }}
           />
           <div
+            className="absolute bottom-1.5 left-1.5 w-2 h-2 z-20"
             style={{
-              position: "absolute",
-              bottom: "6px",
-              left: "6px",
-              width: "8px",
-              height: "8px",
               borderBottom: "1px solid #00e5ff",
               borderLeft: "1px solid #00e5ff",
-              zIndex: 2,
             }}
           />
           <div
+            className="absolute bottom-1.5 right-1.5 w-2 h-2 z-20"
             style={{
-              position: "absolute",
-              bottom: "6px",
-              right: "6px",
-              width: "8px",
-              height: "8px",
               borderBottom: "1px solid #00e5ff",
               borderRight: "1px solid #00e5ff",
-              zIndex: 2,
             }}
           />
 
+          {/* Overlay que bloquea interacción con el mapa */}
+          <div className="absolute inset-0 z-30" />
+
           {!mapLoaded && (
             <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "rgba(2,12,24,0.9)",
-                zIndex: 1,
-                gap: "10px",
-              }}
+              className="absolute inset-0 flex flex-col items-center justify-center gap-2 z-10"
+              style={{ background: "rgba(2,12,24,0.9)" }}
             >
               <div
+                className="w-7 h-7 rounded-full"
                 style={{
-                  width: "28px",
-                  height: "28px",
                   border: "1px solid rgba(0,229,255,0.2)",
                   borderTop: "1px solid #00e5ff",
-                  borderRadius: "50%",
                   animation: "spin 1s linear infinite",
                 }}
               />
@@ -313,7 +257,7 @@ export default function LocationMap({ onContinue }: Props) {
           />
         </div>
 
-        {/* Info */}
+        {/* Info — altura fija */}
         <div
           style={{
             display: "flex",
@@ -323,6 +267,11 @@ export default function LocationMap({ onContinue }: Props) {
             justifyContent: "center",
             opacity: fade ? 1 : 0,
             transition: "opacity 0.3s ease",
+            height: "60px",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: "600px",
+            padding: "0 16px",
           }}
         >
           {[
@@ -343,7 +292,7 @@ export default function LocationMap({ onContinue }: Props) {
                 {item.label}
               </div>
               <div
-                style={{ fontSize: "13px", color: "#c8dff5", fontWeight: 500 }}
+                style={{ fontSize: "12px", color: "#c8dff5", fontWeight: 500 }}
               >
                 {item.value}
               </div>

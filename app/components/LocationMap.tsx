@@ -320,7 +320,7 @@ export default function LocationMap({ onContinue }: Props) {
           ))}
         </div>
 
-        {/* Button */}
+        {/* Button — siempre visible, solo cambia el texto */}
         <button
           onClick={onContinue}
           style={{
@@ -333,12 +333,20 @@ export default function LocationMap({ onContinue }: Props) {
             color: "#00e5ff",
             cursor: "pointer",
             textTransform: "uppercase",
-            opacity: visible ? 1 : 0,
-            transition: "opacity 0.3s ease",
             whiteSpace: "nowrap",
+            minWidth: "200px",
+            textAlign: "center",
           }}
         >
-          {t.button}
+          <span
+            style={{
+              opacity: visible ? 1 : 0,
+              transition: "opacity 0.3s ease",
+              display: "block",
+            }}
+          >
+            {t.button}
+          </span>
         </button>
       </div>
 

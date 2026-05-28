@@ -28,7 +28,7 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
       style={{
         border: "1px solid rgba(0,229,255,0.12)",
         background: "rgba(2,12,24,0.7)",
-        padding: "22px 24px",
+        padding: "22px 16px",
         position: "relative",
         marginBottom: "20px",
       }}
@@ -65,18 +65,16 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
         </div>
       ) : (
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              minWidth: "500px",
+            }}
+          >
             <thead>
               <tr>
-                {[
-                  "#",
-                  "SIZE",
-                  "USER",
-                  "EMAIL",
-                  "PIN",
-                  "RESERVED AT",
-                  "ACTION",
-                ].map((h) => (
+                {["#", "SIZE", "USER", "EMAIL", "PIN", "ACTION"].map((h) => (
                   <th
                     key={h}
                     style={{
@@ -85,7 +83,7 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
                       letterSpacing: "2px",
                       color: "#4a9aba",
                       textAlign: "left",
-                      padding: "8px 12px",
+                      padding: "8px 10px",
                       borderBottom: "1px solid rgba(0,229,255,0.1)",
                     }}
                   >
@@ -102,23 +100,23 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
                 >
                   <td
                     style={{
-                      padding: "12px",
+                      padding: "10px",
                       color: "#e8f4ff",
                       fontFamily: "'Share Tech Mono', monospace",
-                      fontSize: "13px",
+                      fontSize: "12px",
                     }}
                   >
                     #{String(c.numero).padStart(2, "0")}
                   </td>
-                  <td style={{ padding: "12px" }}>
+                  <td style={{ padding: "10px" }}>
                     <span
                       style={{
                         fontFamily: "'Share Tech Mono', monospace",
-                        fontSize: "9px",
-                        letterSpacing: "2px",
+                        fontSize: "8px",
+                        letterSpacing: "1px",
                         color: SIZE_COLOR[c.tamanio],
                         border: `1px solid ${SIZE_COLOR[c.tamanio]}40`,
-                        padding: "3px 8px",
+                        padding: "2px 6px",
                       }}
                     >
                       {SIZE[c.tamanio] || c.tamanio}
@@ -126,65 +124,58 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
                   </td>
                   <td
                     style={{
-                      padding: "12px",
+                      padding: "10px",
                       color: "#c8dff5",
-                      fontFamily: "'Rajdhani', sans-serif",
-                      fontSize: "14px",
+                      fontSize: "13px",
+                      maxWidth: "100px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {c.usuario}
                   </td>
                   <td
                     style={{
-                      padding: "12px",
+                      padding: "10px",
                       color: "#4a9aba",
                       fontFamily: "'Share Tech Mono', monospace",
-                      fontSize: "11px",
+                      fontSize: "10px",
                     }}
                   >
                     {maskEmail(c.email)}
                   </td>
-                  <td style={{ padding: "12px" }}>
+                  <td style={{ padding: "10px" }}>
                     <span
                       style={{
                         fontFamily: "'Share Tech Mono', monospace",
-                        fontSize: "14px",
-                        letterSpacing: "6px",
+                        fontSize: "13px",
+                        letterSpacing: "4px",
                         color: "#00e5ff",
                         border: "1px solid rgba(0,229,255,0.2)",
-                        padding: "4px 10px",
+                        padding: "3px 8px",
                       }}
                     >
                       {c.pin}
                     </span>
                   </td>
-                  <td
-                    style={{
-                      padding: "12px",
-                      color: "#3a6a80",
-                      fontFamily: "'Share Tech Mono', monospace",
-                      fontSize: "10px",
-                    }}
-                  >
-                    {new Date(c.createdAt).toLocaleString()}
-                  </td>
-                  <td style={{ padding: "12px" }}>
+                  <td style={{ padding: "10px" }}>
                     <button
                       onClick={() => onForceRelease(c.id)}
                       style={{
                         fontFamily: "'Share Tech Mono', monospace",
-                        fontSize: "9px",
+                        fontSize: "8px",
                         letterSpacing: "1px",
-                        padding: "6px 12px",
+                        padding: "5px 8px",
                         background: "rgba(255,60,60,0.07)",
                         border: "1px solid rgba(255,60,60,0.3)",
                         color: "#ff4040",
                         cursor: "pointer",
                         textTransform: "uppercase",
-                        transition: "all 0.15s",
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      FORCE RELEASE
+                      RELEASE
                     </button>
                   </td>
                 </tr>

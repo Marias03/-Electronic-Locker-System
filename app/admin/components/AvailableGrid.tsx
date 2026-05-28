@@ -20,7 +20,7 @@ export default function AvailableGrid({ disponibles }: Props) {
       style={{
         border: "1px solid rgba(0,229,255,0.12)",
         background: "rgba(2,12,24,0.7)",
-        padding: "22px 24px",
+        padding: "22px 16px",
         position: "relative",
       }}
     >
@@ -44,7 +44,7 @@ export default function AvailableGrid({ disponibles }: Props) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)",
           gap: "8px",
         }}
       >
@@ -54,7 +54,7 @@ export default function AvailableGrid({ disponibles }: Props) {
             style={{
               border: "1px solid rgba(0,229,255,0.12)",
               background: "rgba(0,10,20,0.9)",
-              padding: "12px 8px",
+              padding: "10px 6px",
               textAlign: "center",
               position: "relative",
             }}
@@ -84,9 +84,9 @@ export default function AvailableGrid({ disponibles }: Props) {
             <div
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "13px",
+                fontSize: "12px",
                 color: "#c8dff5",
-                marginBottom: "4px",
+                marginBottom: "3px",
                 letterSpacing: "1px",
               }}
             >
@@ -95,8 +95,8 @@ export default function AvailableGrid({ disponibles }: Props) {
             <div
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "9px",
-                letterSpacing: "2px",
+                fontSize: "8px",
+                letterSpacing: "1px",
                 color: SIZE_COLOR[c.tamanio],
               }}
             >

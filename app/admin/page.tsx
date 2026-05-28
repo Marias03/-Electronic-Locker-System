@@ -18,10 +18,7 @@ export default function Admin() {
   }, [session]);
 
   async function login() {
-    const res = await signIn("credentials", {
-      password,
-      redirect: false,
-    });
+    const res = await signIn("credentials", { password, redirect: false });
     if (res?.error) {
       setError("Incorrect password");
     } else {
@@ -95,9 +92,7 @@ export default function Admin() {
       }}
     >
       <AdminHeader />
-      <div
-        style={{ maxWidth: "1100px", margin: "0 auto", padding: "28px 40px" }}
-      >
+      <div className="max-w-6xl mx-auto px-4 sm:px-10 py-6">
         <AdminStats
           total={casilleros.length}
           ocupados={ocupados.length}

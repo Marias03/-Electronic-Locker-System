@@ -8,34 +8,49 @@ export default function AdminHeader() {
     <div
       style={{
         borderBottom: "1px solid rgba(0,229,255,0.12)",
-        padding: "18px 40px",
+        padding: "12px 16px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        gap: "8px",
+        overflow: "hidden",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          minWidth: 0,
+          flex: 1,
+          overflow: "hidden",
+        }}
+      >
         <div
           style={{
-            width: "38px",
-            height: "38px",
+            width: "28px",
+            height: "28px",
+            flexShrink: 0,
             border: "1px solid #00e5ff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "18px",
+            fontSize: "14px",
           }}
         >
           🛠️
         </div>
-        <div>
+        <div style={{ minWidth: 0, overflow: "hidden" }}>
           <div
             style={{
-              fontSize: "16px",
+              fontSize: "11px",
               fontWeight: 600,
-              letterSpacing: "4px",
+              letterSpacing: "1px",
               textTransform: "uppercase",
               color: "#e8f4ff",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             Admin Panel
@@ -43,10 +58,13 @@ export default function AdminHeader() {
           <div
             style={{
               fontFamily: "'Share Tech Mono', monospace",
-              fontSize: "10px",
-              letterSpacing: "2px",
+              fontSize: "9px",
+              letterSpacing: "1px",
               color: "#3a5a70",
-              marginTop: "3px",
+              marginTop: "2px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             Electronic Locker System
@@ -54,19 +72,20 @@ export default function AdminHeader() {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div style={{ display: "flex", gap: "4px", flexShrink: 0 }}>
         <button
           onClick={() => router.push("/admin/historial")}
           style={{
             fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "10px",
-            letterSpacing: "2px",
-            padding: "8px 16px",
+            fontSize: "9px",
+            letterSpacing: "1px",
+            padding: "6px 8px",
             border: "1px solid rgba(0,229,255,0.2)",
             background: "transparent",
             color: "#4a9aba",
             cursor: "pointer",
             textTransform: "uppercase",
+            whiteSpace: "nowrap",
           }}
         >
           HISTORY
@@ -75,17 +94,18 @@ export default function AdminHeader() {
           onClick={() => router.push("/")}
           style={{
             fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "10px",
-            letterSpacing: "2px",
-            padding: "8px 16px",
+            fontSize: "9px",
+            letterSpacing: "1px",
+            padding: "6px 8px",
             border: "1px solid rgba(0,229,255,0.2)",
             background: "transparent",
             color: "#4a9aba",
             cursor: "pointer",
             textTransform: "uppercase",
+            whiteSpace: "nowrap",
           }}
         >
-          ← BACK TO APP
+          ← APP
         </button>
       </div>
     </div>

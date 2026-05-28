@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 interface Props {
   numero: number;
@@ -41,6 +43,7 @@ export default function PaymentModal({
   onSuccess,
   onClose,
 }: Props) {
+  const { t, i18n } = useTranslation("common");
   const [card, setCard] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
@@ -50,6 +53,13 @@ export default function PaymentModal({
   const [error, setError] = useState("");
 
   const price = PRICES[tamanio] || 100;
+
+  const LANGS = [
+    { code: "en", flag: "🇬🇧" },
+    { code: "es", flag: "🇪🇸" },
+    { code: "ru", flag: "🇷🇺" },
+    { code: "ch", flag: "🇨🇳" },
+  ];
 
   function validate() {
     if (card.replace(/\s/g, "").length < 16) return "Enter a valid card number";
@@ -79,7 +89,7 @@ export default function PaymentModal({
     background: "rgba(0,229,255,0.03)",
     border: "1px solid rgba(0,229,255,0.2)",
     color: "#c8dff5",
-    fontFamily: "'Share Tech Mono', monospace",
+    fontFamily: "Share Tech Mono, monospace",
     fontSize: "14px",
     padding: "10px 13px",
     outline: "none",
@@ -87,7 +97,7 @@ export default function PaymentModal({
   };
 
   const labelStyle: React.CSSProperties = {
-    fontFamily: "'Share Tech Mono', monospace",
+    fontFamily: "Share Tech Mono, monospace",
     fontSize: "10px",
     letterSpacing: "2px",
     color: "#4a9aba",
@@ -105,7 +115,8 @@ export default function PaymentModal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontFamily: "'Rajdhani', sans-serif",
+        fontFamily: "Rajdhani, sans-serif",
+        padding: "16px",
       }}
     >
       <div
@@ -116,53 +127,50 @@ export default function PaymentModal({
           border: "1px solid rgba(0,229,255,0.2)",
           position: "relative",
           padding: "32px",
-          margin: "0 16px",
+          maxHeight: "90vh",
+          overflowY: "auto",
         }}
       >
-        {/* Corners */}
-        {[
-          {
-            top: "8px",
-            left: "8px",
-            borderTop: "1px solid #00e5ff",
-            borderLeft: "1px solid #00e5ff",
-          },
-          {
-            top: "8px",
-            right: "8px",
-            borderTop: "1px solid #00e5ff",
-            borderRight: "1px solid #00e5ff",
-          },
-          {
-            bottom: "8px",
-            left: "8px",
-            borderBottom: "1px solid #00e5ff",
-            borderLeft: "1px solid #00e5ff",
-          },
-          {
-            bottom: "8px",
-            right: "8px",
-            borderBottom: "1px solid #00e5ff",
-            borderRight: "1px solid #00e5ff",
-          },
-        ].map((s, i) => (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              width: "10px",
-              height: "10px",
-              ...s,
-            }}
-          />
-        ))}
+        {/* Language switcher */}
+        <div
+          style={{
+            display: "flex",
+            gap: "4px",
+            justifyContent: "flex-end",
+            marginBottom: "16px",
+          }}
+        >
+          {LANGS.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => i18n.changeLanguage(l.code)}
+              style={{
+                fontFamily: "Share Tech Mono, monospace",
+                fontSize: "10px",
+                padding: "3px 6px",
+                border:
+                  i18n.language === l.code
+                    ? "1px solid #00e5ff"
+                    : "1px solid rgba(0,229,255,0.25)",
+                background:
+                  i18n.language === l.code
+                    ? "rgba(0,229,255,0.07)"
+                    : "transparent",
+                color: i18n.language === l.code ? "#00e5ff" : "#5a7a90",
+                cursor: "pointer",
+              }}
+            >
+              {l.flag}
+            </button>
+          ))}
+        </div>
 
         {success ? (
           <div style={{ textAlign: "center", padding: "20px 0" }}>
             <div style={{ fontSize: "48px", marginBottom: "16px" }}>✅</div>
             <div
               style={{
-                fontFamily: "'Share Tech Mono', monospace",
+                fontFamily: "Share Tech Mono, monospace",
                 fontSize: "14px",
                 letterSpacing: "3px",
                 color: "#00e5ff",
@@ -190,7 +198,7 @@ export default function PaymentModal({
             />
             <div
               style={{
-                fontFamily: "'Share Tech Mono', monospace",
+                fontFamily: "Share Tech Mono, monospace",
                 fontSize: "12px",
                 letterSpacing: "3px",
                 color: "#00e5ff",
@@ -201,11 +209,10 @@ export default function PaymentModal({
           </div>
         ) : (
           <>
-            {/* Header */}
             <div style={{ marginBottom: "24px" }}>
               <div
                 style={{
-                  fontFamily: "'Share Tech Mono', monospace",
+                  fontFamily: "Share Tech Mono, monospace",
                   fontSize: "10px",
                   letterSpacing: "2px",
                   color: "#00e5ff",
@@ -227,17 +234,16 @@ export default function PaymentModal({
               </div>
               <div
                 style={{
-                  fontFamily: "'Share Tech Mono', monospace",
+                  fontFamily: "Share Tech Mono, monospace",
                   fontSize: "22px",
                   color: "#00e5ff",
                   letterSpacing: "2px",
                 }}
               >
-                ₽{price}
+                {price} RUB
               </div>
             </div>
 
-            {/* Form */}
             <div style={{ marginBottom: "14px" }}>
               <label style={labelStyle}>CARD NUMBER</label>
               <input
@@ -280,7 +286,7 @@ export default function PaymentModal({
               </div>
             </div>
 
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: "16px" }}>
               <label style={labelStyle}>CARDHOLDER NAME</label>
               <input
                 style={inputStyle}
@@ -293,16 +299,35 @@ export default function PaymentModal({
             {error && (
               <div
                 style={{
-                  fontFamily: "'Share Tech Mono', monospace",
+                  fontFamily: "Share Tech Mono, monospace",
                   fontSize: "10px",
                   letterSpacing: "1px",
                   color: "#ff4040",
                   marginBottom: "14px",
                 }}
               >
-                ⚠ {error.toUpperCase()}
+                {error.toUpperCase()}
               </div>
             )}
+
+            <div style={{ marginBottom: "14px", textAlign: "center" }}>
+              <a
+                href="/terminos"
+                target="_blank"
+                style={{
+                  fontFamily: "Share Tech Mono, monospace",
+                  fontSize: "10px",
+                  letterSpacing: "1px",
+                  color: "#3a6a80",
+                  textDecoration: "none",
+                  borderBottom: "1px solid #3a6a80",
+                  cursor: "pointer",
+                  paddingBottom: "1px",
+                }}
+              >
+                {t("termsAndConditions")}
+              </a>
+            </div>
 
             <button
               onClick={handlePay}
@@ -312,7 +337,7 @@ export default function PaymentModal({
                 background: "rgba(0,229,255,0.08)",
                 border: "1px solid #00e5ff",
                 color: "#00e5ff",
-                fontFamily: "'Share Tech Mono', monospace",
+                fontFamily: "Share Tech Mono, monospace",
                 fontSize: "11px",
                 letterSpacing: "3px",
                 cursor: "pointer",
@@ -320,7 +345,7 @@ export default function PaymentModal({
                 marginBottom: "10px",
               }}
             >
-              PAY ₽{price}
+              PAY {price} RUB
             </button>
 
             <button
@@ -331,7 +356,7 @@ export default function PaymentModal({
                 background: "transparent",
                 border: "1px solid rgba(0,229,255,0.15)",
                 color: "#3a6a80",
-                fontFamily: "'Share Tech Mono', monospace",
+                fontFamily: "Share Tech Mono, monospace",
                 fontSize: "10px",
                 letterSpacing: "2px",
                 cursor: "pointer",

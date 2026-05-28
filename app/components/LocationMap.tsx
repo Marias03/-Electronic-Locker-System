@@ -10,7 +10,7 @@ const TRANSLATIONS = [
     lang: "EN",
     terminalLocation: "TERMINAL LOCATION",
     title: "Electronic Locker System",
-    subtitle: "KAZAN INTERNATIONAL AIRPORT — TATARSTAN, RUSSIA",
+    subtitle: "KAZAN INTL AIRPORT — RUSSIA",
     addressLabel: "ADDRESS",
     addressValue: "Kazan International Airport",
     hoursLabel: "HOURS",
@@ -22,55 +22,55 @@ const TRANSLATIONS = [
   {
     lang: "ES",
     terminalLocation: "UBICACIÓN DEL TERMINAL",
-    title: "Sistema Electrónico de Casilleros",
-    subtitle: "AEROPUERTO INTERNACIONAL DE KAZÁN — RUSIA",
+    title: "Sistema de Casilleros",
+    subtitle: "AEROPUERTO DE KAZÁN — RUSIA",
     addressLabel: "DIRECCIÓN",
-    addressValue: "Aeropuerto Internacional de Kazán",
+    addressValue: "Aeropuerto de Kazán",
     hoursLabel: "HORARIO",
     hoursValue: "24/7 — Siempre Abierto",
     unitsLabel: "UNIDADES",
-    unitsValue: "20 Casilleros Disponibles",
-    button: "ACCEDER AL TERMINAL →",
+    unitsValue: "20 Casilleros",
+    button: "ACCEDER →",
   },
   {
     lang: "RU",
-    terminalLocation: "РАСПОЛОЖЕНИЕ ТЕРМИНАЛА",
+    terminalLocation: "МЕСТО ТЕРМИНАЛА",
     title: "Камера хранения",
-    subtitle: "АЭРОПОРТ КАЗАНЬ — ТАТАРСТАН, РОССИЯ",
+    subtitle: "АЭРОПОРТ КАЗАНЬ — РОССИЯ",
     addressLabel: "АДРЕС",
     addressValue: "Аэропорт Казань",
     hoursLabel: "ЧАСЫ",
-    hoursValue: "24/7 — Всегда Открыто",
+    hoursValue: "24/7 — Открыто",
     unitsLabel: "ЯЧЕЙКИ",
-    unitsValue: "20 Ячеек Доступно",
-    button: "ВОЙТИ В ТЕРМИНАЛ →",
+    unitsValue: "20 Ячеек",
+    button: "ВОЙТИ →",
   },
   {
     lang: "中文",
     terminalLocation: "航站楼位置",
-    title: "电子储物柜系统",
-    subtitle: "喀山国际机场 — 俄罗斯",
+    title: "电子储物柜",
+    subtitle: "喀山机场 — 俄罗斯",
     addressLabel: "地址",
     addressValue: "喀山国际机场",
     hoursLabel: "时间",
-    hoursValue: "24/7 — 全天开放",
+    hoursValue: "24/7 开放",
     unitsLabel: "储物柜",
-    unitsValue: "20个储物柜可用",
-    button: "进入终端 →",
+    unitsValue: "20个可用",
+    button: "进入 →",
   },
 ];
 
 export default function LocationMap({ onContinue }: Props) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [current, setCurrent] = useState(0);
-  const [fade, setFade] = useState(true);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFade(false);
+      setVisible(false);
       setTimeout(() => {
         setCurrent((prev) => (prev + 1) % TRANSLATIONS.length);
-        setFade(true);
+        setVisible(true);
       }, 300);
     }, 3000);
     return () => clearInterval(interval);
@@ -88,17 +88,17 @@ export default function LocationMap({ onContinue }: Props) {
         fontFamily: "'Rajdhani', sans-serif",
       }}
     >
-      <div className="min-h-full flex flex-col items-center justify-center px-4 py-8">
+      <div className="min-h-full flex flex-col items-center justify-center px-4 py-8 gap-4">
         {/* Lang buttons */}
-        <div className="flex gap-2 mb-5 flex-wrap justify-center">
+        <div className="flex gap-2 flex-wrap justify-center">
           {TRANSLATIONS.map((l, i) => (
             <button
               key={l.lang}
               onClick={() => {
-                setFade(false);
+                setVisible(false);
                 setTimeout(() => {
                   setCurrent(i);
-                  setFade(true);
+                  setVisible(true);
                 }, 300);
               }}
               style={{
@@ -122,21 +122,20 @@ export default function LocationMap({ onContinue }: Props) {
           ))}
         </div>
 
-        {/* Text — altura fija para que no se mueva */}
+        {/* Bloque de texto — tamaño fijo, solo el contenido cambia */}
         <div
           style={{
-            textAlign: "center",
-            marginBottom: "20px",
-            opacity: fade ? 1 : 0,
-            transition: "opacity 0.3s ease",
-            padding: "0 16px",
             width: "100%",
-            maxWidth: "600px",
-            height: "90px",
+            maxWidth: "560px",
+            height: "80px",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            textAlign: "center",
+            opacity: visible ? 1 : 0,
+            transition: "opacity 0.3s ease",
+            overflow: "hidden",
           }}
         >
           <div
@@ -145,20 +144,26 @@ export default function LocationMap({ onContinue }: Props) {
               fontSize: "9px",
               letterSpacing: "3px",
               color: "#00e5ff",
-              marginBottom: "6px",
+              marginBottom: "5px",
+              whiteSpace: "nowrap",
             }}
           >
             {t.terminalLocation}
           </div>
           <div
             style={{
-              fontSize: "16px",
+              fontSize: "15px",
               fontWeight: 600,
               letterSpacing: "2px",
               textTransform: "uppercase",
               color: "#e8f4ff",
               marginBottom: "4px",
               lineHeight: 1.2,
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "100%",
+              textAlign: "center",
             }}
           >
             {t.title}
@@ -169,6 +174,11 @@ export default function LocationMap({ onContinue }: Props) {
               fontSize: "9px",
               letterSpacing: "1px",
               color: "#3a6a80",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              width: "100%",
+              textAlign: "center",
             }}
           >
             {t.subtitle}
@@ -177,7 +187,7 @@ export default function LocationMap({ onContinue }: Props) {
 
         {/* Map */}
         <div
-          className="w-full max-w-2xl relative mb-5"
+          className="w-full max-w-xl relative"
           style={{ border: "1px solid rgba(0,229,255,0.2)" }}
         >
           <div
@@ -212,8 +222,6 @@ export default function LocationMap({ onContinue }: Props) {
               borderRight: "1px solid #00e5ff",
             }}
           />
-
-          {/* Overlay que bloquea interacción con el mapa */}
           <div className="absolute inset-0 z-30" />
 
           {!mapLoaded && (
@@ -245,7 +253,7 @@ export default function LocationMap({ onContinue }: Props) {
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2253.6395638661993!2d49.27783637688195!3d55.60828640311295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x415ea69eb790821d%3A0xc26fb7275009719a!2sKazan%20Airport!5e0!3m2!1sen!2sus!4v1779989334373!5m2!1sen!2sus"
             width="100%"
-            height="220"
+            height="200"
             style={{
               border: 0,
               display: "block",
@@ -257,21 +265,20 @@ export default function LocationMap({ onContinue }: Props) {
           />
         </div>
 
-        {/* Info — altura fija */}
+        {/* Info — tamaño fijo */}
         <div
           style={{
             display: "flex",
-            gap: "20px",
-            marginBottom: "24px",
-            flexWrap: "wrap",
+            gap: "16px",
+            flexWrap: "nowrap",
             justifyContent: "center",
-            opacity: fade ? 1 : 0,
+            opacity: visible ? 1 : 0,
             transition: "opacity 0.3s ease",
-            height: "60px",
-            alignItems: "center",
             width: "100%",
-            maxWidth: "600px",
-            padding: "0 16px",
+            maxWidth: "560px",
+            height: "52px",
+            alignItems: "center",
+            overflow: "hidden",
           }}
         >
           {[
@@ -279,20 +286,33 @@ export default function LocationMap({ onContinue }: Props) {
             { label: t.hoursLabel, value: t.hoursValue },
             { label: t.unitsLabel, value: t.unitsValue },
           ].map((item) => (
-            <div key={item.label} style={{ textAlign: "center" }}>
+            <div
+              key={item.label}
+              style={{ textAlign: "center", flex: 1, minWidth: 0 }}
+            >
               <div
                 style={{
                   fontFamily: "'Share Tech Mono', monospace",
-                  fontSize: "9px",
+                  fontSize: "8px",
                   letterSpacing: "2px",
                   color: "#4a9aba",
-                  marginBottom: "4px",
+                  marginBottom: "3px",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
                 {item.label}
               </div>
               <div
-                style={{ fontSize: "12px", color: "#c8dff5", fontWeight: 500 }}
+                style={{
+                  fontSize: "11px",
+                  color: "#c8dff5",
+                  fontWeight: 500,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               >
                 {item.value}
               </div>
@@ -313,8 +333,9 @@ export default function LocationMap({ onContinue }: Props) {
             color: "#00e5ff",
             cursor: "pointer",
             textTransform: "uppercase",
-            opacity: fade ? 1 : 0,
+            opacity: visible ? 1 : 0,
             transition: "opacity 0.3s ease",
+            whiteSpace: "nowrap",
           }}
         >
           {t.button}

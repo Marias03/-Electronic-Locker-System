@@ -128,9 +128,7 @@ export default function Home() {
       >
         <Header />
 
-        <div
-          style={{ maxWidth: "960px", margin: "0 auto", padding: "28px 40px" }}
-        >
+        <div className="max-w-5xl mx-auto px-4 sm:px-10 py-6">
           <Stats
             total={casilleros.length}
             disponibles={casilleros.filter((c: any) => !c.ocupado).length}

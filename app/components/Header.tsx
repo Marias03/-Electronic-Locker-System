@@ -9,39 +9,40 @@ export default function Header() {
     <div
       style={{
         borderBottom: "1px solid rgba(0,229,255,0.12)",
-        padding: "14px 16px",
+        padding: "12px 16px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        gap: "12px",
+        gap: "8px",
       }}
     >
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "10px",
+          gap: "8px",
           minWidth: 0,
+          flex: 1,
         }}
       >
         <div
           style={{
-            width: "34px",
-            height: "34px",
+            width: "32px",
+            height: "32px",
             flexShrink: 0,
             border: "1px solid #00e5ff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "16px",
+            fontSize: "15px",
           }}
         >
           🔒
         </div>
-        <div style={{ minWidth: 0 }}>
+        <div style={{ minWidth: 0, flex: 1 }}>
           <div
             style={{
-              fontSize: "13px",
+              fontSize: "12px",
               fontWeight: 600,
               letterSpacing: "2px",
               textTransform: "uppercase",

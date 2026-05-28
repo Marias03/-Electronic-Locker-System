@@ -1,49 +1,89 @@
 "use client";
-
+import "../../i18n";
 import { useTranslation } from "react-i18next";
 
-export default function Stats({ total, disponibles, ocupados }: any) {
+interface Props {
+  total: number;
+  disponibles: number;
+  ocupados: number;
+}
+
+export default function Stats({ total, disponibles, ocupados }: Props) {
   const { t } = useTranslation("common");
-  const percentage = total > 0 ? Math.round((ocupados / total) * 100) : 0;
+
+  const items = [
+    {
+      label: t("total").toUpperCase(),
+      value: total,
+      color: "#7a9ab0",
+      bar: "#334a5a",
+    },
+    {
+      label: t("available").toUpperCase(),
+      value: disponibles,
+      color: "#00e5ff",
+      bar: "#00e5ff",
+    },
+    {
+      label: t("occupied").toUpperCase(),
+      value: String(ocupados).padStart(2, "0"),
+      color: "#ff4040",
+      bar: "#ff4040",
+    },
+  ];
 
   return (
-    <div className="mb-8">
-      <div className="grid grid-cols-3 gap-4 mb-4">
-        <div className="bg-slate-800/60 backdrop-blur rounded-2xl p-5 text-center border border-slate-700/50 hover:border-slate-500 transition-all duration-300">
-          <div className="text-3xl font-bold text-white">{total}</div>
-          <div className="text-slate-400 text-sm mt-1 uppercase tracking-wider">
-            {t("total")}
-          </div>
-        </div>
-        <div className="bg-green-900/30 backdrop-blur rounded-2xl p-5 text-center border border-green-500/40 hover:border-green-400 transition-all duration-300">
-          <div className="text-3xl font-bold text-green-400">{disponibles}</div>
-          <div className="text-green-500/70 text-sm mt-1 uppercase tracking-wider">
-            {t("available")}
-          </div>
-        </div>
-        <div className="bg-red-900/30 backdrop-blur rounded-2xl p-5 text-center border border-red-500/40 hover:border-red-400 transition-all duration-300">
-          <div className="text-3xl font-bold text-red-400">{ocupados}</div>
-          <div className="text-red-500/70 text-sm mt-1 uppercase tracking-wider">
-            {t("occupied")}
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-slate-800/60 rounded-2xl p-4 border border-slate-700/50">
-        <div className="flex justify-between text-xs text-slate-400 mb-2">
-          <span>{t("occupancy")}</span>
-          <span>{percentage}%</span>
-        </div>
-        <div className="w-full bg-slate-700 rounded-full h-2">
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        border: "1px solid rgba(0,229,255,0.1)",
+        marginBottom: "24px",
+      }}
+    >
+      {items.map((s, i) => (
+        <div
+          key={i}
+          style={{
+            padding: "16px 22px",
+            position: "relative",
+            borderRight: i < 2 ? "1px solid rgba(0,229,255,0.1)" : "none",
+            background: "#050b14",
+          }}
+        >
           <div
-            className="h-2 rounded-full transition-all duration-700"
             style={{
-              width: `${percentage}%`,
-              background: `linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6)`,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "2px",
+              background: s.bar,
             }}
           />
+          <div
+            style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "10px",
+              letterSpacing: "2px",
+              color: "#4a9aba",
+              marginBottom: "6px",
+            }}
+          >
+            {s.label}
+          </div>
+          <div
+            style={{
+              fontSize: "34px",
+              fontWeight: 600,
+              color: s.color,
+              lineHeight: 1,
+            }}
+          >
+            {s.value}
+          </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 }

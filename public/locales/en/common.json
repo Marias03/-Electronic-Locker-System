@@ -1,10 +1,10 @@
 {
   "title": "Electronic Locker System",
+  "brandSubtitle": "",
   "subtitle": "Select a locker size and reserve your space",
   "total": "Total",
   "available": "Available",
   "occupied": "Occupied",
-  "occupancy": "Occupancy",
   "enterName": "Enter your name to reserve a locker",
   "enterEmail": "Enter your email to receive the PIN",
   "all": "All",

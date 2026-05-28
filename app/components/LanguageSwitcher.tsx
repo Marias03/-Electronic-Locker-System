@@ -1,32 +1,42 @@
 "use client";
-
 import { useTranslation } from "react-i18next";
 
-const languages = [
-  { code: "en", label: "🇬🇧 EN" },
-  { code: "es", label: "🇪🇸 ES" },
-  { code: "ru", label: "🇷🇺 RU" },
-  { code: "ch", label: "🇨🇳 中文" },
+const LANGS = [
+  { code: "en", label: "EN", flag: "🇬🇧" },
+  { code: "es", label: "ES", flag: "🇪🇸" },
+  { code: "ru", label: "РУ", flag: "🇷🇺" },
+  { code: "ch", label: "中文", flag: "🇨🇳" },
 ];
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
 
   return (
-    <div className="flex justify-end gap-2 mb-6">
-      {languages.map((lang) => (
-        <button
-          key={lang.code}
-          onClick={() => i18n.changeLanguage(lang.code)}
-          className={`px-3 py-1 rounded-lg text-sm font-medium transition-all ${
-            i18n.language === lang.code
-              ? "bg-blue-600 text-white"
-              : "bg-slate-800 text-slate-400 hover:bg-slate-700"
-          }`}
-        >
-          {lang.label}
-        </button>
-      ))}
+    <div style={{ display: "flex", gap: "4px" }}>
+      {LANGS.map((l) => {
+        const active = i18n.language === l.code;
+        return (
+          <button
+            key={l.code}
+            onClick={() => i18n.changeLanguage(l.code)}
+            style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "11px",
+              padding: "5px 10px",
+              border: active
+                ? "1px solid #00e5ff"
+                : "1px solid rgba(0,229,255,0.25)",
+              background: active ? "rgba(0,229,255,0.07)" : "transparent",
+              color: active ? "#00e5ff" : "#5a7a90",
+              cursor: "pointer",
+              letterSpacing: "1px",
+              transition: "all 0.15s",
+            }}
+          >
+            {l.flag} {l.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

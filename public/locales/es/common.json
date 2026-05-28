@@ -1,10 +1,10 @@
 {
-  "title": "Sistema de Casilleros Electrónicos",
+  "title": "Electronic Locker System",
+  "brandSubtitle": "Sistema Electrónico de Casilleros",
   "subtitle": "Selecciona un tamaño y reserva tu espacio",
   "total": "Total",
   "available": "Disponibles",
   "occupied": "Ocupados",
-  "occupancy": "Ocupación",
   "enterName": "Ingresá tu nombre para reservar",
   "enterEmail": "Ingresá tu email para recibir el PIN",
   "all": "Todos",

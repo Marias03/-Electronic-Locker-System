@@ -598,3 +598,215 @@ body {
     transform: translateY(0);
   }
 }
+/* === FUTURISTIC DESIGN SYSTEM === */
+
+.els-grid-bg {
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.els-scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 229, 255, 0.2),
+    transparent
+  );
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 40;
+}
+
+@keyframes scanline {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: 100vh;
+  }
+}
+
+.els-panel {
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  background: rgba(0, 20, 40, 0.6);
+  position: relative;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.els-panel-label {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  transform: translateY(-50%);
+  background: #050b14;
+  padding: 0 8px;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #00e5ff;
+}
+
+.els-input-tech {
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  color: #c8dff5;
+  font-family: "Rajdhani", sans-serif;
+  font-size: 14px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+
+.els-input-tech:focus {
+  border-color: #00e5ff;
+  background: rgba(0, 229, 255, 0.07);
+}
+
+.els-input-tech::placeholder {
+  color: #2a4a60;
+}
+
+.els-filter-btn {
+  font-family: "Share Tech Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  padding: 6px 16px;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  background: transparent;
+  color: #5a7a90;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+
+.els-filter-btn:hover {
+  border-color: rgba(0, 229, 255, 0.5);
+  color: #8ab4cc;
+}
+.els-filter-btn.active {
+  border-color: #00e5ff;
+  color: #00e5ff;
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.els-locker-card {
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  background: rgba(0, 15, 30, 0.8);
+  padding: 14px 10px 12px;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+}
+
+.els-locker-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(0, 229, 255, 0.3);
+}
+
+.els-locker-card:hover {
+  border-color: #00e5ff;
+  background: rgba(0, 229, 255, 0.05);
+}
+.els-locker-card.occupied {
+  border-color: rgba(255, 80, 80, 0.3);
+  background: rgba(30, 0, 0, 0.6);
+}
+.els-locker-card.occupied::before {
+  background: rgba(255, 80, 80, 0.4);
+}
+
+.els-corner {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid rgba(0, 229, 255, 0.5);
+  border-right: 1px solid rgba(0, 229, 255, 0.5);
+}
+
+.els-locker-card.occupied .els-corner {
+  border-color: rgba(255, 80, 80, 0.5);
+}
+
+.els-status-dot {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #00e5ff;
+  box-shadow: 0 0 6px #00e5ff;
+  animation: pulse-dot 2s infinite;
+}
+
+.els-locker-card.occupied .els-status-dot {
+  background: #ff5050;
+  box-shadow: 0 0 6px #ff5050;
+  animation: none;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.els-reserve-btn {
+  width: 100%;
+  padding: 6px;
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  color: #00e5ff;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+
+.els-reserve-btn:hover {
+  background: rgba(0, 229, 255, 0.15);
+  border-color: #00e5ff;
+}
+
+.els-release-btn {
+  width: 100%;
+  padding: 6px;
+  background: rgba(255, 80, 80, 0.06);
+  border: 1px solid rgba(255, 80, 80, 0.2);
+  color: #ff5050;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-transform: uppercase;
+}
+
+.els-release-btn:hover {
+  background: rgba(255, 80, 80, 0.12);
+  border-color: #ff5050;
+}

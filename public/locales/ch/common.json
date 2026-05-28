@@ -1,10 +1,10 @@
 {
-  "title": "电子储物柜系统",
+  "title": "Electronic Locker System",
+  "brandSubtitle": "电子储物柜系统",
   "subtitle": "选择储物柜尺寸并预订您的空间",
   "total": "总计",
   "available": "可用",
   "occupied": "已占用",
-  "occupancy": "占用率",
   "enterName": "输入您的姓名以预订储物柜",
   "enterEmail": "输入您的邮箱以接收PIN码",
   "all": "全部",

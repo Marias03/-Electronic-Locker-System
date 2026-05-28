@@ -12,7 +12,7 @@ import PinRelease from "./components/PinRelease";
 import Toast from "./components/Toast";
 import LoadingOverlay from "./components/LoadingOverlay";
 import SplashScreen from "./components/SplashScreen";
-import LocationMap from "./components/LocationMap";
+import SucursalSelector from "./components/SucursalSelector";
 import PaymentModal from "./components/PaymentModal";
 
 export default function Home() {
@@ -128,7 +128,7 @@ export default function Home() {
       {!ready && <SplashScreen onComplete={() => setReady(true)} />}
 
       {ready && !locationShown && (
-        <LocationMap onContinue={() => setLocationShown(true)} />
+        <SucursalSelector onClose={() => setLocationShown(true)} />
       )}
 
       <main

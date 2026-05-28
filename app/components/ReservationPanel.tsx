@@ -1,3 +1,4 @@
+// ReservationPanel.tsx
 "use client";
 import { useTranslation } from "react-i18next";
 
@@ -88,10 +89,9 @@ export default function ReservationPanel({
             color: "#00e5ff",
           }}
         >
-          RESERVATION TERMINAL
+          {t("reservationTerminal").toUpperCase()}
         </span>
 
-        {/* Inputs en columna en móvil */}
         <div
           style={{
             display: "flex",
@@ -101,7 +101,7 @@ export default function ReservationPanel({
           }}
         >
           <div>
-            <label style={labelStyle}>PASSENGER ID</label>
+            <label style={labelStyle}>{t("passengerId").toUpperCase()}</label>
             <input
               type="text"
               placeholder={t("enterName")}
@@ -112,7 +112,9 @@ export default function ReservationPanel({
             />
           </div>
           <div>
-            <label style={labelStyle}>CONTACT CHANNEL</label>
+            <label style={labelStyle}>
+              {t("contactChannel").toUpperCase()}
+            </label>
             <input
               type="email"
               placeholder={t("enterEmail")}

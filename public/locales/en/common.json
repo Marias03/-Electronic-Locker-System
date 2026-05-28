@@ -74,5 +74,18 @@
   "terms7Title": "7. REFUND POLICY",
   "terms7Content": "Payments are non-refundable once the locker has been reserved and the PIN has been issued. In case of system failure, please contact airport staff.",
   "terms8Title": "8. ACCEPTANCE",
-  "terms8Content": "By proceeding with payment, you confirm that you have read, understood, and agree to these Terms & Conditions."
+  "terms8Content": "By proceeding with payment, you confirm that you have read, understood, and agree to these Terms & Conditions.",
+  "allTime": "All Time",
+  "thisWeek": "This Week",
+  "today": "Today",
+  "reservationTerminal": "Reservation Terminal",
+  "passengerId": "Passenger ID",
+  "contactChannel": "Contact Channel",
+  "storageUnits": "Storage Units — Sector A",
+  "tinkoffPayment": "Tinkoff Payment",
+  "cardNumber": "Card Number",
+  "expiry": "Expiry",
+  "cvv": "CVV",
+  "cardholderName": "Cardholder Name",
+  "cancel": "Cancel"
 }

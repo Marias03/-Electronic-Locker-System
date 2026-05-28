@@ -48,5 +48,13 @@
   "terms7Title": "7. 退款政策",
   "terms7Content": "一旦完成预订并发出PIN码，付款不予退还。如遇系统故障，请联系机场工作人员。",
   "terms8Title": "8. 接受条款",
-  "terms8Content": "继续付款即表示您已阅读、理解并同意本条款和条件。"
+  "terms8Content": "继续付款即表示您已阅读、理解并同意本条款和条件。",
+  "reservationTerminal": "预订终端",
+  "passengerId": "乘客姓名",
+  "contactChannel": "联系渠道",
+  "storageUnits": "储物单元 — A区",
+  "tinkoffPayment": "Tinkoff支付",
+  "cardNumber": "卡号",
+  "expiry": "有效期",
+  "cardholderName": "持卡人姓名"
 }

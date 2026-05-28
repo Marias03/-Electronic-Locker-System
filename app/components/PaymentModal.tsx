@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import "../../i18n";
+import "../../i18n.js";
 
 interface Props {
   numero: number;
@@ -219,7 +219,7 @@ export default function PaymentModal({
                   marginBottom: "6px",
                 }}
               >
-                TINKOFF PAYMENT
+                {t("tinkoffPayment").toUpperCase()}
               </div>
               <div
                 style={{
@@ -245,7 +245,7 @@ export default function PaymentModal({
             </div>
 
             <div style={{ marginBottom: "14px" }}>
-              <label style={labelStyle}>CARD NUMBER</label>
+              <label style={labelStyle}>{t("cardNumber").toUpperCase()}</label>
               <input
                 style={inputStyle}
                 placeholder="0000 0000 0000 0000"
@@ -263,7 +263,7 @@ export default function PaymentModal({
               }}
             >
               <div>
-                <label style={labelStyle}>EXPIRY</label>
+                <label style={labelStyle}>{t("expiry").toUpperCase()}</label>
                 <input
                   style={inputStyle}
                   placeholder="MM/YY"
@@ -287,7 +287,9 @@ export default function PaymentModal({
             </div>
 
             <div style={{ marginBottom: "16px" }}>
-              <label style={labelStyle}>CARDHOLDER NAME</label>
+              <label style={labelStyle}>
+                {t("cardholderName").toUpperCase()}
+              </label>
               <input
                 style={inputStyle}
                 placeholder="IVAN PETROV"
@@ -363,7 +365,7 @@ export default function PaymentModal({
                 textTransform: "uppercase",
               }}
             >
-              CANCEL
+              {t("cancel")}
             </button>
           </>
         )}

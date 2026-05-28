@@ -1,4 +1,6 @@
 import LockerCard from "./LockerCard";
+import { useTranslation } from "react-i18next";
+import "../../i18n.js";
 
 interface Casillero {
   id: number;
@@ -18,6 +20,8 @@ export default function LockersGrid({
   onReservar,
   onLiberar,
 }: Props) {
+  const { t } = useTranslation("common");
+
   return (
     <>
       <div
@@ -40,7 +44,7 @@ export default function LockersGrid({
             textTransform: "uppercase",
           }}
         >
-          Storage Units — Sector A
+          {t("storageUnits")}
         </span>
         <div
           style={{ flex: 1, height: "1px", background: "rgba(0,229,255,0.08)" }}

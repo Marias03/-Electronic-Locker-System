@@ -48,5 +48,13 @@
   "terms7Title": "7. POLÍTICA DE REEMBOLSO",
   "terms7Content": "Los pagos no son reembolsables una vez que el casillero ha sido reservado y el PIN emitido. En caso de fallo del sistema, contacte al personal del aeropuerto.",
   "terms8Title": "8. ACEPTACIÓN",
-  "terms8Content": "Al proceder con el pago, confirma que ha leído, comprendido y acepta estos Términos y Condiciones."
+  "terms8Content": "Al proceder con el pago, confirma que ha leído, comprendido y acepta estos Términos y Condiciones.",
+  "reservationTerminal": "Terminal de Reserva",
+  "passengerId": "Nombre del pasajero",
+  "contactChannel": "Canal de contacto",
+  "storageUnits": "Unidades de almacenamiento — Sector A",
+  "tinkoffPayment": "Pago Tinkoff",
+  "cardNumber": "Número de tarjeta",
+  "expiry": "Fecha de vencimiento",
+  "cardholderName": "Nombre del titular"
 }

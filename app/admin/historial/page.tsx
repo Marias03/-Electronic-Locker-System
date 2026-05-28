@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
-import "../../i18n";
+import "../../../i18n.js";
 
 function maskEmail(email: string) {
   if (!email) return "-";

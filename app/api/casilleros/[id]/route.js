@@ -25,7 +25,7 @@ export async function PUT(request, { params }) {
     logger.warn("Rate limit exceeded", { ip });
     return Response.json(
       { error: "Too many requests. Please wait a minute." },
-      { status: 429 }
+      { status: 429 },
     );
   }
 
@@ -47,7 +47,7 @@ export async function PUT(request, { params }) {
       logger.warn("Max lockers per email reached", { email });
       return Response.json(
         { error: "This email already has 2 reserved lockers" },
-        { status: 400 }
+        { status: 400 },
       );
     }
   }
@@ -64,42 +64,45 @@ export async function PUT(request, { params }) {
 
   const nuevoPIN = ocupado ? generarPIN() : null;
 
-  const casillero = await prisma.casillero.update({
-    where: { id: parseInt(id) },
-    data: {
-      ocupado,
-      usuario: ocupado ? usuario : null,
-      email: ocupado ? email : null,
-      pin: nuevoPIN,
-    },
-  });
+  let casillero;
 
   if (ocupado) {
-    logger.info("Locker reserved", {
-      locker: casillero.numero,
-      user: usuario,
-      email,
+    // Solo actualiza si AÚN está libre
+    const resultado = await prisma.casillero.updateMany({
+      where: { id: parseInt(id), ocupado: false },
+      data: {
+        ocupado: true,
+        usuario,
+        email,
+        pin: nuevoPIN,
+      },
+    });
+
+    if (resultado.count === 0) {
+      logger.warn("Locker already taken (race condition)", { id });
+      return Response.json(
+        {
+          error:
+            "This locker was just reserved by someone else. Please choose another.",
+        },
+        { status: 409 },
+      );
+    }
+
+    // Traer el objeto actualizado para el resto del flujo
+    casillero = await prisma.casillero.findUnique({
+      where: { id: parseInt(id) },
     });
   } else {
-    logger.info("Locker released", { locker: casillero.numero });
-  }
-
-  if (ocupado && email) {
-    await transporter.sendMail({
-      from: `"Electronic Locker System" <${process.env.GMAIL_USER}>`,
-      to: email,
-      subject: "🔐 Your Locker PIN",
-      html: `
-        <div style="font-family: sans-serif; max-width: 400px; margin: 0 auto; padding: 24px; background: #1e293b; color: white; border-radius: 12px;">
-          <h1 style="color: white;">🧳 Electronic Locker System</h1>
-          <p style="color: #94a3b8;">Hi <strong style="color: white;">${usuario}</strong>, your locker has been reserved!</p>
-          <div style="background: #0f172a; border-radius: 8px; padding: 24px; text-align: center; margin: 24px 0;">
-            <p style="color: #94a3b8; margin: 0 0 8px 0;">Locker #${casillero.numero} — Your PIN code</p>
-            <div style="font-size: 48px; font-weight: bold; color: #4ade80; letter-spacing: 8px;">${nuevoPIN}</div>
-          </div>
-          <p style="color: #94a3b8; font-size: 14px;">Keep this PIN safe — you'll need it to release your locker.</p>
-        </div>
-      `,
+    // Para liberar no necesita la condición extra
+    casillero = await prisma.casillero.update({
+      where: { id: parseInt(id) },
+      data: {
+        ocupado: false,
+        usuario: null,
+        email: null,
+        pin: null,
+      },
     });
   }
 

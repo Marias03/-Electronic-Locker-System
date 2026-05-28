@@ -10,6 +10,7 @@ import PinReceived from "./components/PinReceived";
 import PinRelease from "./components/PinRelease";
 import Toast from "./components/Toast";
 import LoadingOverlay from "./components/LoadingOverlay";
+import SplashScreen from "./components/SplashScreen";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -20,6 +21,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [ready, setReady] = useState(false);
   const [pinModal, setPinModal] = useState<{
     id: number;
     numero: number;
@@ -88,119 +90,128 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen bg-slate-900 p-4 sm:p-8">
-      <div className="max-w-5xl mx-auto">
-        <LanguageSwitcher />
+    <>
+      {!ready && <SplashScreen onComplete={() => setReady(true)} />}
+      <main
+        className={`min-h-screen bg-slate-900 p-4 sm:p-8 transition-opacity duration-700 ${
+          ready ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="max-w-5xl mx-auto">
+          <LanguageSwitcher />
 
-        <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-2 animated-title">
-            🧳 {t("title")}
-          </h1>
-          <p className="text-slate-400 text-sm sm:text-base">{t("subtitle")}</p>
-        </div>
-
-        <Stats
-          total={casilleros.length}
-          disponibles={casilleros.filter((c: any) => !c.ocupado).length}
-          ocupados={casilleros.filter((c: any) => c.ocupado).length}
-        />
-
-        <div className="mb-6 flex flex-col items-center gap-3">
-          <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
-            <input
-              type="text"
-              placeholder={t("enterName")}
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)}
-              className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
-            />
-            <input
-              type="email"
-              placeholder={t("enterEmail")}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
-            />
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-2 animated-title">
+              🧳 {t("title")}
+            </h1>
+            <p className="text-slate-400 text-sm sm:text-base">
+              {t("subtitle")}
+            </p>
           </div>
-          <div className="flex items-start gap-2 max-w-sm">
-            <input
-              type="checkbox"
-              id="privacy"
-              checked={privacyAccepted}
-              onChange={(e) => setPrivacyAccepted(e.target.checked)}
-              className="mt-1 accent-blue-500 w-4 h-4 cursor-pointer"
-            />
-            <label
-              htmlFor="privacy"
-              className="text-slate-300 text-xs cursor-pointer"
-            >
-              🔒 {t("emailPrivacy")}
-            </label>
+
+          <Stats
+            total={casilleros.length}
+            disponibles={casilleros.filter((c: any) => !c.ocupado).length}
+            ocupados={casilleros.filter((c: any) => c.ocupado).length}
+          />
+
+          <div className="mb-6 flex flex-col items-center gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
+              <input
+                type="text"
+                placeholder={t("enterName")}
+                value={usuario}
+                onChange={(e) => setUsuario(e.target.value)}
+                className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
+              />
+              <input
+                type="email"
+                placeholder={t("enterEmail")}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-slate-800 text-white border border-slate-600 rounded-xl px-4 py-3 w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500 transition-all"
+              />
+            </div>
+            <div className="flex items-start gap-2 max-w-sm">
+              <input
+                type="checkbox"
+                id="privacy"
+                checked={privacyAccepted}
+                onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                className="mt-1 accent-blue-500 w-4 h-4 cursor-pointer"
+              />
+              <label
+                htmlFor="privacy"
+                className="text-slate-300 text-xs cursor-pointer"
+              >
+                🔒 {t("emailPrivacy")}
+              </label>
+            </div>
+          </div>
+
+          <div className="flex gap-2 justify-center mb-8 flex-wrap">
+            {[
+              { key: "all", label: t("all") },
+              { key: "pequeño", label: t("small") },
+              { key: "mediano", label: t("medium") },
+              { key: "grande", label: t("large") },
+            ].map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setFiltro(f.key)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                  filtro === f.key
+                    ? "bg-blue-600 text-white scale-105"
+                    : "bg-slate-800 text-slate-400 hover:bg-slate-700"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {casillerosFiltrados.map((c: any) => (
+              <LockerCard
+                key={c.id}
+                casillero={c}
+                onReservar={reservar}
+                onLiberar={(id: number, numero: number) =>
+                  setPinModal({ id, numero })
+                }
+              />
+            ))}
           </div>
         </div>
 
-        <div className="flex gap-2 justify-center mb-8 flex-wrap">
-          {[
-            { key: "all", label: t("all") },
-            { key: "pequeño", label: t("small") },
-            { key: "mediano", label: t("medium") },
-            { key: "grande", label: t("large") },
-          ].map((f) => (
-            <button
-              key={f.key}
-              onClick={() => setFiltro(f.key)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                filtro === f.key
-                  ? "bg-blue-600 text-white scale-105"
-                  : "bg-slate-800 text-slate-400 hover:bg-slate-700"
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        <Toast message={toast} />
+        {loading && <LoadingOverlay />}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {casillerosFiltrados.map((c: any) => (
-            <LockerCard
-              key={c.id}
-              casillero={c}
-              onReservar={reservar}
-              onLiberar={(id: number, numero: number) =>
-                setPinModal({ id, numero })
-              }
-            />
-          ))}
-        </div>
-      </div>
+        {pinMostrado && (
+          <PinReceived
+            pinMostrado={pinMostrado}
+            onClose={() => setPinMostrado(null)}
+          />
+        )}
 
-      <Toast message={toast} />
-      {loading && <LoadingOverlay />}
-
-      {pinMostrado && (
-        <PinReceived
-          pinMostrado={pinMostrado}
-          onClose={() => setPinMostrado(null)}
-        />
-      )}
-
-      {pinModal && (
-        <PinRelease
-          pinModal={pinModal}
-          pinInput={pinInput}
-          setPinInput={(val: string) => {
-            setPinInput(val);
-            setError("");
-          }}
-          error={error}
-          onRelease={liberar}
-          onClose={() => {
-            setPinModal(null);
-            setPinInput("");
-            setError("");
-          }}
-        />
-      )}
-    </main>
+        {pinModal && (
+          <PinRelease
+            pinModal={pinModal}
+            pinInput={pinInput}
+            setPinInput={(val: string) => {
+              setPinInput(val);
+              setError("");
+            }}
+            error={error}
+            onRelease={liberar}
+            onClose={() => {
+              setPinModal(null);
+              setPinInput("");
+              setError("");
+            }}
+          />
+        )}
+      </main>
+    </>
   );
 }

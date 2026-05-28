@@ -13,6 +13,7 @@ import Toast from "./components/Toast";
 import LoadingOverlay from "./components/LoadingOverlay";
 import SplashScreen from "./components/SplashScreen";
 import LocationMap from "./components/LocationMap";
+import PaymentModal from "./components/PaymentModal";
 
 export default function Home() {
   const { t } = useTranslation("common");
@@ -25,6 +26,11 @@ export default function Home() {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [ready, setReady] = useState(false);
   const [locationShown, setLocationShown] = useState(false);
+  const [paymentModal, setPaymentModal] = useState<{
+    id: number;
+    numero: number;
+    tamanio: string;
+  } | null>(null);
   const [pinModal, setPinModal] = useState<{
     id: number;
     numero: number;
@@ -54,8 +60,15 @@ export default function Home() {
     if (!privacyAccepted) return mostrarToast(t("acceptPrivacy"));
     if (!usuario.trim()) return mostrarToast(t("enterNameFirst"));
     if (!email.trim()) return mostrarToast(t("enterEmailFirst"));
+    const casillero = casilleros.find((c: any) => c.id === id) as any;
+    setPaymentModal({ id, numero, tamanio: casillero.tamanio });
+  }
+
+  async function confirmarReserva() {
+    if (!paymentModal) return;
+    setPaymentModal(null);
     setLoading(true);
-    const res = await fetch(`/api/casilleros/${id}`, {
+    const res = await fetch(`/api/casilleros/${paymentModal.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ocupado: true, usuario, email }),
@@ -63,7 +76,7 @@ export default function Home() {
     const data = await res.json();
     setLoading(false);
     if (data.error) return mostrarToast(t("maxLockersReached"));
-    setPinMostrado({ numero, pin: data.pin });
+    setPinMostrado({ numero: paymentModal.numero, pin: data.pin });
     setUsuario("");
     setEmail("");
     setPrivacyAccepted(false);
@@ -167,6 +180,15 @@ export default function Home() {
               setPinInput("");
               setError("");
             }}
+          />
+        )}
+
+        {paymentModal && (
+          <PaymentModal
+            numero={paymentModal.numero}
+            tamanio={paymentModal.tamanio}
+            onSuccess={confirmarReserva}
+            onClose={() => setPaymentModal(null)}
           />
         )}
       </main>

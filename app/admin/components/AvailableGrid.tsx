@@ -1,9 +1,12 @@
+"use client";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
+
 const SIZE_LABEL: Record<string, string> = {
   pequeño: "SMALL",
   mediano: "MEDIUM",
   grande: "LARGE",
 };
-
 const SIZE_COLOR: Record<string, string> = {
   pequeño: "#00e5ff",
   mediano: "#f0a500",
@@ -15,6 +18,8 @@ interface Props {
 }
 
 export default function AvailableGrid({ disponibles }: Props) {
+  const { t } = useTranslation("common");
+
   return (
     <div
       style={{
@@ -38,7 +43,7 @@ export default function AvailableGrid({ disponibles }: Props) {
           color: "#00e5ff",
         }}
       >
-        AVAILABLE UNITS
+        {t("availableUnits").toUpperCase()}
       </span>
 
       <div

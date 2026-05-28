@@ -1,3 +1,7 @@
+"use client";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
+
 const SIZE_LABEL: Record<string, string> = {
   pequeño: "SMALL",
   mediano: "MEDIUM",
@@ -22,6 +26,7 @@ interface Props {
 }
 
 export default function PagosTable({ pagos }: Props) {
+  const { t } = useTranslation("common");
   const total = pagos.reduce((sum: number, p: any) => sum + p.monto, 0);
 
   return (
@@ -48,7 +53,7 @@ export default function PagosTable({ pagos }: Props) {
           color: "#00e5ff",
         }}
       >
-        PAYMENT LOG
+        {t("paymentLog").toUpperCase()}
       </span>
 
       <div
@@ -68,7 +73,7 @@ export default function PagosTable({ pagos }: Props) {
               marginBottom: "2px",
             }}
           >
-            TOTAL REVENUE
+            {t("totalRevenue").toUpperCase()}
           </div>
           <div
             style={{
@@ -94,7 +99,7 @@ export default function PagosTable({ pagos }: Props) {
             padding: "20px 0",
           }}
         >
-          NO PAYMENTS YET
+          {t("noPayments").toUpperCase()}
         </div>
       ) : (
         <div style={{ overflowX: "auto" }}>
@@ -107,24 +112,29 @@ export default function PagosTable({ pagos }: Props) {
           >
             <thead>
               <tr>
-                {["LOCKER", "SIZE", "USER", "EMAIL", "AMOUNT", "DATE"].map(
-                  (h) => (
-                    <th
-                      key={h}
-                      style={{
-                        fontFamily: "'Share Tech Mono', monospace",
-                        fontSize: "9px",
-                        letterSpacing: "2px",
-                        color: "#4a9aba",
-                        textAlign: "left",
-                        padding: "8px 10px",
-                        borderBottom: "1px solid rgba(0,229,255,0.1)",
-                      }}
-                    >
-                      {h}
-                    </th>
-                  ),
-                )}
+                {[
+                  t("locker"),
+                  t("size"),
+                  t("user"),
+                  t("amount"),
+                  t("date"),
+                ].map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      fontFamily: "'Share Tech Mono', monospace",
+                      fontSize: "9px",
+                      letterSpacing: "2px",
+                      color: "#4a9aba",
+                      textAlign: "left",
+                      padding: "8px 10px",
+                      borderBottom: "1px solid rgba(0,229,255,0.1)",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -169,16 +179,6 @@ export default function PagosTable({ pagos }: Props) {
                     }}
                   >
                     {p.usuario || "-"}
-                  </td>
-                  <td
-                    style={{
-                      padding: "10px",
-                      fontFamily: "'Share Tech Mono', monospace",
-                      fontSize: "10px",
-                      color: "#4a9aba",
-                    }}
-                  >
-                    {maskEmail(p.email)}
                   </td>
                   <td
                     style={{

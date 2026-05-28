@@ -1,3 +1,7 @@
+"use client";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
+
 interface Props {
   total: number;
   ocupados: number;
@@ -5,16 +9,23 @@ interface Props {
 }
 
 export default function AdminStats({ total, ocupados, disponibles }: Props) {
+  const { t } = useTranslation("common");
+
   const items = [
-    { label: "TOTAL UNITS", value: total, color: "#7a9ab0", bar: "#334a5a" },
     {
-      label: "OCCUPIED",
+      label: t("totalUnits").toUpperCase(),
+      value: total,
+      color: "#7a9ab0",
+      bar: "#334a5a",
+    },
+    {
+      label: t("occupied").toUpperCase(),
       value: String(ocupados).padStart(2, "0"),
       color: "#ff4040",
       bar: "#ff4040",
     },
     {
-      label: "AVAILABLE",
+      label: t("available").toUpperCase(),
       value: String(disponibles).padStart(2, "0"),
       color: "#00e5ff",
       bar: "#00e5ff",

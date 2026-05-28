@@ -1,3 +1,7 @@
+"use client";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
+
 function maskEmail(email: string) {
   if (!email) return "-";
   const [user, domain] = email.split("@");
@@ -10,7 +14,6 @@ const SIZE: Record<string, string> = {
   mediano: "MEDIUM",
   grande: "LARGE",
 };
-
 const SIZE_COLOR: Record<string, string> = {
   pequeño: "#00e5ff",
   mediano: "#f0a500",
@@ -23,6 +26,8 @@ interface Props {
 }
 
 export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
+  const { t } = useTranslation("common");
+
   return (
     <div
       style={{
@@ -47,7 +52,7 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
           color: "#ff4040",
         }}
       >
-        OCCUPIED UNITS
+        {t("occupiedUnits").toUpperCase()}
       </span>
 
       {ocupados.length === 0 ? (
@@ -61,7 +66,7 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
             padding: "20px 0",
           }}
         >
-          NO OCCUPIED LOCKERS
+          {t("noOccupiedLockers").toUpperCase()}
         </div>
       ) : (
         <div style={{ overflowX: "auto" }}>
@@ -74,22 +79,25 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
           >
             <thead>
               <tr>
-                {["#", "SIZE", "USER", "EMAIL", "PIN", "ACTION"].map((h) => (
-                  <th
-                    key={h}
-                    style={{
-                      fontFamily: "'Share Tech Mono', monospace",
-                      fontSize: "9px",
-                      letterSpacing: "2px",
-                      color: "#4a9aba",
-                      textAlign: "left",
-                      padding: "8px 10px",
-                      borderBottom: "1px solid rgba(0,229,255,0.1)",
-                    }}
-                  >
-                    {h}
-                  </th>
-                ))}
+                {["#", t("size"), t("user"), "EMAIL", "PIN", t("action")].map(
+                  (h) => (
+                    <th
+                      key={h}
+                      style={{
+                        fontFamily: "'Share Tech Mono', monospace",
+                        fontSize: "9px",
+                        letterSpacing: "2px",
+                        color: "#4a9aba",
+                        textAlign: "left",
+                        padding: "8px 10px",
+                        borderBottom: "1px solid rgba(0,229,255,0.1)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
               </tr>
             </thead>
             <tbody>
@@ -175,7 +183,7 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      RELEASE
+                      {t("forceRelease")}
                     </button>
                   </td>
                 </tr>

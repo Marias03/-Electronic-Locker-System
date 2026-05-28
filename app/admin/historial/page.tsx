@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useTranslation } from "react-i18next";
+import "../../i18n";
 
 function maskEmail(email: string) {
   if (!email) return "-";
@@ -27,6 +29,7 @@ export default function Historial() {
   const [historial, setHistorial] = useState([]);
   const [filtro, setFiltro] = useState("all");
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/admin");
@@ -56,7 +59,7 @@ export default function Historial() {
             color: "#00e5ff",
           }}
         >
-          LOADING...
+          {t("authenticating").toUpperCase()}
         </div>
       </main>
     );
@@ -127,7 +130,7 @@ export default function Historial() {
                 textOverflow: "ellipsis",
               }}
             >
-              Reservation History
+              {t("reservationHistory")}
             </div>
             <div
               style={{
@@ -161,7 +164,7 @@ export default function Historial() {
             whiteSpace: "nowrap",
           }}
         >
-          ← ADMIN
+          {t("backToAdmin")}
         </button>
       </div>
 
@@ -177,9 +180,9 @@ export default function Historial() {
           }}
         >
           {[
-            { key: "all", label: "ALL" },
-            { key: "reserved", label: "RESERVED" },
-            { key: "released", label: "RELEASED" },
+            { key: "all", label: t("allRecords").toUpperCase() },
+            { key: "reserved", label: t("reservedRecords").toUpperCase() },
+            { key: "released", label: t("releasedRecords").toUpperCase() },
           ].map((f) => (
             <button
               key={f.key}
@@ -238,7 +241,7 @@ export default function Historial() {
               color: "#00e5ff",
             }}
           >
-            ACTIVITY LOG
+            {t("activityLog").toUpperCase()}
           </span>
 
           {filtrados.length === 0 ? (
@@ -252,7 +255,7 @@ export default function Historial() {
                 padding: "20px 0",
               }}
             >
-              NO RECORDS FOUND
+              {t("noRecords").toUpperCase()}
             </div>
           ) : (
             <div style={{ overflowX: "auto" }}>
@@ -265,24 +268,30 @@ export default function Historial() {
               >
                 <thead>
                   <tr>
-                    {["LOCKER", "SIZE", "ACTION", "USER", "EMAIL", "DATE"].map(
-                      (h) => (
-                        <th
-                          key={h}
-                          style={{
-                            fontFamily: "'Share Tech Mono', monospace",
-                            fontSize: "9px",
-                            letterSpacing: "2px",
-                            color: "#4a9aba",
-                            textAlign: "left",
-                            padding: "8px 10px",
-                            borderBottom: "1px solid rgba(0,229,255,0.1)",
-                          }}
-                        >
-                          {h}
-                        </th>
-                      ),
-                    )}
+                    {[
+                      t("locker"),
+                      t("size"),
+                      t("action"),
+                      t("user"),
+                      "EMAIL",
+                      t("date"),
+                    ].map((h) => (
+                      <th
+                        key={h}
+                        style={{
+                          fontFamily: "'Share Tech Mono', monospace",
+                          fontSize: "9px",
+                          letterSpacing: "2px",
+                          color: "#4a9aba",
+                          textAlign: "left",
+                          padding: "8px 10px",
+                          borderBottom: "1px solid rgba(0,229,255,0.1)",
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {h}
+                      </th>
+                    ))}
                   </tr>
                 </thead>
                 <tbody>
@@ -327,7 +336,9 @@ export default function Historial() {
                             padding: "2px 6px",
                           }}
                         >
-                          {h.accion.toUpperCase()}
+                          {h.accion === "reserved"
+                            ? t("reservedRecords").toUpperCase()
+                            : t("releasedRecords").toUpperCase()}
                         </span>
                       </td>
                       <td

@@ -1,9 +1,13 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { useTranslation } from "react-i18next";
+import "../../../i18n";
+import LanguageSwitcherAdmin from "./LanguageSwitcherAdmin";
 
 export default function AdminHeader() {
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   return (
     <div
@@ -54,7 +58,7 @@ export default function AdminHeader() {
               textOverflow: "ellipsis",
             }}
           >
-            Admin Panel
+            {t("adminPanel")}
           </div>
           <div
             style={{
@@ -73,7 +77,15 @@ export default function AdminHeader() {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "4px", flexShrink: 0 }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "4px",
+          flexShrink: 0,
+          alignItems: "center",
+        }}
+      >
+        <LanguageSwitcherAdmin />
         <button
           onClick={() => router.push("/admin/historial")}
           style={{
@@ -89,7 +101,7 @@ export default function AdminHeader() {
             whiteSpace: "nowrap",
           }}
         >
-          HISTORY
+          {t("history")}
         </button>
         <button
           onClick={() => router.push("/")}
@@ -106,7 +118,7 @@ export default function AdminHeader() {
             whiteSpace: "nowrap",
           }}
         >
-          ← APP
+          {t("backToApp")}
         </button>
         <button
           onClick={() => signOut({ callbackUrl: "/admin" })}
@@ -123,7 +135,7 @@ export default function AdminHeader() {
             whiteSpace: "nowrap",
           }}
         >
-          LOGOUT
+          {t("logout")}
         </button>
       </div>
     </div>

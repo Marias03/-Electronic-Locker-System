@@ -15,12 +15,6 @@ import SplashScreen from "./components/SplashScreen";
 import LocationMap from "./components/LocationMap";
 import PaymentModal from "./components/PaymentModal";
 
-const PRICES: Record<string, number> = {
-  pequeño: 100,
-  mediano: 150,
-  grande: 200,
-};
-
 export default function Home() {
   const { t } = useTranslation("common");
   const [casilleros, setCasilleros] = useState([]);
@@ -83,7 +77,12 @@ export default function Home() {
         tamanio: paymentModal.tamanio,
         usuario,
         email,
-        monto: PRICES[paymentModal.tamanio] || 100,
+        monto:
+          paymentModal.tamanio === "pequeño"
+            ? 100
+            : paymentModal.tamanio === "mediano"
+              ? 150
+              : 200,
       }),
     });
 

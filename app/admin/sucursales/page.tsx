@@ -5,6 +5,10 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import "../../../i18n.js";
 
+function hasNonEnglish(text: string) {
+  return /[^\x00-\x7F]/.test(text);
+}
+
 export default function SucursalesAdmin() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -26,6 +30,11 @@ export default function SucursalesAdmin() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (status === "unauthenticated") router.push("/admin");
+    if (session) cargarSucursales();
+  }, [session, status]);
+
   async function cargarSucursales() {
     const res = await fetch("/api/sucursales");
     setSucursales(await res.json());
@@ -45,6 +54,14 @@ export default function SucursalesAdmin() {
   async function crearSucursal() {
     if (!form.nombre || !form.ciudad || !form.lat || !form.lng || !form.slug) {
       setError("All fields are required");
+      return;
+    }
+    if (
+      hasNonEnglish(form.nombre) ||
+      hasNonEnglish(form.ciudad) ||
+      hasNonEnglish(form.direccion)
+    ) {
+      setError(t("writeInEnglish"));
       return;
     }
     setLoading(true);
@@ -233,6 +250,7 @@ export default function SucursalesAdmin() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-10 py-6">
+        {/* Active branches */}
         <div
           style={{
             border: "1px solid rgba(0,229,255,0.12)",
@@ -352,6 +370,7 @@ export default function SucursalesAdmin() {
           )}
         </div>
 
+        {/* Create form */}
         <div
           style={{
             border: "1px solid rgba(0,229,255,0.12)",
@@ -374,9 +393,18 @@ export default function SucursalesAdmin() {
               color: "#00e5ff",
             }}
           >
-            {t("addNewBranch").toUpperCase()}
+            {t("addNewBranch").toUpperCase()}{" "}
+            <span
+              style={{
+                color: "#f0a500",
+                fontSize: "8px",
+                fontFamily: "'Share Tech Mono', monospace",
+                letterSpacing: "1px",
+              }}
+            >
+              — {t("writeInEnglish")}
+            </span>
           </span>
-
           <div
             style={{
               display: "grid",
@@ -394,6 +422,7 @@ export default function SucursalesAdmin() {
                 onChange={(e) => setForm({ ...form, nombre: e.target.value })}
               />
             </div>
+
             <div>
               <label style={labelStyle}>{t("branchType").toUpperCase()}</label>
               <select

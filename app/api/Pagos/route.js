@@ -22,10 +22,10 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
-  const { numero, tamanio, usuario, email, monto, sucursalId } =
+  const { numero, tamanio, usuario, email, monto, horas, sucursalId } =
     await request.json();
   const pago = await prisma.pago.create({
-    data: { numero, tamanio, usuario, email, monto, sucursalId },
+    data: { numero, tamanio, usuario, email, monto, horas, sucursalId },
     include: { sucursal: true },
   });
   return Response.json(pago);

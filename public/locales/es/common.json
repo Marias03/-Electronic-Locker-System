@@ -62,5 +62,8 @@
   "mall": "Centro Comercial",
   "station": "Estación",
   "storageUnits": "Unidades de almacenamiento — Sector",
-  "branch": "Localización"
+  "branch": "Localización",
+  "selectHours": "Seleccionar duración",
+  "hour": "hora",
+  "hours": "horas"
 }

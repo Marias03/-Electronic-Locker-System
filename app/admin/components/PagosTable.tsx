@@ -181,6 +181,7 @@ export default function PagosTable({ pagos }: Props) {
                     t("user"),
                     t("branch"),
                     t("amount"),
+                    "HRS",
                     t("date"),
                   ].map((h) => (
                     <th
@@ -265,6 +266,16 @@ export default function PagosTable({ pagos }: Props) {
                       }}
                     >
                       {p.monto} RUB
+                    </td>
+                    <td
+                      style={{
+                        padding: "10px",
+                        fontFamily: "'Share Tech Mono', monospace",
+                        fontSize: "12px",
+                        color: "#4a9aba",
+                      }}
+                    >
+                      {p.horas}h
                     </td>
                     <td
                       style={{

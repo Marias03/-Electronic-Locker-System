@@ -109,5 +109,9 @@
   "branchCreated": "Branch created successfully!",
   "deleteBranch": "Delete",
   "storageUnits": "Storage Units — Sector",
-  "branch": "Location"
+  "branch": "Location",
+  "writeInEnglish": "PLEASE WRITE IN ENGLISH",
+  "selectHours": "Select Storage Duration",
+  "hour": "hour",
+  "hours": "hours"
 }

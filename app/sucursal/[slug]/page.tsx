@@ -80,10 +80,8 @@ export default function SucursalPage() {
     setPaymentModal({ id, numero, tamanio: casillero.tamanio });
   }
 
-  async function confirmarReserva() {
+  async function confirmarReserva(horas: number, monto: number) {
     if (!paymentModal) return;
-    console.log("sucursal:", sucursal);
-    console.log("sucursal.id:", sucursal?.id);
     setPaymentModal(null);
     setLoading(true);
 
@@ -95,7 +93,8 @@ export default function SucursalPage() {
         tamanio: paymentModal.tamanio,
         usuario,
         email,
-        monto: PRICES[paymentModal.tamanio] || 100,
+        monto,
+        horas,
         sucursalId: sucursal.id,
       }),
     });
@@ -103,7 +102,7 @@ export default function SucursalPage() {
     const res = await fetch("/api/casilleros/" + paymentModal.id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ocupado: true, usuario, email }),
+      body: JSON.stringify({ ocupado: true, usuario, email, horas }),
     });
     const data = await res.json();
     setLoading(false);
@@ -114,7 +113,6 @@ export default function SucursalPage() {
     setPrivacyAccepted(false);
     cargarCasilleros();
   }
-
   async function liberar() {
     if (!pinModal) return;
     const res = await fetch("/api/casilleros/" + pinModal.id, {

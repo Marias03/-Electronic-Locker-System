@@ -62,5 +62,8 @@
   "mall": "购物中心",
   "station": "车站",
   "storageUnits": "储物单元 — 区",
-  "branch": "位置"
+  "branch": "位置",
+  "selectHours": "选择存储时间",
+  "hour": "小时",
+  "hours": "小时"
 }

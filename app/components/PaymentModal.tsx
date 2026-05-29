@@ -6,14 +6,14 @@ import "../../i18n.js";
 interface Props {
   numero: number;
   tamanio: string;
-  onSuccess: () => void;
+  onSuccess: (horas: number, monto: number) => void;
   onClose: () => void;
 }
 
-const PRICES: Record<string, number> = {
-  pequeño: 100,
-  mediano: 150,
-  grande: 200,
+const PRICES: Record<string, Record<number, number>> = {
+  pequeño: { 1: 100, 2: 150, 3: 200 },
+  mediano: { 1: 120, 2: 200, 3: 250 },
+  grande: { 1: 200, 2: 250, 3: 300 },
 };
 
 const SIZE_LABEL: Record<string, string> = {
@@ -44,6 +44,7 @@ export default function PaymentModal({
   onClose,
 }: Props) {
   const { t, i18n } = useTranslation("common");
+  const [horas, setHoras] = useState(1);
   const [card, setCard] = useState("");
   const [expiry, setExpiry] = useState("");
   const [cvv, setCvv] = useState("");
@@ -52,7 +53,7 @@ export default function PaymentModal({
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const price = PRICES[tamanio] || 100;
+  const price = PRICES[tamanio]?.[horas] || 100;
 
   const LANGS = [
     { code: "en", flag: "🇬🇧" },
@@ -81,7 +82,7 @@ export default function PaymentModal({
     setProcessing(false);
     setSuccess(true);
     await new Promise((r) => setTimeout(r, 1500));
-    onSuccess();
+    onSuccess(horas, price);
   }
 
   const inputStyle: React.CSSProperties = {
@@ -209,7 +210,7 @@ export default function PaymentModal({
           </div>
         ) : (
           <>
-            <div style={{ marginBottom: "24px" }}>
+            <div style={{ marginBottom: "20px" }}>
               <div
                 style={{
                   fontFamily: "Share Tech Mono, monospace",
@@ -232,16 +233,66 @@ export default function PaymentModal({
                 Locker #{String(numero).padStart(2, "0")} —{" "}
                 {SIZE_LABEL[tamanio]}
               </div>
+            </div>
+
+            {/* Selector de horas */}
+            <div style={{ marginBottom: "20px" }}>
+              <label style={labelStyle}>{t("selectHours").toUpperCase()}</label>
               <div
                 style={{
-                  fontFamily: "Share Tech Mono, monospace",
-                  fontSize: "22px",
-                  color: "#00e5ff",
-                  letterSpacing: "2px",
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr",
+                  gap: "8px",
                 }}
               >
-                {price} RUB
+                {[1, 2, 3].map((h) => (
+                  <button
+                    key={h}
+                    onClick={() => setHoras(h)}
+                    style={{
+                      padding: "10px 4px",
+                      border:
+                        horas === h
+                          ? "1px solid #00e5ff"
+                          : "1px solid rgba(0,229,255,0.2)",
+                      background:
+                        horas === h ? "rgba(0,229,255,0.07)" : "transparent",
+                      color: horas === h ? "#00e5ff" : "#4a9aba",
+                      cursor: "pointer",
+                      fontFamily: "Share Tech Mono, monospace",
+                      fontSize: "10px",
+                      letterSpacing: "1px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: 600,
+                        marginBottom: "2px",
+                      }}
+                    >
+                      {h}h
+                    </div>
+                    <div style={{ fontSize: "9px" }}>
+                      ₽{PRICES[tamanio]?.[h]}
+                    </div>
+                  </button>
+                ))}
               </div>
+            </div>
+
+            {/* Total */}
+            <div
+              style={{
+                fontFamily: "Share Tech Mono, monospace",
+                fontSize: "22px",
+                color: "#00e5ff",
+                letterSpacing: "2px",
+                marginBottom: "20px",
+              }}
+            >
+              ₽{price} — {horas} {horas === 1 ? t("hour") : t("hours")}
             </div>
 
             <div style={{ marginBottom: "14px" }}>
@@ -347,7 +398,7 @@ export default function PaymentModal({
                 marginBottom: "10px",
               }}
             >
-              PAY {price} RUB
+              PAY ₽{price}
             </button>
 
             <button

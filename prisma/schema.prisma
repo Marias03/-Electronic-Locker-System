@@ -16,6 +16,7 @@ model Casillero {
   email       String?
   pin         String?
   reservadoEn DateTime?
+  horas       Int?
   sucursalId  Int?
   sucursal    Sucursal? @relation(fields: [sucursalId], references: [id])
   createdAt   DateTime  @default(now())
@@ -42,10 +43,12 @@ model Pago {
   usuario    String?
   email      String?
   monto      Int
+  horas      Int       @default(1)
   sucursalId Int?
   sucursal   Sucursal? @relation(fields: [sucursalId], references: [id])
   createdAt  DateTime  @default(now())
 }
+
 
 model Sucursal {
   id         Int         @id @default(autoincrement())

@@ -109,5 +109,9 @@
   "branchCreated": "Филиал успешно создан!",
   "deleteBranch": "Delete",
   "storageUnits": "Ячейки хранения — Сектор",
-  "branch": "Localización"
+  "branch": "Localización",
+  "writeInEnglish": "Пожалуйста, пишите на английском",
+  "selectHours": "Seleccionar duración",
+  "hour": "hora",
+  "hours": "horas"
 }

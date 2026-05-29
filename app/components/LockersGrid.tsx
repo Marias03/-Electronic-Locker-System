@@ -1,6 +1,5 @@
 import LockerCard from "./LockerCard";
 import { useTranslation } from "react-i18next";
-import "../../i18n.js";
 
 interface Casillero {
   id: number;
@@ -13,12 +12,14 @@ interface Props {
   casilleros: Casillero[];
   onReservar: (id: number, numero: number) => void;
   onLiberar: (id: number, numero: number) => void;
+  sector?: string;
 }
 
 export default function LockersGrid({
   casilleros,
   onReservar,
   onLiberar,
+  sector = "A",
 }: Props) {
   const { t } = useTranslation("common");
 
@@ -44,7 +45,7 @@ export default function LockersGrid({
             textTransform: "uppercase",
           }}
         >
-          {t("storageUnits")}
+          {t("storageUnits")} {sector}
         </span>
         <div
           style={{ flex: 1, height: "1px", background: "rgba(0,229,255,0.08)" }}

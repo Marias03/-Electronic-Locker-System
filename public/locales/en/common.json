@@ -91,5 +91,22 @@
   "airport": "Airport",
   "hotel": "Hotel",
   "mall": "Mall",
-  "station": "Station"
+  "station": "Station",
+  "branches": "Branches",
+  "activeBranches": "Active Branches",
+  "addNewBranch": "Add New Branch",
+  "location": "Location",
+  "branchType": "Type",
+  "branchCity": "City",
+  "branchSlug": "Slug (URL)",
+  "branchAddress": "Address",
+  "branchLat": "Latitude",
+  "branchLng": "Longitude",
+  "lockersToGenerate": "Lockers to Generate",
+  "createBranch": "Create Branch + Generate Lockers",
+  "creating": "Creating...",
+  "noBranches": "No Branches Yet",
+  "branchCreated": "Branch created successfully!",
+  "deleteBranch": "Delete",
+  "storageUnits": "Storage Units — Sector"
 }

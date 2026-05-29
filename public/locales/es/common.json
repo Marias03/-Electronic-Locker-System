@@ -60,5 +60,6 @@
   "airport": "Aeropuerto",
   "hotel": "Hotel",
   "mall": "Centro Comercial",
-  "station": "Estación"
+  "station": "Estación",
+  "storageUnits": "Unidades de almacenamiento — Sector"
 }

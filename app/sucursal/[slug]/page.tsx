@@ -235,6 +235,7 @@ export default function SucursalPage() {
           casilleros={casillerosFiltrados}
           onReservar={reservar}
           onLiberar={(id, numero) => setPinModal({ id, numero })}
+          sector={sucursal.sector}
         />
       </div>
 

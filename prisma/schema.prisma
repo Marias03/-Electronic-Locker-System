@@ -7,19 +7,20 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
-
 model Casillero {
-  id        Int      @id @default(autoincrement())
-  numero    Int      @unique
-  tamanio   String
-  ocupado   Boolean  @default(false)
-  usuario   String?
-  email     String?
-  pin       String?
+  id          Int       @id @default(autoincrement())
+  numero      Int
+  tamanio     String
+  ocupado     Boolean   @default(false)
+  usuario     String?
+  email       String?
+  pin         String?
   reservadoEn DateTime?
   sucursalId  Int?
   sucursal    Sucursal? @relation(fields: [sucursalId], references: [id])
-  createdAt DateTime @default(now())
+  createdAt   DateTime  @default(now())
+
+  @@unique([numero, sucursalId])
 }
 model Historial {
   id        Int      @id @default(autoincrement())
@@ -39,16 +40,20 @@ model Pago {
   monto     Int
   createdAt DateTime @default(now())
 }
-
 model Sucursal {
   id         Int         @id @default(autoincrement())
   nombre     String
+  nombre_en  String?
+  nombre_es  String?
+  nombre_ru  String?
+  nombre_ch  String?
   tipo       String
   ciudad     String
   direccion  String
   lat        Float
   lng        Float
   slug       String      @unique
+  sector     String      @default("A")
   activa     Boolean     @default(true)
   createdAt  DateTime    @default(now())
   casilleros Casillero[]

@@ -91,5 +91,22 @@
   "airport": "Аэропорт",
   "hotel": "Отель",
   "mall": "Торговый центр",
-  "station": "Вокзал"
+  "station": "Вокзал",
+  "location": "Местоположение",
+  "activeBranches": "Активные филиалы",
+  "addNewBranch": "Добавить новый филиал",
+  "branchName": "Название",
+  "branchType": "Тип",
+  "branchCity": "Город",
+  "branchSlug": "Slug (URL)",
+  "branchAddress": "Адрес",
+  "branchLat": "Широта",
+  "branchLng": "Долгота",
+  "lockersToGenerate": "Ячейки для создания",
+  "createBranch": "Создать филиал + сгенерировать ячейки",
+  "creating": "Создание...",
+  "noBranches": "Нет филиалов",
+  "branchCreated": "Филиал успешно создан!",
+  "deleteBranch": "Delete",
+  "storageUnits": "Ячейки хранения — Сектор"
 }

@@ -2,12 +2,25 @@
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { useTranslation } from "react-i18next";
-import "../../../i18n";
+import "../../../i18n.js";
 import LanguageSwitcherAdmin from "./LanguageSwitcherAdmin";
 
 export default function AdminHeader() {
   const router = useRouter();
   const { t } = useTranslation("common");
+
+  const btnStyle = {
+    fontFamily: "'Share Tech Mono', monospace",
+    fontSize: "9px",
+    letterSpacing: "1px",
+    padding: "6px 8px",
+    border: "1px solid rgba(0,229,255,0.2)",
+    background: "transparent",
+    color: "#4a9aba",
+    cursor: "pointer",
+    textTransform: "uppercase" as const,
+    whiteSpace: "nowrap" as const,
+  };
 
   return (
     <div
@@ -87,69 +100,29 @@ export default function AdminHeader() {
       >
         <LanguageSwitcherAdmin />
         <button
+          onClick={() => router.push("/admin/sucursales")}
+          style={btnStyle}
+        >
+          {t("location")}
+        </button>
+        <button
           onClick={() => router.push("/admin/historial")}
-          style={{
-            fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "9px",
-            letterSpacing: "1px",
-            padding: "6px 8px",
-            border: "1px solid rgba(0,229,255,0.2)",
-            background: "transparent",
-            color: "#4a9aba",
-            cursor: "pointer",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
-          }}
+          style={btnStyle}
         >
           {t("history")}
         </button>
-        <button
-          onClick={() => router.push("/admin/qr")}
-          style={{
-            fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "9px",
-            letterSpacing: "1px",
-            padding: "6px 8px",
-            border: "1px solid rgba(0,229,255,0.2)",
-            background: "transparent",
-            color: "#4a9aba",
-            cursor: "pointer",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <button onClick={() => router.push("/admin/qr")} style={btnStyle}>
           QR
         </button>
-        <button
-          onClick={() => router.push("/")}
-          style={{
-            fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "9px",
-            letterSpacing: "1px",
-            padding: "6px 8px",
-            border: "1px solid rgba(0,229,255,0.2)",
-            background: "transparent",
-            color: "#4a9aba",
-            cursor: "pointer",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
-          }}
-        >
+        <button onClick={() => router.push("/")} style={btnStyle}>
           {t("backToApp")}
         </button>
         <button
           onClick={() => signOut({ callbackUrl: "/admin" })}
           style={{
-            fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "9px",
-            letterSpacing: "1px",
-            padding: "6px 8px",
+            ...btnStyle,
             border: "1px solid rgba(255,60,60,0.3)",
-            background: "transparent",
             color: "#ff4040",
-            cursor: "pointer",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
           }}
         >
           {t("logout")}

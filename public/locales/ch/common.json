@@ -60,5 +60,6 @@
   "airport": "机场",
   "hotel": "酒店",
   "mall": "购物中心",
-  "station": "车站"
+  "station": "车站",
+  "storageUnits": "储物单元 — 区"
 }

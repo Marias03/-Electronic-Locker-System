@@ -113,5 +113,9 @@
   "writeInEnglish": "PLEASE WRITE IN ENGLISH",
   "selectHours": "Select Storage Duration",
   "hour": "hour",
-  "hours": "hours"
+  "hours": "hours",
+  "handBag": "Hand Luggage",
+  "mediumBag": "Medium Suitcase",
+  "largeBag": "Large Suitcase",
+  "bagSize": "Select your luggage size"
 }

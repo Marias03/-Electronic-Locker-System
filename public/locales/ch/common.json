@@ -65,5 +65,9 @@
   "branch": "位置",
   "selectHours": "选择存储时间",
   "hour": "小时",
-  "hours": "小时"
+  "hours": "小时",
+  "handBag": "手提行李",
+  "mediumBag": "中型行李箱",
+  "largeBag": "大型行李箱",
+  "bagSize": "选择行李尺寸"
 }

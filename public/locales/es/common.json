@@ -65,5 +65,9 @@
   "branch": "Localización",
   "selectHours": "Seleccionar duración",
   "hour": "hora",
-  "hours": "horas"
+  "hours": "horas",
+  "handBag": "Maleta de mano",
+  "mediumBag": "Maleta mediana",
+  "largeBag": "Maleta grande",
+  "bagSize": "Selecciona el tamaño de tu maleta"
 }

@@ -113,5 +113,9 @@
   "writeInEnglish": "Пожалуйста, пишите на английском",
   "selectHours": "Seleccionar duración",
   "hour": "hora",
-  "hours": "horas"
+  "hours": "horas",
+  "handBag": "Ручная кладь",
+  "mediumBag": "Средний чемодан",
+  "largeBag": "Большой чемодан",
+  "bagSize": "Выберите размер багажа"
 }

@@ -12,6 +12,7 @@ import PinRelease from "../../components/PinRelease";
 import Toast from "../../components/Toast";
 import LoadingOverlay from "../../components/LoadingOverlay";
 import PaymentModal from "../../components/PaymentModal";
+import LuggageSizeSelector from "../../components/LuggageSizeSelector";
 
 const PRICES: Record<string, number> = {
   pequeño: 100,
@@ -76,6 +77,7 @@ export default function SucursalPage() {
     if (!privacyAccepted) return mostrarToast(t("acceptPrivacy"));
     if (!usuario.trim()) return mostrarToast(t("enterNameFirst"));
     if (!email.trim()) return mostrarToast(t("enterEmailFirst"));
+
     const casillero = casilleros.find((c: any) => c.id === id) as any;
     setPaymentModal({ id, numero, tamanio: casillero.tamanio });
   }
@@ -130,11 +132,20 @@ export default function SucursalPage() {
       cargarCasilleros();
     }
   }
+  const disponiblesPorTipo = {
+    pequeño: casilleros.filter(
+      (c: any) => !c.ocupado && c.tamanio === "pequeño",
+    ).length,
+    mediano: casilleros.filter(
+      (c: any) => !c.ocupado && c.tamanio === "mediano",
+    ).length,
+    grande: casilleros.filter((c: any) => !c.ocupado && c.tamanio === "grande")
+      .length,
+  };
 
   const casillerosFiltrados = casilleros.filter((c: any) =>
-    filtro === "all" ? true : c.tamanio === filtro,
+    filtro === "all" ? true : c.tamanio === filtro && !c.ocupado,
   );
-
   if (!sucursal) {
     return (
       <main
@@ -229,6 +240,12 @@ export default function SucursalPage() {
           onPrivacy={setPrivacyAccepted}
           onFiltro={setFiltro}
         />
+        <LuggageSizeSelector
+          onSelect={setFiltro}
+          selected={filtro === "all" ? null : filtro}
+          disponibles={disponiblesPorTipo}
+        />
+
         <LockersGrid
           casilleros={casillerosFiltrados}
           onReservar={reservar}

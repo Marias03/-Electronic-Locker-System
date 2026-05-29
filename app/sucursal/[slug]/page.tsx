@@ -84,6 +84,10 @@ export default function SucursalPage() {
 
   async function confirmarReserva(horas: number, monto: number) {
     if (!paymentModal) return;
+    if (!sucursal?.id) {
+      mostrarToast("Branch not loaded. Please refresh.");
+      return;
+    }
     setPaymentModal(null);
     setLoading(true);
 

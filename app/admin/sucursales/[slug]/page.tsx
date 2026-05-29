@@ -5,13 +5,6 @@ import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import "../../../../i18n.js";
 
-function maskEmail(email: string) {
-  if (!email) return "-";
-  const [user, domain] = email.split("@");
-  if (user.length <= 2) return `${user}...@${domain}`;
-  return `${user[0]}${user[1]}...${user[user.length - 1]}@${domain}`;
-}
-
 const SIZE_LABEL: Record<string, string> = {
   pequeño: "SMALL",
   mediano: "MEDIUM",
@@ -31,27 +24,23 @@ export default function SucursalAdminPage() {
   const { t } = useTranslation("common");
 
   const [sucursal, setSucursal] = useState<any>(null);
-  const [casilleros, setCasilleros] = useState([]);
-  const [pagos, setPagos] = useState([]);
+  const [casilleros, setCasilleros] = useState<any[]>([]);
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/admin");
-    if (session && slug) {
-      cargarDatos();
-    }
-  }, [session, status, slug]);
+    if (status === "authenticated" && slug) cargarDatos();
+  }, [status, slug]);
 
   async function cargarDatos() {
-    const [sucRes, casRes, pagRes] = await Promise.all([
+    if (!slug) return;
+    const [sucRes, casRes] = await Promise.all([
       fetch("/api/sucursales"),
       fetch("/api/casilleros?sucursal=" + slug),
-      fetch("/api/pagos"),
     ]);
     const sucursales = await sucRes.json();
     const found = sucursales.find((s: any) => s.slug === slug);
     setSucursal(found || null);
     setCasilleros(await casRes.json());
-    setPagos(await pagRes.json());
   }
 
   async function liberarCasillero(id: number) {
@@ -63,7 +52,31 @@ export default function SucursalAdminPage() {
     cargarDatos();
   }
 
-  if (status === "loading" || !sucursal)
+  if (status === "loading")
+    return (
+      <main
+        style={{
+          minHeight: "100vh",
+          background: "#050b14",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            fontFamily: "Share Tech Mono, monospace",
+            fontSize: "12px",
+            letterSpacing: "3px",
+            color: "#00e5ff",
+          }}
+        >
+          AUTHENTICATING...
+        </div>
+      </main>
+    );
+
+  if (!sucursal)
     return (
       <main
         style={{
@@ -89,7 +102,6 @@ export default function SucursalAdminPage() {
 
   const ocupados = casilleros.filter((c: any) => c.ocupado);
   const disponibles = casilleros.filter((c: any) => !c.ocupado);
-  const total = pagos.reduce((sum: number, p: any) => sum + p.monto, 0);
 
   return (
     <main
@@ -103,7 +115,6 @@ export default function SucursalAdminPage() {
         color: "#c8dff5",
       }}
     >
-      {/* Header */}
       <div
         style={{
           borderBottom: "1px solid rgba(0,229,255,0.12)",
@@ -199,13 +210,12 @@ export default function SucursalAdminPage() {
               whiteSpace: "nowrap",
             }}
           >
-            ← BRANCHES
+            BRANCHES
           </button>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-10 py-6">
-        {/* Stats */}
         <div
           style={{
             display: "grid",
@@ -278,41 +288,6 @@ export default function SucursalAdminPage() {
           ))}
         </div>
 
-        {/* Revenue */}
-        <div
-          style={{
-            border: "1px solid rgba(0,229,255,0.12)",
-            background: "rgba(2,12,24,0.7)",
-            padding: "16px",
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              fontFamily: "Share Tech Mono, monospace",
-              fontSize: "10px",
-              letterSpacing: "2px",
-              color: "#4a9aba",
-            }}
-          >
-            {t("totalRevenue").toUpperCase()}
-          </div>
-          <div
-            style={{
-              fontFamily: "Share Tech Mono, monospace",
-              fontSize: "24px",
-              color: "#00e5ff",
-              letterSpacing: "2px",
-            }}
-          >
-            ₽{total}
-          </div>
-        </div>
-
-        {/* Occupied */}
         <div
           style={{
             border: "1px solid rgba(0,229,255,0.12)",
@@ -403,12 +378,12 @@ export default function SucursalAdminPage() {
                           style={{
                             fontFamily: "Share Tech Mono, monospace",
                             fontSize: "8px",
-                            color: SIZE_COLOR[c.tamanio],
-                            border: "1px solid " + SIZE_COLOR[c.tamanio] + "40",
+                            color: SIZE_COLOR[c.tamanio] || "#00e5ff",
+                            border: "1px solid rgba(0,229,255,0.4)",
                             padding: "2px 6px",
                           }}
                         >
-                          {SIZE_LABEL[c.tamanio]}
+                          {SIZE_LABEL[c.tamanio] || c.tamanio}
                         </span>
                       </td>
                       <td
@@ -460,7 +435,6 @@ export default function SucursalAdminPage() {
           )}
         </div>
 
-        {/* Available */}
         <div
           style={{
             border: "1px solid rgba(0,229,255,0.12)",
@@ -527,10 +501,10 @@ export default function SucursalAdminPage() {
                   style={{
                     fontFamily: "Share Tech Mono, monospace",
                     fontSize: "8px",
-                    color: SIZE_COLOR[c.tamanio],
+                    color: SIZE_COLOR[c.tamanio] || "#00e5ff",
                   }}
                 >
-                  {SIZE_LABEL[c.tamanio]}
+                  {SIZE_LABEL[c.tamanio] || c.tamanio}
                 </div>
               </div>
             ))}

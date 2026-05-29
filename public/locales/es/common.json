@@ -61,5 +61,6 @@
   "hotel": "Hotel",
   "mall": "Centro Comercial",
   "station": "Estación",
-  "storageUnits": "Unidades de almacenamiento — Sector"
+  "storageUnits": "Unidades de almacenamiento — Sector",
+  "branch": "Localización"
 }

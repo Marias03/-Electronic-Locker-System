@@ -22,24 +22,31 @@ model Casillero {
 
   @@unique([numero, sucursalId])
 }
+
+
 model Historial {
-  id        Int      @id @default(autoincrement())
-  numero    Int
-  tamanio   String
-  usuario   String?
-  email     String?
-  accion    String
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  numero     Int
+  tamanio    String
+  usuario    String?
+  email      String?
+  accion     String
+  sucursalId Int?
+  createdAt  DateTime @default(now())
 }
+
 model Pago {
-  id        Int      @id @default(autoincrement())
-  numero    Int
-  tamanio   String
-  usuario   String?
-  email     String?
-  monto     Int
-  createdAt DateTime @default(now())
+  id         Int       @id @default(autoincrement())
+  numero     Int
+  tamanio    String
+  usuario    String?
+  email      String?
+  monto      Int
+  sucursalId Int?
+  sucursal   Sucursal? @relation(fields: [sucursalId], references: [id])
+  createdAt  DateTime  @default(now())
 }
+
 model Sucursal {
   id         Int         @id @default(autoincrement())
   nombre     String
@@ -57,4 +64,5 @@ model Sucursal {
   activa     Boolean     @default(true)
   createdAt  DateTime    @default(now())
   casilleros Casillero[]
+  pagos      Pago[]
 }

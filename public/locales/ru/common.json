@@ -108,5 +108,6 @@
   "noBranches": "Нет филиалов",
   "branchCreated": "Филиал успешно создан!",
   "deleteBranch": "Delete",
-  "storageUnits": "Ячейки хранения — Сектор"
+  "storageUnits": "Ячейки хранения — Сектор",
+  "branch": "Localización"
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import "../../../i18n";
+import "../../../i18n.js";
 
 const SIZE_LABEL: Record<string, string> = {
   pequeño: "SMALL",
@@ -14,13 +14,6 @@ const SIZE_COLOR: Record<string, string> = {
   mediano: "#f0a500",
   grande: "#a78bfa",
 };
-
-function maskEmail(email: string) {
-  if (!email) return "-";
-  const [user, domain] = email.split("@");
-  if (user.length <= 2) return `${user}...@${domain}`;
-  return `${user[0]}${user[1]}...${user[user.length - 1]}@${domain}`;
-}
 
 interface Props {
   pagos: any[];
@@ -140,7 +133,7 @@ export default function PagosTable({ pagos }: Props) {
               letterSpacing: "2px",
             }}
           >
-            ₽{totalFiltrado}
+            {totalFiltrado} RUB
           </div>
           {filtroFecha !== "all" && (
             <div
@@ -151,7 +144,7 @@ export default function PagosTable({ pagos }: Props) {
                 marginTop: "2px",
               }}
             >
-              TOTAL ALL TIME: ₽{total}
+              TOTAL: {total} RUB
             </div>
           )}
         </div>
@@ -177,7 +170,7 @@ export default function PagosTable({ pagos }: Props) {
               style={{
                 width: "100%",
                 borderCollapse: "collapse",
-                minWidth: "400px",
+                minWidth: "500px",
               }}
             >
               <thead>
@@ -186,6 +179,7 @@ export default function PagosTable({ pagos }: Props) {
                     t("locker"),
                     t("size"),
                     t("user"),
+                    t("branch"),
                     t("amount"),
                     t("date"),
                   ].map((h) => (
@@ -230,7 +224,7 @@ export default function PagosTable({ pagos }: Props) {
                           fontSize: "8px",
                           letterSpacing: "1px",
                           color: SIZE_COLOR[p.tamanio],
-                          border: `1px solid ${SIZE_COLOR[p.tamanio]}40`,
+                          border: "1px solid " + SIZE_COLOR[p.tamanio] + "40",
                           padding: "2px 6px",
                         }}
                       >
@@ -254,12 +248,23 @@ export default function PagosTable({ pagos }: Props) {
                       style={{
                         padding: "10px",
                         fontFamily: "'Share Tech Mono', monospace",
+                        fontSize: "9px",
+                        color: "#4a9aba",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {p.sucursal?.nombre || "-"}
+                    </td>
+                    <td
+                      style={{
+                        padding: "10px",
+                        fontFamily: "'Share Tech Mono', monospace",
                         fontSize: "13px",
                         color: "#00e5ff",
                         letterSpacing: "1px",
                       }}
                     >
-                      ₽{p.monto}
+                      {p.monto} RUB
                     </td>
                     <td
                       style={{
@@ -309,7 +314,7 @@ export default function PagosTable({ pagos }: Props) {
                     cursor: page === 1 ? "not-allowed" : "pointer",
                   }}
                 >
-                  ← PREV
+                  PREV
                 </button>
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (n) => (
@@ -331,7 +336,7 @@ export default function PagosTable({ pagos }: Props) {
                     cursor: page === totalPages ? "not-allowed" : "pointer",
                   }}
                 >
-                  NEXT →
+                  NEXT
                 </button>
               </div>
             </div>

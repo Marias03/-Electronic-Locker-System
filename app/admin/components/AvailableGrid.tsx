@@ -1,6 +1,7 @@
+// AvailableGrid.tsx
 "use client";
 import { useTranslation } from "react-i18next";
-import "../../../i18n";
+import "../../../i18n.js";
 
 const SIZE_LABEL: Record<string, string> = {
   pequeño: "SMALL",
@@ -19,6 +20,14 @@ interface Props {
 
 export default function AvailableGrid({ disponibles }: Props) {
   const { t } = useTranslation("common");
+
+  // Agrupar por sucursal
+  const porSucursal: Record<string, any[]> = {};
+  disponibles.forEach((c: any) => {
+    const nombre = c.sucursal?.nombre || "Unknown";
+    if (!porSucursal[nombre]) porSucursal[nombre] = [];
+    porSucursal[nombre].push(c);
+  });
 
   return (
     <div
@@ -46,70 +55,87 @@ export default function AvailableGrid({ disponibles }: Props) {
         {t("availableUnits").toUpperCase()}
       </span>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "8px",
-        }}
-      >
-        {disponibles.map((c: any) => (
+      {Object.entries(porSucursal).map(([nombre, casilleros]) => (
+        <div key={nombre} style={{ marginBottom: "24px" }}>
           <div
-            key={c.id}
             style={{
-              border: "1px solid rgba(0,229,255,0.12)",
-              background: "rgba(0,10,20,0.9)",
-              padding: "10px 6px",
-              textAlign: "center",
-              position: "relative",
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "10px",
+              letterSpacing: "2px",
+              color: "#4a9aba",
+              marginBottom: "12px",
+              paddingBottom: "6px",
+              borderBottom: "1px solid rgba(0,229,255,0.08)",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: "1px",
-                background: "rgba(0,229,255,0.2)",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                top: "5px",
-                left: "5px",
-                width: "4px",
-                height: "4px",
-                borderRadius: "50%",
-                background: "#00e5ff",
-                animation: "blink 2s infinite",
-              }}
-            />
-            <div
-              style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "12px",
-                color: "#c8dff5",
-                marginBottom: "3px",
-                letterSpacing: "1px",
-              }}
-            >
-              #{String(c.numero).padStart(2, "0")}
-            </div>
-            <div
-              style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "8px",
-                letterSpacing: "1px",
-                color: SIZE_COLOR[c.tamanio],
-              }}
-            >
-              {SIZE_LABEL[c.tamanio] || c.tamanio}
-            </div>
+            📍 {nombre.toUpperCase()}
           </div>
-        ))}
-      </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(3, 1fr)",
+              gap: "8px",
+            }}
+          >
+            {casilleros.map((c: any) => (
+              <div
+                key={c.id}
+                style={{
+                  border: "1px solid rgba(0,229,255,0.12)",
+                  background: "rgba(0,10,20,0.9)",
+                  padding: "10px 6px",
+                  textAlign: "center",
+                  position: "relative",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: "1px",
+                    background: "rgba(0,229,255,0.2)",
+                  }}
+                />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "5px",
+                    left: "5px",
+                    width: "4px",
+                    height: "4px",
+                    borderRadius: "50%",
+                    background: "#00e5ff",
+                    animation: "blink 2s infinite",
+                  }}
+                />
+                <div
+                  style={{
+                    fontFamily: "'Share Tech Mono', monospace",
+                    fontSize: "12px",
+                    color: "#c8dff5",
+                    marginBottom: "3px",
+                    letterSpacing: "1px",
+                  }}
+                >
+                  #{String(c.numero).padStart(2, "0")}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Share Tech Mono', monospace",
+                    fontSize: "8px",
+                    letterSpacing: "1px",
+                    color: SIZE_COLOR[c.tamanio],
+                  }}
+                >
+                  {SIZE_LABEL[c.tamanio] || c.tamanio}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

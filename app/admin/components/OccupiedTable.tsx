@@ -1,6 +1,7 @@
+// OccupiedTable.tsx
 "use client";
 import { useTranslation } from "react-i18next";
-import "../../../i18n";
+import "../../../i18n.js";
 
 function maskEmail(email: string) {
   if (!email) return "-";
@@ -74,30 +75,36 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
             style={{
               width: "100%",
               borderCollapse: "collapse",
-              minWidth: "500px",
+              minWidth: "600px",
             }}
           >
             <thead>
               <tr>
-                {["#", t("size"), t("user"), "EMAIL", "PIN", t("action")].map(
-                  (h) => (
-                    <th
-                      key={h}
-                      style={{
-                        fontFamily: "'Share Tech Mono', monospace",
-                        fontSize: "9px",
-                        letterSpacing: "2px",
-                        color: "#4a9aba",
-                        textAlign: "left",
-                        padding: "8px 10px",
-                        borderBottom: "1px solid rgba(0,229,255,0.1)",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      {h}
-                    </th>
-                  ),
-                )}
+                {[
+                  "#",
+                  t("size"),
+                  t("user"),
+                  "EMAIL",
+                  "PIN",
+                  t("branch"),
+                  t("action"),
+                ].map((h) => (
+                  <th
+                    key={h}
+                    style={{
+                      fontFamily: "'Share Tech Mono', monospace",
+                      fontSize: "9px",
+                      letterSpacing: "2px",
+                      color: "#4a9aba",
+                      textAlign: "left",
+                      padding: "8px 10px",
+                      borderBottom: "1px solid rgba(0,229,255,0.1)",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
@@ -123,7 +130,7 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
                         fontSize: "8px",
                         letterSpacing: "1px",
                         color: SIZE_COLOR[c.tamanio],
-                        border: `1px solid ${SIZE_COLOR[c.tamanio]}40`,
+                        border: "1px solid " + SIZE_COLOR[c.tamanio] + "40",
                         padding: "2px 6px",
                       }}
                     >
@@ -166,6 +173,17 @@ export default function OccupiedTable({ ocupados, onForceRelease }: Props) {
                     >
                       {c.pin}
                     </span>
+                  </td>
+                  <td
+                    style={{
+                      padding: "10px",
+                      fontFamily: "'Share Tech Mono', monospace",
+                      fontSize: "9px",
+                      color: "#4a9aba",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {c.sucursal?.nombre || "-"}
                   </td>
                   <td style={{ padding: "10px" }}>
                     <button

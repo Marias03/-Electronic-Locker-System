@@ -105,6 +105,7 @@ export async function PUT(request, { params }) {
         usuario,
         email,
         accion: "reserved",
+        sucursalId: casillero.sucursalId,
       },
     });
 
@@ -152,6 +153,7 @@ export async function PUT(request, { params }) {
         usuario: casillero.usuario,
         email: casillero.email,
         accion: "released",
+        sucursalId: casillero.sucursalId,
       },
     });
   }

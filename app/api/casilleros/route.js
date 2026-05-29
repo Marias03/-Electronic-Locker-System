@@ -15,6 +15,7 @@ export async function GET(request) {
   const casilleros = await prisma.casillero.findMany({
     where,
     orderBy: { numero: "asc" },
+    include: { sucursal: true },
   });
   return Response.json(casilleros);
 }

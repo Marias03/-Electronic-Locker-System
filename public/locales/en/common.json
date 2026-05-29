@@ -108,5 +108,6 @@
   "noBranches": "No Branches Yet",
   "branchCreated": "Branch created successfully!",
   "deleteBranch": "Delete",
-  "storageUnits": "Storage Units — Sector"
+  "storageUnits": "Storage Units — Sector",
+  "branch": "Location"
 }

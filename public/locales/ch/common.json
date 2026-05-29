@@ -61,5 +61,6 @@
   "hotel": "酒店",
   "mall": "购物中心",
   "station": "车站",
-  "storageUnits": "储物单元 — 区"
+  "storageUnits": "储物单元 — 区",
+  "branch": "位置"
 }

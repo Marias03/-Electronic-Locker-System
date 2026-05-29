@@ -63,7 +63,7 @@ export default function SucursalPage() {
   }
 
   async function cargarCasilleros() {
-    const res = await fetch(`/api/casilleros?sucursal=${slug}`);
+    const res = await fetch("/api/casilleros?sucursal=" + slug);
     setCasilleros(await res.json());
   }
 
@@ -82,6 +82,8 @@ export default function SucursalPage() {
 
   async function confirmarReserva() {
     if (!paymentModal) return;
+    console.log("sucursal:", sucursal);
+    console.log("sucursal.id:", sucursal?.id);
     setPaymentModal(null);
     setLoading(true);
 
@@ -94,10 +96,11 @@ export default function SucursalPage() {
         usuario,
         email,
         monto: PRICES[paymentModal.tamanio] || 100,
+        sucursalId: sucursal.id,
       }),
     });
 
-    const res = await fetch(`/api/casilleros/${paymentModal.id}`, {
+    const res = await fetch("/api/casilleros/" + paymentModal.id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ocupado: true, usuario, email }),
@@ -114,7 +117,7 @@ export default function SucursalPage() {
 
   async function liberar() {
     if (!pinModal) return;
-    const res = await fetch(`/api/casilleros/${pinModal.id}`, {
+    const res = await fetch("/api/casilleros/" + pinModal.id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ocupado: false, pin: pinInput }),
@@ -173,7 +176,6 @@ export default function SucursalPage() {
     >
       <Header />
 
-      {/* Sucursal info */}
       <div
         style={{
           borderBottom: "1px solid rgba(0,229,255,0.08)",
@@ -219,7 +221,6 @@ export default function SucursalPage() {
           disponibles={casilleros.filter((c: any) => !c.ocupado).length}
           ocupados={casilleros.filter((c: any) => c.ocupado).length}
         />
-
         <ReservationPanel
           usuario={usuario}
           email={email}
@@ -230,7 +231,6 @@ export default function SucursalPage() {
           onPrivacy={setPrivacyAccepted}
           onFiltro={setFiltro}
         />
-
         <LockersGrid
           casilleros={casillerosFiltrados}
           onReservar={reservar}

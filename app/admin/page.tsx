@@ -37,7 +37,7 @@ export default function Admin() {
   }
 
   async function cargarPagos() {
-    const res = await fetch("/api/pagos");
+    const res = await fetch("/api/payments");
     setPagos(await res.json());
   }
 

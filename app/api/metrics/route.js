@@ -4,7 +4,11 @@ import logger from "../../../app/lib/logger.mjs";
 const prisma = new PrismaClient();
 
 export async function GET() {
-  const casilleros = await prisma.casillero.findMany();
+  const [casilleros, pagos, sucursales] = await Promise.all([
+    prisma.casillero.findMany(),
+    prisma.pago.findMany(),
+    prisma.sucursal.findMany(),
+  ]);
 
   const total = casilleros.length;
   const occupied = casilleros.filter((c) => c.ocupado).length;
@@ -13,16 +17,39 @@ export async function GET() {
   const medium = casilleros.filter((c) => c.tamanio === "mediano").length;
   const large = casilleros.filter((c) => c.tamanio === "grande").length;
   const smallOccupied = casilleros.filter(
-    (c) => c.tamanio === "pequeño" && c.ocupado
+    (c) => c.tamanio === "pequeño" && c.ocupado,
   ).length;
   const mediumOccupied = casilleros.filter(
-    (c) => c.tamanio === "mediano" && c.ocupado
+    (c) => c.tamanio === "mediano" && c.ocupado,
   ).length;
   const largeOccupied = casilleros.filter(
-    (c) => c.tamanio === "grande" && c.ocupado
+    (c) => c.tamanio === "grande" && c.ocupado,
   ).length;
 
+  const totalPayments = pagos.length;
+  const totalRevenue = pagos.reduce((sum, p) => sum + (p.monto || 0), 0);
+
+  const revenuePerBranch = sucursales.map((s) => {
+    const branchPayments = pagos.filter((p) => p.sucursalId === s.id);
+    const revenue = branchPayments.reduce((sum, p) => sum + (p.monto || 0), 0);
+    return { slug: s.slug, count: branchPayments.length, revenue };
+  });
+
   logger.info("Metrics requested", { total, occupied, available });
+
+  const branchMetrics = revenuePerBranch
+    .map((b) =>
+      `
+# HELP locker_branch_payments_total Total payments per branch
+# TYPE locker_branch_payments_total gauge
+locker_branch_payments_total{branch="${b.slug}"} ${b.count}
+
+# HELP locker_branch_revenue_total Total revenue per branch
+# TYPE locker_branch_revenue_total gauge
+locker_branch_revenue_total{branch="${b.slug}"} ${b.revenue}
+  `.trim(),
+    )
+    .join("\n\n");
 
   const metrics = `
 # HELP locker_total Total number of lockers
@@ -60,6 +87,16 @@ locker_medium_occupied ${mediumOccupied}
 # HELP locker_large_occupied Occupied large lockers
 # TYPE locker_large_occupied gauge
 locker_large_occupied ${largeOccupied}
+
+# HELP locker_payments_total Total number of payments
+# TYPE locker_payments_total gauge
+locker_payments_total ${totalPayments}
+
+# HELP locker_revenue_total Total revenue in rubles
+# TYPE locker_revenue_total gauge
+locker_revenue_total ${totalRevenue}
+
+${branchMetrics}
   `.trim();
 
   return new Response(metrics, {

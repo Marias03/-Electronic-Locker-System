@@ -27,7 +27,6 @@ const SIZE_COLOR: Record<string, string> = {
 export default function Historial() {
   const { data: session, status } = useSession();
   const [historial, setHistorial] = useState([]);
-  const [filtro, setFiltro] = useState("all");
   const router = useRouter();
   const { t } = useTranslation("common");
 
@@ -65,9 +64,19 @@ export default function Historial() {
     );
   }
 
-  const filtrados = historial.filter((h: any) =>
-    filtro === "all" ? true : h.accion === filtro,
-  );
+  // Agrupar por pares: cada reserva con su release correspondiente
+  const reservas = historial.filter((h: any) => h.accion === "reserved");
+  const releases = historial.filter((h: any) => h.accion === "released");
+
+  const filas = reservas.map((reserva: any) => {
+    const release = releases.find(
+      (r: any) =>
+        r.numero === reserva.numero &&
+        r.sucursalId === reserva.sucursalId &&
+        new Date(r.createdAt) > new Date(reserva.createdAt),
+    );
+    return { reserva, release };
+  });
 
   return (
     <main
@@ -81,7 +90,6 @@ export default function Historial() {
         color: "#c8dff5",
       }}
     >
-      {/* HEADER */}
       <div
         style={{
           borderBottom: "1px solid rgba(0,229,255,0.12)",
@@ -89,25 +97,13 @@ export default function Historial() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "8px",
-          overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            minWidth: 0,
-            flex: 1,
-            overflow: "hidden",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <div
             style={{
               width: "28px",
               height: "28px",
-              flexShrink: 0,
               border: "1px solid #00e5ff",
               display: "flex",
               alignItems: "center",
@@ -117,7 +113,7 @@ export default function Historial() {
           >
             📋
           </div>
-          <div style={{ minWidth: 0, overflow: "hidden" }}>
+          <div>
             <div
               style={{
                 fontSize: "11px",
@@ -125,9 +121,6 @@ export default function Historial() {
                 letterSpacing: "1px",
                 textTransform: "uppercase",
                 color: "#e8f4ff",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
               }}
             >
               {t("reservationHistory")}
@@ -138,87 +131,43 @@ export default function Historial() {
                 fontSize: "9px",
                 letterSpacing: "1px",
                 color: "#3a5a70",
-                marginTop: "2px",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
               }}
             >
               Electronic Locker System
             </div>
           </div>
         </div>
-        <button
-          onClick={() => router.push("/admin")}
-          style={{
-            fontFamily: "'Share Tech Mono', monospace",
-            fontSize: "9px",
-            letterSpacing: "1px",
-            padding: "6px 8px",
-            flexShrink: 0,
-            border: "1px solid rgba(0,229,255,0.2)",
-            background: "transparent",
-            color: "#4a9aba",
-            cursor: "pointer",
-            textTransform: "uppercase",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {t("backToAdmin")}
-        </button>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-10 py-6">
-        {/* FILTERS */}
-        <div
-          style={{
-            display: "flex",
-            gap: "6px",
-            marginBottom: "20px",
-            flexWrap: "wrap",
-            alignItems: "center",
-          }}
-        >
-          {[
-            { key: "all", label: t("allRecords").toUpperCase() },
-            { key: "reserved", label: t("reservedRecords").toUpperCase() },
-            { key: "released", label: t("releasedRecords").toUpperCase() },
-          ].map((f) => (
-            <button
-              key={f.key}
-              onClick={() => setFiltro(f.key)}
-              style={{
-                fontFamily: "'Share Tech Mono', monospace",
-                fontSize: "10px",
-                letterSpacing: "1.5px",
-                padding: "7px 14px",
-                border:
-                  filtro === f.key
-                    ? "1px solid #00e5ff"
-                    : "1px solid rgba(0,229,255,0.2)",
-                background:
-                  filtro === f.key ? "rgba(0,229,255,0.07)" : "transparent",
-                color: filtro === f.key ? "#00e5ff" : "#4a9aba",
-                cursor: "pointer",
-              }}
-            >
-              {f.label}
-            </button>
-          ))}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span
             style={{
               fontFamily: "'Share Tech Mono', monospace",
               fontSize: "10px",
               letterSpacing: "2px",
               color: "#3a5a70",
-              marginLeft: "auto",
             }}
           >
-            {filtrados.length} RECORDS
+            {filas.length} RECORDS
           </span>
+          <button
+            onClick={() => router.push("/admin")}
+            style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "9px",
+              letterSpacing: "1px",
+              padding: "6px 8px",
+              border: "1px solid rgba(0,229,255,0.2)",
+              background: "transparent",
+              color: "#4a9aba",
+              cursor: "pointer",
+              textTransform: "uppercase",
+            }}
+          >
+            {t("backToAdmin")}
+          </button>
         </div>
+      </div>
 
-        {/* TABLE */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-10 py-6">
         <div
           style={{
             border: "1px solid rgba(0,229,255,0.12)",
@@ -244,7 +193,7 @@ export default function Historial() {
             {t("activityLog").toUpperCase()}
           </span>
 
-          {filtrados.length === 0 ? (
+          {filas.length === 0 ? (
             <div
               style={{
                 fontFamily: "'Share Tech Mono', monospace",
@@ -263,18 +212,19 @@ export default function Historial() {
                 style={{
                   width: "100%",
                   borderCollapse: "collapse",
-                  minWidth: "480px",
+                  minWidth: "600px",
                 }}
               >
                 <thead>
                   <tr>
                     {[
-                      t("locker"),
+                      "#",
                       t("size"),
-                      t("action"),
                       t("user"),
                       "EMAIL",
-                      t("date"),
+                      "RESERVED",
+                      "RELEASED",
+                      "DURATION",
                     ].map((h) => (
                       <th
                         key={h}
@@ -295,88 +245,104 @@ export default function Historial() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filtrados.map((h: any) => (
-                    <tr
-                      key={h.id}
-                      style={{ borderBottom: "1px solid rgba(0,229,255,0.05)" }}
-                    >
-                      <td
+                  {filas.map(({ reserva, release }: any, i: number) => {
+                    const reservadoEn = new Date(reserva.createdAt);
+                    const liberadoEn = release
+                      ? new Date(release.createdAt)
+                      : null;
+                    const duracionMs = liberadoEn
+                      ? liberadoEn.getTime() - reservadoEn.getTime()
+                      : null;
+                    const duracion = duracionMs
+                      ? `${Math.floor(duracionMs / 3600000)}h ${Math.floor((duracionMs % 3600000) / 60000)}m`
+                      : "—";
+
+                    return (
+                      <tr
+                        key={i}
                         style={{
-                          padding: "10px",
-                          fontFamily: "'Share Tech Mono', monospace",
-                          fontSize: "12px",
-                          color: "#e8f4ff",
+                          borderBottom: "1px solid rgba(0,229,255,0.05)",
                         }}
                       >
-                        #{String(h.numero).padStart(2, "0")}
-                      </td>
-                      <td style={{ padding: "10px" }}>
-                        <span
+                        <td
                           style={{
+                            padding: "10px",
                             fontFamily: "'Share Tech Mono', monospace",
-                            fontSize: "8px",
-                            letterSpacing: "1px",
-                            color: SIZE_COLOR[h.tamanio],
-                            border: `1px solid ${SIZE_COLOR[h.tamanio]}40`,
-                            padding: "2px 6px",
+                            fontSize: "12px",
+                            color: "#e8f4ff",
                           }}
                         >
-                          {SIZE_LABEL[h.tamanio] || h.tamanio}
-                        </span>
-                      </td>
-                      <td style={{ padding: "10px" }}>
-                        <span
+                          #{String(reserva.numero).padStart(2, "0")}
+                        </td>
+                        <td style={{ padding: "10px" }}>
+                          <span
+                            style={{
+                              fontFamily: "'Share Tech Mono', monospace",
+                              fontSize: "8px",
+                              letterSpacing: "1px",
+                              color: SIZE_COLOR[reserva.tamanio],
+                              border: `1px solid ${SIZE_COLOR[reserva.tamanio]}40`,
+                              padding: "2px 6px",
+                            }}
+                          >
+                            {SIZE_LABEL[reserva.tamanio] || reserva.tamanio}
+                          </span>
+                        </td>
+                        <td
                           style={{
-                            fontFamily: "'Share Tech Mono', monospace",
-                            fontSize: "8px",
-                            letterSpacing: "1px",
-                            color:
-                              h.accion === "reserved" ? "#00e5ff" : "#ff4040",
-                            border: `1px solid ${h.accion === "reserved" ? "rgba(0,229,255,0.2)" : "rgba(255,60,60,0.2)"}`,
-                            padding: "2px 6px",
+                            padding: "10px",
+                            color: "#c8dff5",
+                            fontSize: "13px",
                           }}
                         >
-                          {h.accion === "reserved"
-                            ? t("reservedRecords").toUpperCase()
-                            : t("releasedRecords").toUpperCase()}
-                        </span>
-                      </td>
-                      <td
-                        style={{
-                          padding: "10px",
-                          color: "#c8dff5",
-                          fontSize: "13px",
-                          maxWidth: "80px",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {h.usuario || "-"}
-                      </td>
-                      <td
-                        style={{
-                          padding: "10px",
-                          fontFamily: "'Share Tech Mono', monospace",
-                          fontSize: "10px",
-                          color: "#4a9aba",
-                        }}
-                      >
-                        {maskEmail(h.email)}
-                      </td>
-                      <td
-                        style={{
-                          padding: "10px",
-                          fontFamily: "'Share Tech Mono', monospace",
-                          fontSize: "9px",
-                          color: "#3a6a80",
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        {new Date(h.createdAt).toLocaleString()}
-                      </td>
-                    </tr>
-                  ))}
+                          {reserva.usuario || "-"}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px",
+                            fontFamily: "'Share Tech Mono', monospace",
+                            fontSize: "10px",
+                            color: "#4a9aba",
+                          }}
+                        >
+                          {maskEmail(reserva.email)}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px",
+                            fontFamily: "'Share Tech Mono', monospace",
+                            fontSize: "9px",
+                            color: "#00e5ff",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {reservadoEn.toLocaleString()}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px",
+                            fontFamily: "'Share Tech Mono', monospace",
+                            fontSize: "9px",
+                            color: liberadoEn ? "#ff4040" : "#3a5a70",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {liberadoEn ? liberadoEn.toLocaleString() : "ACTIVE"}
+                        </td>
+                        <td
+                          style={{
+                            padding: "10px",
+                            fontFamily: "'Share Tech Mono', monospace",
+                            fontSize: "9px",
+                            color: "#a78bfa",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {duracion}
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

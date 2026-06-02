@@ -3,6 +3,7 @@ global:
 
 scrape_configs:
   - job_name: "electronic-locker-system"
+    scheme: https
     static_configs:
-      - targets: ["host.docker.internal:3000"]
+      - targets: ["electronic-locker-system-k1l8.vercel.app"]
     metrics_path: "/api/metrics"

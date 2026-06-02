@@ -69,5 +69,7 @@
   "handBag": "Maleta de mano",
   "mediumBag": "Maleta mediana",
   "largeBag": "Maleta grande",
-  "bagSize": "Selecciona el tamaño de tu maleta"
+  "bagSize": "Selecciona el tamaño de tu maleta",
+  "selectLocation": "Seleccionar ubicación",
+  "accessTerminal": "Acceder al terminal"
 }

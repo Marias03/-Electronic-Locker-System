@@ -117,5 +117,7 @@
   "handBag": "Hand Luggage",
   "mediumBag": "Medium Suitcase",
   "largeBag": "Large Suitcase",
-  "bagSize": "Select your luggage size"
+  "bagSize": "Select your luggage size",
+  "selectLocation": "Select Location",
+  "accessTerminal": "Access Terminal"
 }

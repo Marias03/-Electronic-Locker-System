@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import dynamic from "next/dynamic";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const MapComponent = dynamic(() => import("./MapComponent"), { ssr: false });
 
@@ -14,13 +15,21 @@ export default function SucursalSelector({ onClose }: Props) {
   const [sucursales, setSucursales] = useState([]);
   const [selected, setSelected] = useState<any>(null);
   const router = useRouter();
-  const { t } = useTranslation("common");
+  const { t, i18n } = useTranslation("common");
 
   useEffect(() => {
     fetch("/api/sucursales")
       .then((r) => r.json())
       .then(setSucursales);
   }, []);
+
+  function getNombre(sucursal: any) {
+    const lang = i18n.language;
+    if (lang === "es" && sucursal.nombre_es) return sucursal.nombre_es;
+    if (lang === "ru" && sucursal.nombre_ru) return sucursal.nombre_ru;
+    if (lang === "ch" && sucursal.nombre_ch) return sucursal.nombre_ch;
+    return sucursal.nombre_en || sucursal.nombre;
+  }
 
   function handleSelect(sucursal: any) {
     setSelected(sucursal);
@@ -51,6 +60,11 @@ export default function SucursalSelector({ onClose }: Props) {
         gap: "20px",
       }}
     >
+      {/* Language switcher */}
+      <div style={{ position: "absolute", top: "16px", right: "16px" }}>
+        <LanguageSwitcher />
+      </div>
+
       {/* Header */}
       <div style={{ textAlign: "center" }}>
         <div
@@ -62,7 +76,7 @@ export default function SucursalSelector({ onClose }: Props) {
             marginBottom: "6px",
           }}
         >
-          SELECT LOCATION
+          {t("selectLocation").toUpperCase()}
         </div>
         <div
           style={{
@@ -77,80 +91,70 @@ export default function SucursalSelector({ onClose }: Props) {
         </div>
       </div>
 
-      {/* Map */}
+      {/* Lista de sucursales */}
       <div
         style={{
           width: "100%",
           maxWidth: "700px",
-          height: "340px",
-          border: "1px solid rgba(0,229,255,0.2)",
-          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          gap: "8px",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "1px",
-            background: "rgba(0,229,255,0.4)",
-            zIndex: 1,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "6px",
-            left: "6px",
-            width: "8px",
-            height: "8px",
-            borderTop: "1px solid #00e5ff",
-            borderLeft: "1px solid #00e5ff",
-            zIndex: 2,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: "6px",
-            right: "6px",
-            width: "8px",
-            height: "8px",
-            borderTop: "1px solid #00e5ff",
-            borderRight: "1px solid #00e5ff",
-            zIndex: 2,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "6px",
-            left: "6px",
-            width: "8px",
-            height: "8px",
-            borderBottom: "1px solid #00e5ff",
-            borderLeft: "1px solid #00e5ff",
-            zIndex: 2,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "6px",
-            right: "6px",
-            width: "8px",
-            height: "8px",
-            borderBottom: "1px solid #00e5ff",
-            borderRight: "1px solid #00e5ff",
-            zIndex: 2,
-          }}
-        />
-        <MapComponent
-          sucursales={sucursales}
-          selected={selected}
-          onSelect={handleSelect}
-        />
+        {sucursales.map((s: any) => (
+          <div
+            key={s.id}
+            onClick={() => handleSelect(s)}
+            style={{
+              border:
+                selected?.id === s.id
+                  ? "1px solid #00e5ff"
+                  : "1px solid rgba(0,229,255,0.15)",
+              background:
+                selected?.id === s.id
+                  ? "rgba(0,229,255,0.05)"
+                  : "rgba(0,10,20,0.6)",
+              padding: "14px 16px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span>📍</span>
+              <div>
+                <div
+                  style={{
+                    fontFamily: "'Share Tech Mono', monospace",
+                    fontSize: "13px",
+                    color: selected?.id === s.id ? "#00e5ff" : "#c8dff5",
+                  }}
+                >
+                  {getNombre(s)}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Share Tech Mono', monospace",
+                    fontSize: "9px",
+                    color: "#3a6a80",
+                    marginTop: "2px",
+                  }}
+                >
+                  {s.ciudad}
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                background: selected?.id === s.id ? "#00e5ff" : "#1a3a50",
+              }}
+            />
+          </div>
+        ))}
       </div>
 
       {/* Selected info */}
@@ -165,7 +169,7 @@ export default function SucursalSelector({ onClose }: Props) {
                 color: "#00e5ff",
               }}
             >
-              📍 {selected.nombre}
+              📍 {getNombre(selected)}
             </div>
             <div
               style={{
@@ -188,7 +192,7 @@ export default function SucursalSelector({ onClose }: Props) {
               color: "#2a4a60",
             }}
           >
-            CLICK ON A MARKER TO SELECT
+            {t("selectLocation").toUpperCase()}
           </div>
         )}
       </div>
@@ -212,7 +216,7 @@ export default function SucursalSelector({ onClose }: Props) {
           transition: "all 0.2s",
         }}
       >
-        ACCESS TERMINAL →
+        {t("accessTerminal").toUpperCase()} →
       </button>
     </div>
   );

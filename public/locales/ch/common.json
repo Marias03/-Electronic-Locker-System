@@ -69,5 +69,7 @@
   "handBag": "手提行李",
   "mediumBag": "中型行李箱",
   "largeBag": "大型行李箱",
-  "bagSize": "选择行李尺寸"
+  "bagSize": "选择行李尺寸",
+  "selectLocation": "Выбрать локацию",
+  "accessTerminal": "Войти в терминал"
 }

@@ -17,6 +17,7 @@ model Casillero {
   pin         String?
   reservadoEn DateTime?
   horas       Int?
+  faceDescriptor Json? @map("face_descriptor")
   sucursalId  Int?
   sucursal    Sucursal? @relation(fields: [sucursalId], references: [id])
   createdAt   DateTime  @default(now())

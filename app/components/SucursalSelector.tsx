@@ -151,6 +151,29 @@ export default function SucursalSelector({ onClose }: Props) {
                 height: "8px",
                 borderRadius: "50%",
                 background: selected?.id === s.id ? "#00e5ff" : "#1a3a50",
+          }}
+        />
+        {selected?.id === s.id && (
+          <a
+            href={"https://yandex.com/maps/?rtext=~" + s.lat + "," + s.lng}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              fontFamily: "'Share Tech Mono', monospace",
+              fontSize: "8px",
+              padding: "5px 8px",
+              border: "1px solid rgba(0,229,255,0.3)",
+              color: "#00e5ff",
+              textDecoration: "none",
+              letterSpacing: "1px",
+            }}
+          >
+            YANDEX MAPS
+          </a>
+        )}
+        <div
+          style={{
               }}
             />
           </div>

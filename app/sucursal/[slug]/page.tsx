@@ -33,6 +33,8 @@ export default function SucursalPage() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [faceDescriptor, setFaceDescriptor] = useState<number[] | null>(null);
+  const [showFaceRegister, setShowFaceRegister] = useState(false);
   const [paymentModal, setPaymentModal] = useState<{
     id: number;
     numero: number;
@@ -85,13 +87,24 @@ export default function SucursalPage() {
   async function confirmarReserva(horas: number, monto: number) {
     if (!paymentModal) return;
     if (!sucursal?.id) {
-      mostrarToast("Branch not loaded. Please refresh.");
-      return;
+      const casillero = casilleros.find(
+        (c: any) => c.id === paymentModal.id,
+      ) as any;
+      const sucursalId = casillero?.sucursalId;
+      if (!sucursalId) {
+        mostrarToast("Branch not loaded. Please refresh.");
+        return;
+      }
     }
     setPaymentModal(null);
     setLoading(true);
 
-    await fetch("/api/pagos", {
+    const casillero = casilleros.find(
+      (c: any) => c.id === paymentModal.id,
+    ) as any;
+    const sucursalId = sucursal?.id ?? casillero?.sucursalId;
+
+    await fetch("/api/payments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -101,14 +114,20 @@ export default function SucursalPage() {
         email,
         monto,
         horas,
-        sucursalId: sucursal.id,
+        sucursalId,
       }),
     });
 
     const res = await fetch("/api/casilleros/" + paymentModal.id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ocupado: true, usuario, email, horas }),
+      body: JSON.stringify({
+        ocupado: true,
+        usuario,
+        email,
+        horas,
+        faceDescriptor,
+      }),
     });
     const data = await res.json();
     setLoading(false);
@@ -117,8 +136,10 @@ export default function SucursalPage() {
     setUsuario("");
     setEmail("");
     setPrivacyAccepted(false);
+    setFaceDescriptor(null);
     cargarCasilleros();
   }
+
   async function liberar() {
     if (!pinModal) return;
     const res = await fetch("/api/casilleros/" + pinModal.id, {
@@ -136,6 +157,23 @@ export default function SucursalPage() {
       cargarCasilleros();
     }
   }
+
+  async function liberarPorCara() {
+    if (!pinModal) return;
+    const res = await fetch("/api/casilleros/" + pinModal.id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ocupado: false, forzar: true }),
+    });
+    const data = await res.json();
+    if (!data.error) {
+      setPinModal(null);
+      setPinInput("");
+      setError("");
+      cargarCasilleros();
+    }
+  }
+
   const disponiblesPorTipo = {
     pequeño: casilleros.filter(
       (c: any) => !c.ocupado && c.tamanio === "pequeño",
@@ -150,6 +188,7 @@ export default function SucursalPage() {
   const casillerosFiltrados = casilleros.filter((c: any) =>
     filtro === "all" ? true : c.tamanio === filtro && !c.ocupado,
   );
+
   if (!sucursal) {
     return (
       <main
@@ -249,7 +288,6 @@ export default function SucursalPage() {
           selected={filtro === "all" ? null : filtro}
           disponibles={disponiblesPorTipo}
         />
-
         <LockersGrid
           casilleros={casillerosFiltrados}
           onReservar={reservar}
@@ -278,6 +316,11 @@ export default function SucursalPage() {
           }}
           error={error}
           onRelease={liberar}
+          onFaceRelease={liberarPorCara}
+          savedDescriptor={
+            (casilleros.find((c: any) => c.id === pinModal.id) as any)
+              ?.faceDescriptor
+          }
           onClose={() => {
             setPinModal(null);
             setPinInput("");

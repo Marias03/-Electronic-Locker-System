@@ -158,10 +158,12 @@ export default function Home() {
             email={email}
             privacyAccepted={privacyAccepted}
             filtro={filtro}
+            reservaFutura=""
             onUsuario={setUsuario}
             onEmail={setEmail}
             onPrivacy={setPrivacyAccepted}
             onFiltro={setFiltro}
+            onReservaFutura={() => {}}
           />
 
           <LockersGrid

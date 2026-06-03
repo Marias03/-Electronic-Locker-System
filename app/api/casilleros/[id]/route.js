@@ -30,8 +30,16 @@ export async function PUT(request, { params }) {
   }
 
   const { id } = await params;
-  const { ocupado, usuario, email, pin, forzar, horas, faceDescriptor } =
-    await request.json();
+  const {
+    ocupado,
+    usuario,
+    email,
+    pin,
+    forzar,
+    horas,
+    faceDescriptor,
+    reservaFutura,
+  } = await request.json();
 
   logger.info("Locker action", {
     id,
@@ -75,7 +83,7 @@ export async function PUT(request, { params }) {
         email,
         pin: nuevoPIN,
         reservadoEn: new Date(),
-        faceDescriptor: faceDescriptor || null,
+        reservaFutura: reservaFutura ? new Date(reservaFutura) : null,
       },
     });
 

@@ -33,6 +33,7 @@ export default function SucursalPage() {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [reservaFutura, setReservaFutura] = useState("");
   const [faceDescriptor, setFaceDescriptor] = useState<number[] | null>(null);
   const [showFaceRegister, setShowFaceRegister] = useState(false);
   const [paymentModal, setPaymentModal] = useState<{
@@ -79,6 +80,12 @@ export default function SucursalPage() {
     if (!privacyAccepted) return mostrarToast(t("acceptPrivacy"));
     if (!usuario.trim()) return mostrarToast(t("enterNameFirst"));
     if (!email.trim()) return mostrarToast(t("enterEmailFirst"));
+    if (
+      reservaFutura &&
+      new Date(reservaFutura) > new Date(Date.now() + 24 * 60 * 60 * 1000)
+    ) {
+      return mostrarToast(t("maxAdvanceBooking"));
+    }
 
     const casillero = casilleros.find((c: any) => c.id === id) as any;
     setPaymentModal({ id, numero, tamanio: casillero.tamanio });
@@ -127,6 +134,7 @@ export default function SucursalPage() {
         email,
         horas,
         faceDescriptor,
+        reservaFutura: reservaFutura || null,
       }),
     });
     const data = await res.json();
@@ -282,6 +290,8 @@ export default function SucursalPage() {
           onEmail={setEmail}
           onPrivacy={setPrivacyAccepted}
           onFiltro={setFiltro}
+          reservaFutura={reservaFutura}
+          onReservaFutura={setReservaFutura}
         />
         <LuggageSizeSelector
           onSelect={setFiltro}

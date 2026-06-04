@@ -71,8 +71,5 @@
   "largeBag": "大型行李箱",
   "bagSize": "选择行李尺寸",
   "selectLocation": "Выбрать локацию",
-  "accessTerminal": "Войти в терминал",
-  "advanceBooking": "提前预订（可选）",
-  "scheduledFor": "预定时间",
-  "maxAdvanceBooking": "最多提前24小时预订"
+  "accessTerminal": "Войти в терминал"
 }

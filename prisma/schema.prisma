@@ -18,7 +18,6 @@ model Casillero {
   reservadoEn DateTime?
   horas       Int?
   faceDescriptor Json? @map("face_descriptor")
-  reservaFutura  DateTime? @map("reserva_futura")
   sucursalId  Int?
   sucursal    Sucursal? @relation(fields: [sucursalId], references: [id])
   createdAt   DateTime  @default(now())

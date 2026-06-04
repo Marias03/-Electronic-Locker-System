@@ -119,8 +119,5 @@
   "largeBag": "Large Suitcase",
   "bagSize": "Select your luggage size",
   "selectLocation": "Select Location",
-  "accessTerminal": "Access Terminal",
-  "advanceBooking": "Advance Booking (Optional)",
-  "scheduledFor": "Scheduled for",
-  "maxAdvanceBooking": "Max advance booking is 24 hours"
+  "accessTerminal": "Access Terminal"
 }

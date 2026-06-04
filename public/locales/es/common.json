@@ -71,8 +71,5 @@
   "largeBag": "Maleta grande",
   "bagSize": "Selecciona el tamaño de tu maleta",
   "selectLocation": "Seleccionar ubicación",
-  "accessTerminal": "Acceder al terminal",
-  "advanceBooking": "Reserva anticipada (Opcional)",
-  "scheduledFor": "Programado para",
-  "maxAdvanceBooking": "La reserva anticipada máxima es de 24 horas"
+  "accessTerminal": "Acceder al terminal"
 }

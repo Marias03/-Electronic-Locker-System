@@ -1,3 +1,4 @@
+// ReservationPanel.tsx
 "use client";
 import { useTranslation } from "react-i18next";
 
@@ -6,12 +7,10 @@ interface Props {
   email: string;
   privacyAccepted: boolean;
   filtro: string;
-  reservaFutura: string;
   onUsuario: (v: string) => void;
   onEmail: (v: string) => void;
   onPrivacy: (v: boolean) => void;
   onFiltro: (v: string) => void;
-  onReservaFutura: (v: string) => void;
 }
 
 export default function ReservationPanel({
@@ -19,12 +18,10 @@ export default function ReservationPanel({
   email,
   privacyAccepted,
   filtro,
-  reservaFutura,
   onUsuario,
   onEmail,
   onPrivacy,
   onFiltro,
-  onReservaFutura,
 }: Props) {
   const { t } = useTranslation("common");
 
@@ -57,12 +54,6 @@ export default function ReservationPanel({
     display: "block",
   };
 
-  const now = new Date();
-  const minDateTime = now.toISOString().slice(0, 16);
-  const maxDateTime = new Date(now.getTime() + 24 * 60 * 60 * 1000)
-    .toISOString()
-    .slice(0, 16);
-
   return (
     <>
       <style>{`
@@ -72,10 +63,6 @@ export default function ReservationPanel({
           -webkit-box-shadow: 0 0 0px 1000px #050b14 inset !important;
           -webkit-text-fill-color: #c8dff5 !important;
           border: 1px solid rgba(0,229,255,0.2) !important;
-        }
-        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-          filter: invert(1) sepia(1) saturate(5) hue-rotate(175deg);
-          cursor: pointer;
         }
       `}</style>
 
@@ -136,64 +123,6 @@ export default function ReservationPanel({
               autoComplete="off"
               style={inputStyle}
             />
-          </div>
-          <div>
-            <label style={labelStyle}>
-              {t("advanceBooking").toUpperCase()}
-            </label>
-            <input
-              type="datetime-local"
-              min={minDateTime}
-              max={maxDateTime}
-              value={reservaFutura}
-              onChange={(e) => {
-                const selected = new Date(e.target.value);
-                const max = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-                if (selected <= max) {
-                  onReservaFutura(e.target.value);
-                } else {
-                  onReservaFutura(maxDateTime);
-                }
-              }}
-              style={{
-                ...inputStyle,
-                colorScheme: "dark",
-              }}
-            />
-            {reservaFutura &&
-              (new Date(reservaFutura) >
-              new Date(now.getTime() + 24 * 60 * 60 * 1000) ? (
-                <div
-                  style={{
-                    fontFamily: "'Share Tech Mono', monospace",
-                    fontSize: "9px",
-                    color: "#ff4040",
-                    marginTop: "6px",
-                    letterSpacing: "1px",
-                  }}
-                >
-                  ✗ {t("maxAdvanceBooking").toUpperCase()}
-                </div>
-              ) : (
-                <div
-                  style={{
-                    fontFamily: "'Share Tech Mono', monospace",
-                    fontSize: "9px",
-                    color: "#00e5ff",
-                    marginTop: "6px",
-                    letterSpacing: "1px",
-                  }}
-                >
-                  ✓ SCHEDULED FOR{" "}
-                  {new Date(reservaFutura).toLocaleString([], {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </div>
-              ))}
           </div>
         </div>
 

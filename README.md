@@ -122,7 +122,6 @@ casilleros/
 │   │   ├── casilleros/ # Locker CRUD API
 │   │   └── metrics/    # Prometheus metrics
 │   ├── components/     # Reusable components
-│   └── lib/            # Logger (Axiom)
 ├── prisma/             # Database schema & migrations
 ├── public/locales/     # i18n translations (en, es, ru, ch)
 ├── docker-compose.yml  # Prometheus + Grafana

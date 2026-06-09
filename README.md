@@ -8,13 +8,13 @@ A modern electronic locker reservation system built with Next.js, PostgreSQL, an
 
 ## ✨ Features
 
-- 🔒 20 lockers in 3 sizes (Small, Medium, Large)
+- 🔒 60 lockers in 3 sizes (Small, Medium, Large)
 - 📧 PIN sent automatically to user's email on reservation
 - 🌍 4 languages: English, Spanish, Russian, Chinese
 - 📊 Real-time stats (total, available, occupied, occupancy %)
 - 🔑 PIN-based release system
 - 🛠️ Admin panel with force release capability
-- 📈 Observability with Prometheus, Grafana and Axiom logs
+- 📈 Observability with Prometheus, Grafana and yandex metrics
 
 ---
 
@@ -26,7 +26,6 @@ A modern electronic locker reservation system built with Next.js, PostgreSQL, an
 | Backend    | Next.js API Routes                |
 | Database   | PostgreSQL (Supabase)             |
 | Email      | Nodemailer + Gmail                |
-| Logs       | Axiom                             |
 | Metrics    | Prometheus + Grafana              |
 | Deploy     | Vercel                            |
 | Containers | Docker Compose                    |

@@ -9,6 +9,7 @@ A modern electronic locker reservation system built with Next.js, PostgreSQL, an
 ## ✨ Features
 
 - 🔒 60 lockers in 3 sizes (Small, Medium, Large)
+- includes three airport branches with location support through Yandex Maps integration
 - 📧 PIN sent automatically to user's email on reservation
 - 🌍 4 languages: English, Spanish, Russian, Chinese
 - 📊 Real-time stats (total, available, occupied, occupancy %)

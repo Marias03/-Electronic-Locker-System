@@ -23,6 +23,7 @@ Built as an individual academic project for a KFU/MTS Web Services course, desig
 📧 PIN-based flow — reserve → get PIN by email → release with PIN (no login needed)
 🌍 4 languages — English, Spanish, Russian, Chinese (i18next)
 📊 20+ Prometheus metrics with Grafana dashboard for real-time observability
+💳 Payment tracking — payments recorded per reservation with duration and total cost
 🛠️ Per-branch admin panels with force release and occupancy stats
 📍 Yandex Maps integration for branch location display
 📈 Yandex Metrica for user analytics
@@ -89,7 +90,7 @@ MetricDescriptionlocker_totalTotal number of lockerslocker_occupiedCurrently occ
 
 
 📁 Project Structure
-
+```
 ├── app/
 │   ├── admin/            # Per-branch admin panels
 │   ├── api/
@@ -100,6 +101,7 @@ MetricDescriptionlocker_totalTotal number of lockerslocker_occupiedCurrently occ
 ├── public/locales/       # i18n (en, es, ru, zh)
 ├── docker-compose.yml    # Prometheus + Grafana setup
 └── prometheus.yml        # Prometheus config
+```
 
 🔐 Admin Panel
 

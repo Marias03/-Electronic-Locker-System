@@ -101,7 +101,6 @@ MetricDescriptionlocker_totalTotal number of lockerslocker_occupiedCurrently occ
 ├── docker-compose.yml    # Prometheus + Grafana setup
 └── prometheus.yml        # Prometheus config
 
-
 🔐 Admin Panel
 
 Access at /admin — view all lockers, occupancy stats, and force-release any locker without PIN.

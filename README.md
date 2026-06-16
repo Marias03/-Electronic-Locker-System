@@ -1,50 +1,52 @@
-# 🧳 Electronic Locker System
+🧳 Electronic Locker System
 
-A modern electronic locker reservation system built with Next.js, PostgreSQL, and deployed on Vercel.
 
-🔗 **Live Demo:** [electronic-locker-system-k1l8.vercel.app](https://electronic-locker-system-k1l8.vercel.app)
+Full-stack airport luggage locker reservation platform — built, deployed, and monitored end-to-end.
 
----
 
-## ✨ Features
 
-- 🔒 60 lockers in 3 sizes (Small, Medium, Large)
-- includes three airport branches with location support through Yandex Maps integration
-- 📧 PIN sent automatically to user's email on reservation
-- 🌍 4 languages: English, Spanish, Russian, Chinese
-- 📊 Real-time stats (total, available, occupied, occupancy %)
-- 🔑 PIN-based release system
-- 🛠️ Admin panel with force release capability
-- 📈 Observability with Prometheus, Grafana and yandex metrics
+🔗 Live Demo: electronic-locker-system-k1l8.vercel.app
 
----
 
-## 🛠️ Tech Stack
+📌 What is this?
 
-| Layer      | Technology                        |
-| ---------- | --------------------------------- |
-| Frontend   | Next.js 16, Tailwind CSS, i18next |
-| Backend    | Next.js API Routes                |
-| Database   | PostgreSQL (Supabase)             |
-| Email      | Nodemailer + Gmail                |
-| Metrics    | Prometheus + Grafana              |
-| Deploy     | Vercel                            |
-| Containers | Docker Compose                    |
+A production-ready locker reservation system for airport branches. Users can browse available lockers by size, reserve one with a single click, and receive a PIN by email to release their luggage — no account required. Admins manage lockers through a dedicated panel with real-time occupancy data.
 
----
+Built as an individual academic project for a KFU/MTS Web Services course, designed to meet the complexity requirements of a real internship evaluation.
 
-## 🚀 Getting Started
 
-### Prerequisites
+✨ Key Features
 
-- Node.js 22+
-- Docker Desktop
-- npm
 
-### Installation
+🏢 Multi-branch architecture — 3 airport branches, each with automatic sector assignment
+📦 Tiered locker system — Small, Medium, Large with different pricing per duration
+📧 PIN-based flow — reserve → get PIN by email → release with PIN (no login needed)
+🌍 4 languages — English, Spanish, Russian, Chinese (i18next)
+📊 20+ Prometheus metrics with Grafana dashboard for real-time observability
+🛠️ Per-branch admin panels with force release and occupancy stats
+📍 Yandex Maps integration for branch location display
+📈 Yandex Metrica for user analytics
 
-```bash
-# Clone the repository
+
+
+🛠️ Tech Stack
+
+LayerTechnologyFrontendNext.js 16 (App Router), Tailwind CSSBackendNext.js API RoutesORMPrisma v5DatabasePostgreSQL via SupabaseAuthNextAuth.jsEmailNodemailer + Gmail SMTPObservabilityPrometheus + Grafana, Axiom, Yandex MetricaDeployVercelContainersDocker Compose (local dev)i18ni18next (EN / ES / RU / ZH)
+
+
+🚀 Getting Started
+
+Prerequisites
+
+
+Node.js 22+
+Docker Desktop
+npm
+
+
+Installation
+
+bash# Clone the repository
 git clone https://github.com/Marias03/-Electronic-Locker-System.git
 cd -Electronic-Locker-System
 
@@ -63,73 +65,47 @@ npm run seed
 
 # Start development server
 npm run dev
-```
 
-### Environment Variables
+Environment Variables
 
-```env
-DATABASE_URL=your_postgresql_url
+envDATABASE_URL=your_postgresql_url
 DIRECT_URL=your_postgresql_direct_url
 GMAIL_USER=your_gmail@gmail.com
 GMAIL_PASS=your_gmail_app_password
 AXIOM_TOKEN=your_axiom_token
-```
+NEXTAUTH_SECRET=your_secret
 
----
 
-## 📊 Observability
+📊 Observability
 
-### Start Prometheus + Grafana
-
-```bash
+bash# Start Prometheus + Grafana locally
 docker-compose up -d
-```
 
-| Service    | URL                   |
-| ---------- | --------------------- |
-| App        | http://localhost:3000 |
-| Prometheus | http://localhost:9090 |
-| Grafana    | http://localhost:3001 |
+ServiceURLApphttp://localhost:3000Prometheushttp://localhost:9090Grafanahttp://localhost:3001
 
-### Available Metrics
+Available metrics (sample):
 
-- `locker_total` — Total number of lockers
-- `locker_occupied` — Occupied lockers
-- `locker_available` — Available lockers
-- `locker_small` — Small lockers
-- `locker_medium` — Medium lockers
-- `locker_large` — Large lockers
+MetricDescriptionlocker_totalTotal number of lockerslocker_occupiedCurrently occupied lockerslocker_availableAvailable lockerslocker_small/medium/largeCount by size+ 15 more custom metrics
 
----
 
-## 🔐 Admin Panel
+📁 Project Structure
 
-Access at `/admin` with password `admin1234`
-
-- View all occupied lockers with user, email and PIN
-- Force release any locker without PIN
-- View all available lockers
-
----
-
-## 📁 Project Structure
-
-```
-casilleros/
 ├── app/
-│   ├── admin/          # Admin panel
+│   ├── admin/            # Per-branch admin panels
 │   ├── api/
-│   │   ├── casilleros/ # Locker CRUD API
-│   │   └── metrics/    # Prometheus metrics
-│   ├── components/     # Reusable components
-├── prisma/             # Database schema & migrations
-├── public/locales/     # i18n translations (en, es, ru, ch)
-├── docker-compose.yml  # Prometheus + Grafana
-└── prometheus.yml      # Prometheus config
-```
+│   │   ├── casilleros/   # Locker CRUD API
+│   │   └── metrics/      # Prometheus metrics endpoint
+│   └── components/       # Reusable UI components
+├── prisma/               # Schema & migrations
+├── public/locales/       # i18n (en, es, ru, zh)
+├── docker-compose.yml    # Prometheus + Grafana setup
+└── prometheus.yml        # Prometheus config
 
-## 👩‍💻 Author
 
-Maria Juliana Arias — [@Marias03](https://github.com/Marias03)
+🔐 Admin Panel
+
+Access at /admin — view all lockers, occupancy stats, and force-release any locker without PIN.
+
+
 
  

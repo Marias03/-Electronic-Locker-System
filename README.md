@@ -105,7 +105,35 @@ MetricDescriptionlocker_totalTotal number of lockerslocker_occupiedCurrently occ
 
 🔐 Admin Panel
 
-Access at /admin — view all lockers, occupancy stats, and force-release any locker without PIN.
+Each branch has its own admin panel at /admin with full management capabilities:
+
+-Locker Management
+
+
+View all lockers with status (available / occupied), user info, email, and PIN
+Force-release any locker without requiring the user's PIN
+Real-time occupancy stats (total, available, occupied, % by size)
+
+
+-Branch Management
+
+
+Create and configure new airport branches
+Assign lockers to branches with automatic sector logic
+
+
+-Reservation History
+
+
+View full reservation history per branch
+See timestamps, duration, locker size, and user details
+
+
+-Payment Overview
+
+
+Track payments per reservation with total cost calculated from hourly rate × duration
+Filter by branch, size, or date range
 
 
 
